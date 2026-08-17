@@ -9,6 +9,7 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | `episode_01_bigram.excalidraw` | Episode 1 theory — the smallest language model | 27 |
 | `thumbnail_ep0.excalidraw` | Video 0 thumbnail — a drawing of the machine | 1 |
 | `channel_intro.excalidraw` | Channel intro — The Unplanned Stack | 12 |
+| `thumbnail_channel.excalidraw` | Channel intro thumbnail — the plan vs what happened | 1 |
 
 ## Open one
 
@@ -56,6 +57,7 @@ catching overlapping elements and overflowing text. Open it in any browser.
 - `render_png.py` — renders one frame to an exact-size PNG with hand-drawn
   strokes. Use this instead of the SVG path when the output size must be exact:
   macOS `qlmanage` does not honour SVG dimensions and silently scales and crops.
+- `build_thumbnail_channel.py` — the channel intro thumbnail.
 - `build_thumbnail_ep0.py` — the video 0 thumbnail as an Excalidraw scene.
   Export the final PNG from Excalidraw itself (select frame → Export image →
   PNG, "only selected") for authentic strokes and the real Excalifont.
