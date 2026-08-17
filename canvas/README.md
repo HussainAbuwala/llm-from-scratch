@@ -8,6 +8,7 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | `series_intro.excalidraw` | Video 0 — series introduction | 10 |
 | `episode_01_bigram.excalidraw` | Episode 1 theory — the smallest language model | 27 |
 | `thumbnail_ep0.excalidraw` | Video 0 thumbnail — a drawing of the machine | 1 |
+| `channel_intro.excalidraw` | Channel intro — The Unplanned Stack | 12 |
 
 ## Open one
 
@@ -49,6 +50,8 @@ catching overlapping elements and overflowing text. Open it in any browser.
   (`cards`, `bars`, `table`, `tickets`, `panel`).
 - `build_series_intro.py` — video 0 content.
 - `build_episode_01.py` — episode 1 content.
+- `build_channel_intro.py` — channel intro content (channel-level, not part of
+  the LLM series; here because the toolchain is here).
 - `render_preview.py` — proofreading renderer (HTML/SVG contact sheet).
 - `render_png.py` — renders one frame to an exact-size PNG with hand-drawn
   strokes. Use this instead of the SVG path when the output size must be exact:
