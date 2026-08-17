@@ -17,11 +17,11 @@ nobody finishes.
 
 - Do not teach anything. There is no lesson in this video.
 - Do not list credentials. The one line about the CS degree is enough.
-- Do not oversell AI. Scenes 05–07 are the emotional core, and they only work if
+- Do not oversell AI. Shots 04–06 are the emotional core, and they only work if
   they sound like relief, not like a product demo. You are describing what
   changed for *you*, not making a claim about technology.
 
-## 3. Scene-by-scene
+## 3. Shot-by-shot
 
 | # | Shot | The one thing to land |
 |---|---|---|
@@ -53,34 +53,34 @@ recording:
 
 ### Notes on the beats that need care
 
-**03 — why you share.** This is your credibility, and it costs nothing to claim
+**02 — why you share.** This is your credibility, and it costs nothing to claim
 because it's true: you cannot fake giving an explanation. Say the loop out loud
 while tracing it — learn, explain, hit the bit you can't say, go back. That last
 box is the honest one.
 
-**04 — the wall.** Be specific about what actually stopped you. It was not that
+**03 — the wall.** Be specific about what actually stopped you. It was not that
 the maths was hard; it was that nobody said *why* a thing had been introduced or
 what was broken before it. That distinction is what makes the next scene land.
 Point at the prerequisite stack and say each one needed the one underneath.
 
-**05 to 07 — the unlock.** The risk here is sounding like an advert. Anchor
+**04 to 06 — the unlock.** The risk here is sounding like an advert. Anchor
 everything to the uni story you just told: the thing that changed is not that
 answers appeared, it's that *you can ask again*, and admit you didn't follow.
-Scene 07 is the honest one — say plainly that the tedious work being handled is a
+Shot 06 is the honest one — say plainly that the tedious work being handled is a
 real reason the channel exists now. That admission buys you more trust than
 hiding it.
 
-**09 — what's already up.** Read two or three of the question titles aloud. They
+**08 — what's already up.** Read two or three of the question titles aloud. They
 sell the format better than any description: "how can a webpage hijack an AI
 agent", "how can a lost tracker find your suitcase". Then the three questions
 every episode asks — that's the method, and it's the reason the videos aren't
 just summaries.
 
-**10 — the name.** The strongest 20 seconds in the video. Neat stack on the left,
+**09 — the name.** The strongest 20 seconds in the video. Neat stack on the left,
 crooked stack on the right. Let the visual do the work; don't over-explain the
 metaphor.
 
-**12 — the close.** End on the invitation, then one line about what's next. Do
+**11 — the close.** End on the invitation, then one line about what's next. Do
 not ask for a subscribe. The video is the ask.
 
 ## 4. Recording
@@ -88,7 +88,7 @@ not ask for a subscribe. The video is the ask.
 Same setup as the series (`RECORDING_SETUP.md`): canvas full-frame, you in the
 bottom-right bubble. Two differences worth making:
 
-- **More face than a theory video.** Scenes 01, 02, 03 and 12 are you talking;
+- **More face than a theory video.** Shots 01, 02 and 11 are you talking;
   the canvas is support. Consider cutting to full-frame for the open and close.
 - **The theme is a wandering blueprint** — navy ground, cyan construction lines,
   dimension ticks, a title block. The joke is deliberate: a channel whose whole
