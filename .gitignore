@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Working copies made for live annotation during recording
+*.RECORDING.excalidraw
+
+# Regenerable proofing output
+*_preview.html
+chapters_sheet.png
+youtube/thumbnails/*_guide.png
+
+# Personal photos and anything derived from them. This repo is public; the
+# source photo and the cartoon cutout stay local.
+youtube/assets/
