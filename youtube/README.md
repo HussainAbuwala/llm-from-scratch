@@ -5,6 +5,7 @@ Upload metadata and thumbnail generation, one file per video.
 | File | What |
 |---|---|
 | `VIDEO_00_METADATA.md` | Title, description, tags, chapters, settings for the series intro |
+| `CHANNEL_INTRO_METADATA.md` | Same, for the channel trailer (different rules — see the file) |
 | `build_thumbnails.py` | Generates 1280×720 thumbnails |
 | `sketch.py` | Hand-drawn drawing primitives (rough lines, marker, paper, sticky notes) |
 | `chapters.py` | Finds real chapter timings in a recorded episode |
