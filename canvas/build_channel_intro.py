@@ -176,8 +176,7 @@ for (lx, ly, lbl) in [(1048, 290, "who I am"), (1174, 364, "why I share it"),
     s.add(text(lx, ly, lbl, 19, CODE, DIM))
 s.card(1100, 792, 460, 84, None, None, CYAN_D)
 s.add(text(1122, 806, "THE UNPLANNED STACK", 20, CODE, TXT))
-s.add(text(1122, 838, "channel intro · rev 01 · scale: not to scale", 16, CODE,
-           CYAN_D))
+s.add(text(1122, 838, "channel intro · rev 01", 16, CODE, CYAN_D))
 
 # ================================================================ 01 · who
 s = w.shot("01 · Who", AX[0], ROW_A, station=0)

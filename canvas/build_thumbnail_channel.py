@@ -72,10 +72,9 @@ sc.add(line([(1108, 392), (1128, 366), (1148, 414), (1168, 372), (1188, 392)],
 sc.add(text(1208, 374, "what happened", 30, CODE, AMBER))
 
 # ---------------------------------------------------------------- title block
-sc.add(box(64, 764, 440, 100, bg="#15293e", stroke=CYAN_D, sw=2))
+sc.add(box(64, 764, 440, 82, bg="#15293e", stroke=CYAN_D, sw=2))
 sc.add(text(88, 780, "THE UNPLANNED STACK", 24, CODE, TXT))
-sc.add(text(88, 816, "channel intro · rev 01", 18, CODE, CYAN_D))
-sc.add(text(88, 840, "scale: not to scale", 18, CODE, AMBER))
+sc.add(text(88, 820, "channel intro · rev 01", 18, CODE, CYAN_D))
 
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "thumbnail_channel.excalidraw")
