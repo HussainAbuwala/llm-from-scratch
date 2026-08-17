@@ -1,261 +1,421 @@
 #!/usr/bin/env python3
 """Canvas for the channel intro video — The Unplanned Stack.
 
-Channel-level rather than series-level: what the channel is, why it exists, and
-what is already on it. Lives here because this is where the canvas toolchain is;
-move it if a dedicated channel repo ever appears.
+Built as a MAP rather than a deck. Three things do that work:
 
-Backgrounds use the channel peach (#f9d6a7, sampled from the banner) on the two
-bookend scenes and a paler warm tone in between, so the palette stays readable
-while the brand still reads.
+1. Shots are laid out serpentine across one large world, and the connecting route
+   is drawn in the gaps BETWEEN them. Zoom out and the canvas is one territory;
+   zoom into a shot and it is a clean frame. Pulling back mid-video becomes a
+   usable beat rather than an accident.
+2. Shots vary in size. All are 16:9, but the establishing shot is 2x, so its
+   content is drawn at 2x and reads as genuinely further away.
+3. A route indicator in the corner of every shot advances one station at a time,
+   so consecutive shots are visibly part of one journey.
+
+Theme is a wandering blueprint — the joke being a channel whose whole premise is
+not having a fixed one. Navy ground, cyan construction lines, dimension ticks,
+callout bubbles, a title block. There is deliberately no heading/subtitle
+template: each shot is composed differently, because identical furniture in the
+same position every time is most of what makes a canvas feel like slides.
 """
 
+import json
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import excalidraw_kit as K
 from excalidraw_kit import *  # noqa: F401,F403
 
-PEACH = "#f9d6a7"
-WARM = "#fdf7ee"
-WHITE = "#ffffff"
+# ------------------------------------------------------------------- palette
+NAVY = "#0d1a29"
+PANEL = "#15293e"
+CYAN = "#7fd4ff"
+CYAN_D = "#3f7ea3"
+TXT = "#dceefb"
+DIM = "#8fb2c9"
+AMBER = "#ffb84d"
+CORAL = "#ff7f6e"
+MINT = "#5fe0b0"
 
-cv = Canvas()
+STATIONS = 11  # detail shots, for the route indicator
 
 
-def bg(sc, colour=WARM):
-    sc.add(box(0, 0, 1600, 900, bg=colour, stroke="transparent", sw=1,
-               roundness=None))
-    return sc
+class World:
+    def __init__(self):
+        self.els = []
+
+    def add(self, *items):
+        for it in items:
+            for el in (it if isinstance(it, list) else [it]):
+                self.els.append(el)
+        return self
+
+    def shot(self, name, x, y, w=1600, station=None):
+        return Shot(self, name, x, y, w, station)
+
+    def save(self, path):
+        doc = {"type": "excalidraw", "version": 2,
+               "source": "https://excalidraw.com", "elements": self.els,
+               "appState": {"gridSize": None, "viewBackgroundColor": NAVY},
+               "files": {}}
+        with open(path, "w") as fh:
+            json.dump(doc, fh, indent=1)
+        return len(self.els)
 
 
-# ================================================================== 01 title
-sc = bg(cv.scene("01 · Title"), PEACH)
-sc.add(text(70, 140, "The Unplanned", 106, HAND))
-sc.add(text(70, 272, "Stack", 106, HAND, BLUE))
-sc.add(line([(74, 408), (640, 412)], stroke=ORANGE, sw=9))
-sc.add(text(70, 456, "no fixed blueprint. just curiosity.", 38, HAND, GRAY))
-sc.add(text(70, 828, "channel intro", 26, CODE, RED))
-# A stack that does not line up — the whole name, in one picture.
-stack = [(1046, BG_BLUE), (1092, BG_GREEN), (1022, BG_VIOLET), (1074, WHITE)]
-for i, (x, colour) in enumerate(stack):
-    sc.add(box(x, 250 + i * 118, 300, 96, bg=colour, sw=3))
+class Shot:
+    """One camera position. Authored in local 1600x900 coords whatever its size."""
 
-# ============================================================== 02 who I am
-sc = bg(cv.scene("02 · Who"))
-sc.heading("Hi — I'm Hussain.",
-           "Software developer. Studied computer science. Permanently nosey about how things work.")
-sc.panel(70, 250, 460, 210, "what I do", [
-    "Build software for a living.",
-    "Have done for a while now.",
-], bg=BG_BLUE)
-sc.panel(570, 250, 460, 210, "where it started", [
-    "Computer science degree —",
-    "the formal version of the same",
-    "curiosity.",
-], bg=BG_GREEN)
-sc.panel(1070, 250, 460, 210, "what I actually like", [
-    "Science and technology,",
-    "and taking things apart to",
-    "see why they work.",
-], bg=BG_VIOLET)
-sc.add(box(70, 540, 1460, 150, bg=BG_YELLOW))
-sc.add(text(100, 570, "I have never been satisfied with knowing how to USE something.",
-            34, HAND))
-sc.add(text(100, 626, "I want to know why it was built that way.", 34, HAND))
-sc.note(70, 760,
-        "That's the whole personality of this channel, really.")
+    def __init__(self, world, name, x, y, w, station):
+        h = round(w * 9 / 16)
+        fr = K._base("frame", x, y, w, h, stroke="#24445e", bg="transparent",
+                     roundness=None, roughness=0)
+        fr.update({"type": "frame", "name": name})
+        world.els.append(fr)
+        self.world, self.fid = world, fr["id"]
+        self.ox, self.oy, self.k = x, y, w / 1600.0
+        self.add(box(0, 0, 1600, 900, bg=NAVY, stroke="transparent", sw=1,
+                     roundness=None))
+        if station is not None:
+            self.route_marker(station)
 
-# ======================================================== 03 why I share it
-sc = bg(cv.scene("03 · Why share"))
-sc.heading("Explaining it is how I check I understood it.",
-           "The fastest way to find the hole in your own understanding is to try to say it out loud.")
-loop = [("learn something", BG_BLUE),
-        ("try to explain it\nto someone", BG_GREEN),
-        ("hit the bit you\ncan't actually say", BG_RED),
-        ("go back and\nlearn it properly", BG_VIOLET)]
-for i, (label, colour) in enumerate(loop):
-    x = 82 + i * 372
-    sc.add(box(x, 270, 320, 170, label, 28, HAND, bg=colour))
-    if i < 3:
-        sc.add(arrow(x + 330, 355, x + 362, 355, sw=3))
-sc.add(arrow(1360, 460, 250, 460, via=[(1360, 570), (250, 570)], stroke=GRAY,
-             dash="dashed"))
-sc.add(text(620, 590, "and around again", 26, HAND, GRAY))
-sc.add(box(82, 660, 1450, 150, bg=BG_YELLOW))
-sc.add(text(112, 692, "You can nod along to an explanation forever.", 34, HAND))
-sc.add(text(112, 748, "You cannot fake giving one.", 34, HAND, RED))
+    def add(self, *items):
+        for it in items:
+            for el in (it if isinstance(it, list) else [it]):
+                el["x"] = self.ox + el["x"] * self.k
+                el["y"] = self.oy + el["y"] * self.k
+                el["width"] *= self.k
+                el["height"] *= self.k
+                if "points" in el:
+                    el["points"] = [[px * self.k, py * self.k]
+                                    for px, py in el["points"]]
+                if "fontSize" in el:
+                    el["fontSize"] = el["fontSize"] * self.k
+                el["frameId"] = self.fid
+                self.world.els.append(el)
+        return self
 
-# ================================================================ 04 the wall
-sc = bg(cv.scene("04 · The wall"))
-sc.heading("At uni, some things were just a wall.",
-           "Machine learning. Deep learning. I could follow every step and still not know why any of it was there.")
-sc.add(box(82, 250, 460, 92, "deep learning", 34, HAND, bg=BG_RED))
-for i, name in enumerate(["optimisation", "probability", "linear algebra",
-                          "calculus", "...and so on"]):
-    sc.add(box(82, 356 + i * 84, 460, 70, name, 26, HAND, bg=BG_GRAY))
-sc.add(text(82, 800, "each one needed the one underneath it", 26, HAND, GRAY))
+    # -- blueprint vocabulary ---------------------------------------------
 
-sc.add(box(620, 250, 520, 300, bg=WHITE, sw=3))
-sc.add(text(650, 282, "∇θ L(θ) = E[ ∇θ log πθ(a|s) ]", 26, CODE))
-sc.add(text(650, 342, "s.t.  Σ wᵢ = 1,  wᵢ ≥ 0", 26, CODE, GRAY))
-sc.add(text(650, 410, "...", 30, CODE, GRAY))
-sc.add(text(650, 470, "(a paper, roughly)", 24, HAND, GRAY))
-sc.note(1190, 380, "I was never good\nat reading these.")
-sc.add(arrow(1186, 400, 1120, 380, stroke=VIOLET, sw=3))
-sc.panel(620, 590, 920, 220, "The bit that actually stopped me", [
-    "Not the notation. The missing WHY.",
-    "Why was this introduced? What was broken before it?",
-    "That context existed somewhere — just never next to the thing",
-    "I was reading.",
-], bg=BG_RED, size=24, title_color=RED)
+    def route_marker(self, station):
+        """Where we are on the route — the strongest continuity device here."""
+        x0, y, step = 1150, 66, 34
+        self.add(line([(x0, y), (x0 + step * (STATIONS - 1), y)],
+                      stroke=CYAN_D, sw=1, dash="dotted"))
+        for i in range(STATIONS):
+            here = i == station
+            r = 11 if here else 5
+            self.add(ellipse(x0 + i * step - r, y - r, r * 2, r * 2,
+                             bg=AMBER if here else NAVY,
+                             stroke=AMBER if here else CYAN_D, sw=2))
+        self.add(text(x0 - 96, y - 12, "route", 18, CODE, CYAN_D))
 
-# ============================================================== 05 what changed
-sc = bg(cv.scene("05 · What changed"))
-sc.heading("Then you could just… ask.",
-           "Not 'ask a search engine'. Ask, follow up, and admit you didn't get it.")
-sc.add(box(82, 250, 540, 104, "\"explain backprop to me\"", 30, CODE, bg=WHITE))
-sc.add(arrow(352, 366, 352, 414, sw=3))
-for i, line_ in enumerate(["at the level I'm actually at",
-                           "with only the background I need",
-                           "and I can keep asking \"but why?\""]):
-    sc.add(box(82, 424 + i * 122, 540, 104, line_, 27, HAND, bg=BG_GREEN))
-sc.panel(700, 250, 400, 320, "before", [
-    "Read six papers to",
-    "find the one paragraph",
-    "that explains the",
-    "motivation.",
+    def dim(self, x1, y1, x2, y2, label=None, colour=CYAN_D):
+        """Dimension line with tick ends."""
+        self.add(line([(x1, y1), (x2, y2)], stroke=colour, sw=1))
+        for x in (x1, x2):
+            self.add(line([(x, y1 - 9), (x, y1 + 9)], stroke=colour, sw=1))
+        if label:
+            self.add(text((x1 + x2) / 2 - len(label) * 4.6, y1 - 32, label, 17,
+                          CODE, colour))
+
+    def dashed(self, pts, colour=CYAN_D, sw=1):
+        return self.add(line(pts, stroke=colour, sw=sw, dash="dashed"))
+
+    def tick(self, x, y, s=10, colour=CYAN_D):
+        self.add(line([(x - s, y), (x + s, y)], stroke=colour, sw=1))
+        self.add(line([(x, y - s), (x, y + s)], stroke=colour, sw=1))
+
+    def callout(self, cx, cy, r, colour=AMBER, label=None):
+        self.add(ellipse(cx - r, cy - r, r * 2, r * 2, bg="transparent",
+                         stroke=colour, sw=2, dash="dashed"))
+        if label:
+            self.add(text(cx - r + 10, cy + r + 12, label, 20, CODE, colour))
+
+    def note(self, x, y, s, size=24, colour=DIM):
+        return self.add(text(x, y, s, size, HAND, colour))
+
+    def card(self, x, y, w, h, title=None, lines=None, colour=CYAN,
+             title_size=30, size=22, fill=PANEL):
+        self.add(box(x, y, w, h, bg=fill, stroke=colour, sw=2))
+        if title:
+            self.add(text(x + 24, y + 20, title, title_size, HAND, colour))
+        if lines:
+            self.add(text(x + 24, y + (76 if title else 24), "\n".join(lines),
+                          size, HAND, TXT))
+        return self
+
+
+w = World()
+
+# Ground plane behind everything, so pulling back stays navy rather than white.
+w.add(box(-3000, -3600, 17000, 9800, bg=NAVY, stroke="transparent", sw=1,
+          roundness=None))
+
+GAP, ROW = 2100, 1700
+AX = [0, GAP, GAP * 2, GAP * 3, GAP * 4]
+ROW_A, ROW_B, ROW_C = 0, ROW, ROW * 2
+
+# ============================================================ 00 · the map
+s = w.shot("00 · THE MAP (wide)", 700, -2600, 3200)
+s.add(text(90, 150, "THE UNPLANNED", 116, HAND, TXT))
+s.add(text(90, 290, "STACK", 116, HAND, CYAN))
+s.add(line([(94, 432), (690, 436)], stroke=AMBER, sw=7))
+s.note(92, 476, "no fixed blueprint. just curiosity.", 34, DIM)
+pts = [(1040, 350), (1150, 380), (1120, 520), (1260, 600), (1230, 730),
+       (1420, 762), (1452, 620), (1548, 556)]
+s.add(line(pts, stroke=CYAN_D, sw=3, dash="dotted"))
+for px, py in pts[::2]:
+    s.add(ellipse(px - 7, py - 7, 14, 14, bg=NAVY, stroke=CYAN, sw=2))
+s.add(ellipse(1026, 336, 28, 28, bg=AMBER, stroke=AMBER, sw=2))
+s.note(866, 396, "you are here", 22, AMBER)
+for (lx, ly, lbl) in [(1048, 290, "who I am"), (1174, 364, "why I share it"),
+                      (1000, 526, "the wall"), (1288, 586, "what changed"),
+                      (1248, 752, "already up"), (1326, 516, "where it goes")]:
+    s.add(text(lx, ly, lbl, 19, CODE, DIM))
+s.card(1100, 792, 460, 84, None, None, CYAN_D)
+s.add(text(1122, 806, "THE UNPLANNED STACK", 20, CODE, TXT))
+s.add(text(1122, 838, "channel intro · rev 01 · scale: not to scale", 16, CODE,
+           CYAN_D))
+
+# ================================================================ 01 · who
+s = w.shot("01 · Who", AX[0], ROW_A, station=0)
+s.add(text(80, 160, "Hi — I'm Hussain.", 76, HAND, TXT))
+s.dashed([(84, 258), (700, 258)])
+s.note(80, 292, "software developer · computer science · permanently nosey", 25)
+for i, (label, detail, colour) in enumerate([
+        ("builds software", "for a living, and for a while now", CYAN),
+        ("studied CS", "the formal version of the same curiosity", MINT),
+        ("takes things apart", "to find out why they work that way", AMBER)]):
+    y = 420 + i * 130
+    s.tick(112, y + 24)
+    s.add(text(158, y - 4, label, 34, HAND, colour))
+    s.add(text(158, y + 44, detail, 22, HAND, DIM))
+s.card(900, 360, 620, 320, None, None, CORAL)
+s.add(text(930, 396, "I have never been satisfied", 32, HAND, TXT))
+s.add(text(930, 442, "with knowing how to USE", 32, HAND, TXT))
+s.add(text(930, 488, "something.", 32, HAND, TXT))
+s.add(text(930, 566, "I want to know why it was", 30, HAND, CORAL))
+s.add(text(930, 610, "built that way.", 30, HAND, CORAL))
+s.note(900, 712, "that's the whole channel, really.", 24, AMBER)
+
+# ========================================================== 02 · why share
+s = w.shot("02 · Why share", AX[1], ROW_A, station=1)
+s.add(text(80, 110, "Explaining it is how I check", 58, HAND, TXT))
+s.add(text(80, 184, "I understood it.", 58, HAND, CYAN))
+cyc = [("learn something", CYAN, 300, 400),
+       ("explain it out loud", MINT, 720, 340),
+       ("hit the bit you\ncan't actually say", CORAL, 1120, 450),
+       ("go back and\nlearn it properly", AMBER, 730, 650)]
+for label, colour, cx, cy in cyc:
+    s.add(box(cx - 150, cy - 60, 300, 120, label, 24, HAND, bg=PANEL,
+              stroke=colour, sw=2, label_color=TXT))
+s.add(arrow(458, 380, 566, 350, stroke=CYAN_D, sw=2))
+s.add(arrow(876, 370, 966, 420, stroke=CYAN_D, sw=2))
+s.add(arrow(1040, 530, 892, 620, stroke=CYAN_D, sw=2))
+s.add(arrow(576, 650, 330, 470, stroke=CYAN_D, sw=2, dash="dashed"))
+s.note(360, 700, "and around again", 22)
+s.add(text(80, 786, "You can nod along to an explanation forever.", 30, HAND, TXT))
+s.add(text(80, 832, "You cannot fake giving one.", 30, HAND, CORAL))
+
+# ============================================================= 03 · the wall
+s = w.shot("03 · The wall", AX[2], ROW_A, station=2)
+s.add(text(80, 106, "At uni, some things were just a wall.", 52, HAND, TXT))
+s.note(80, 176, "machine learning · deep learning", 24)
+for i, (name, wide) in enumerate([("deep learning", 520), ("optimisation", 470),
+                                  ("probability", 500), ("linear algebra", 480),
+                                  ("calculus", 460)]):
+    y = 250 + i * 96          # deep learning on top, calculus at the base
+    top = i == 0
+    s.add(box(120, y, wide, 84, name, 26, HAND, bg=PANEL,
+              stroke=CORAL if top else CYAN_D, sw=2,
+              label_color=CORAL if top else TXT))
+s.dim(120, 756, 640, 756, "each one needs the one under it")
+s.add(ellipse(128, 782, 22, 22, bg=AMBER, stroke=AMBER, sw=2))
+s.note(164, 776, "me, down here", 22, AMBER)
+s.card(760, 240, 760, 250, None, None, CYAN_D)
+s.add(text(790, 276, "∇θ L(θ) = E[ ∇θ log πθ(a|s) ]", 26, CODE, TXT))
+s.add(text(790, 332, "s.t.  Σ wᵢ = 1,   wᵢ ≥ 0", 26, CODE, DIM))
+s.add(text(790, 410, "(a paper, roughly)", 22, HAND, DIM))
+s.add(text(760, 570, "It was never really the notation.", 32, HAND, TXT))
+s.add(text(760, 624, "It was the missing WHY:", 32, HAND, CORAL))
+s.note(760, 690, "why was this introduced? what was broken before it?", 23)
+s.note(760, 730, "that context existed — just never next to", 23)
+s.note(760, 768, "the thing I was actually reading.", 23)
+
+# ========================================================= 04 · what changed
+s = w.shot("04 · What changed", AX[3], ROW_A, station=3)
+s.add(text(80, 116, "Then you could just…", 56, HAND, TXT))
+s.add(text(80, 188, "ask.", 56, HAND, AMBER))
+s.add(box(80, 296, 560, 92, "\"explain backprop to me\"", 26, CODE, bg=PANEL,
+          stroke=CYAN, sw=2, label_color=TXT))
+s.add(arrow(360, 400, 360, 442, stroke=CYAN_D, sw=2))
+for i, t in enumerate(["at the level I'm actually at",
+                       "with only the background I need",
+                       "and I can keep asking \"but why?\""]):
+    s.add(box(80, 452 + i * 108, 560, 88, t, 23, HAND, bg=PANEL, stroke=MINT,
+              sw=2, label_color=TXT))
+s.card(760, 296, 370, 300, "before", [
+    "read six papers",
+    "to find the one",
+    "paragraph that",
+    "explains why.",
     "",
-    "Usually give up.",
-], bg=BG_GRAY, size=24, title_color=GRAY)
-sc.panel(1140, 250, 400, 320, "now", [
-    "The background gets",
-    "assembled for me, in",
-    "the order I need it,",
-    "and nothing more.",
-], bg=BG_BLUE, size=24)
-sc.add(box(700, 610, 840, 200, bg=BG_YELLOW))
-sc.add(text(730, 642, "This is the part that genuinely changed", 32, HAND))
-sc.add(text(730, 694, "what I'm able to learn.", 32, HAND))
-sc.add(text(730, 752, "Not the answers — the ability to ask again.", 26, HAND, GRAY))
+    "usually give up.",
+], CYAN_D, 28, 22)
+s.card(1150, 296, 370, 300, "now", [
+    "the background",
+    "gets assembled,",
+    "in the order I",
+    "need it, and",
+    "nothing more.",
+], MINT, 28, 22)
+s.add(text(760, 660, "The thing that changed isn't", 30, HAND, TXT))
+s.add(text(760, 704, "the answers. It's being able to", 30, HAND, AMBER))
+s.add(text(760, 748, "ask again, and admit I didn't follow.", 30, HAND, AMBER))
 
-# ============================================================= 06 many formats
-sc = bg(cv.scene("06 · Formats"))
-sc.heading("And it will explain the same thing five different ways.",
-           "Until one of them clicks. Which is a luxury a textbook has never once offered me.")
-formats = [("a diagram", BG_BLUE), ("an analogy", BG_GREEN),
-           ("the actual code", BG_VIOLET), ("slowly,\nstep by step", BG_YELLOW),
-           ("a worked\nexample", WHITE)]
-for i, (label, colour) in enumerate(formats):
-    x = 70 + i * 300
-    sc.add(box(x, 280, 280, 210, label, 30, HAND, bg=colour, sw=3))
-sc.add(text(70, 560, "for me it is almost always the diagram —", 34, HAND))
-sc.add(text(70, 612, "which is exactly why this video is a canvas and not slides.",
-            34, HAND, BLUE))
-sc.note(70, 730,
-        "Everything I make gets drawn before it gets said.")
+# ============================================================= 05 · formats
+s = w.shot("05 · Formats", AX[4], ROW_A, station=4)
+s.add(text(80, 106, "The same idea, five different ways.", 52, HAND, TXT))
+s.note(80, 176, "until one of them lands — which no textbook ever offered me", 24)
+for i, (label, colour) in enumerate([("a diagram", CYAN), ("an analogy", MINT),
+                                     ("the code", AMBER), ("step by step", CORAL),
+                                     ("a worked example", CYAN_D)]):
+    x = 90 + i * 296
+    s.add(box(x, 270, 264, 200, bg=PANEL, stroke=colour, sw=2))
+    s.add(text(x + 20, 288, f"VIEW {i + 1}", 17, CODE, colour))
+    s.add(text(x + 20, 386, label, 24, HAND, TXT))
+    s.tick(x + 132, 244, 8)
+s.dim(90, 528, 1466, 528, "one object, five projections")
+s.add(text(80, 620, "for me it's almost always the diagram —", 32, HAND, TXT))
+s.add(text(80, 672, "which is exactly why this is a canvas", 32, HAND, CYAN))
+s.add(text(80, 724, "and not a slide deck.", 32, HAND, CYAN))
 
-# ============================================================ 07 boring parts
-sc = bg(cv.scene("07 · The boring parts"))
-sc.heading("It also does the boring parts.",
-           "Which, if you have ever made anything, you know is most of the work.")
-sc.panel(82, 250, 600, 420, "the tedious 80%", [
+# ======================================================== 06 · boring parts
+s = w.shot("06 · The boring parts", AX[4], ROW_B, station=5)
+s.add(text(80, 116, "It also does the boring parts.", 54, HAND, TXT))
+s.note(80, 190, "which, if you have ever made anything, is most of the work", 24)
+s.card(80, 280, 620, 400, "the tedious 80%", [
     "gathering the context",
     "drawing the diagrams",
     "cutting the video",
     "writing the descriptions",
     "rendering, exporting, uploading",
-    "…and doing it all again",
-], bg=BG_GRAY, size=26, title_color=GRAY)
-sc.add(arrow(710, 460, 810, 460, sw=4))
-sc.panel(840, 250, 690, 420, "what's left", [
-    "The part I actually like:",
+    "…then doing it all again",
+], CYAN_D, 30, 24)
+s.add(arrow(730, 480, 830, 480, stroke=AMBER, sw=3))
+s.card(860, 280, 660, 400, "what's left", [
+    "the part I actually like:",
     "",
     "understanding the thing,",
     "and finding a way to say it",
     "that makes it obvious.",
-], bg=BG_GREEN, size=28)
-sc.add(box(82, 710, 1450, 110, bg=BG_YELLOW))
-sc.add(text(112, 740, "I'm not going to pretend that isn't a big reason "
-                      "this channel exists now.", 30, HAND))
+], MINT, 30, 26)
+s.add(text(80, 760, "I'm not going to pretend that isn't a big reason", 26,
+           HAND, AMBER))
+s.add(text(80, 802, "this channel exists now.", 26, HAND, AMBER))
 
-# ============================================================== 08 the deal
-sc = bg(cv.scene("08 · The deal"))
-sc.heading("So here's the deal.")
-sc.add(box(120, 240, 620, 200, "I learn something\nproperly.", 46, HAND,
-           bg=BG_BLUE))
-sc.add(arrow(770, 340, 860, 340, sw=4))
-sc.add(box(880, 240, 620, 200, "Then I show you\nhow it works.", 46, HAND,
-           bg=BG_GREEN))
-sc.add(box(120, 500, 1380, 130, "starting with computer science", 44, HAND,
-           bg=BG_YELLOW))
-sc.add(text(120, 690, "Not a tutorial channel. Not \"top 10 tools\".", 32, HAND, GRAY))
-sc.add(text(120, 746, "The kind of explanation I wanted when I was stuck.",
-            32, HAND, BLUE))
+# ============================================================== 07 · the deal
+s = w.shot("07 · The deal", AX[3], ROW_B, station=6)
+s.add(text(80, 140, "So here's the deal.", 60, HAND, TXT))
+s.add(box(120, 300, 580, 180, "I learn something\nproperly.", 38, HAND,
+          bg=PANEL, stroke=CYAN, sw=3, label_color=TXT))
+s.add(arrow(730, 390, 850, 390, stroke=AMBER, sw=3))
+s.add(box(880, 300, 580, 180, "Then I show you\nhow it works.", 38, HAND,
+          bg=PANEL, stroke=MINT, sw=3, label_color=TXT))
+s.dim(120, 570, 1460, 570, "starting with computer science")
+s.add(text(120, 650, "Not a tutorial channel. Not \"top 10 tools\".", 28,
+           HAND, DIM))
+s.add(text(120, 736, "The explanation I wanted back when", 32, HAND, AMBER))
+s.add(text(120, 782, "I was the one stuck.", 32, HAND, AMBER))
 
-# ========================================================== 09 already posted
-sc = bg(cv.scene("09 · Already up"))
-sc.heading("There's already a pile of these up.",
-           "Systems from First Principles — real systems, rebuilt starting from the simplest thing that works.")
+# ========================================================== 08 · already up
+s = w.shot("08 · Already up", AX[2], ROW_B, station=7)
+s.add(text(80, 106, "There's already a pile of these up.", 50, HAND, TXT))
+s.note(80, 172, "Systems from First Principles — real systems, rebuilt from the "
+                "simplest thing that works", 22)
 qs = ["how can a webpage\nhijack an AI agent?",
       "how can a lost tracker\nfind your suitcase?",
       "how do many people edit\none design at once?",
       "why do LLMs split reading\nfrom writing?"]
 for i, q in enumerate(qs):
-    x = 82 + (i % 2) * 730
-    y = 230 + (i // 2) * 180
-    sc.add(box(x, y, 690, 160, q, 30, HAND, bg=WHITE, sw=3))
-sc.add(text(82, 606, "every one of them asks the same three questions:",
-            30, HAND, GRAY))
-method = ["what problem are we solving?",
-          "why does the simplest version fail?",
-          "what does each extra piece buy us?"]
-for i, m in enumerate(method):
-    sc.add(box(82 + i * 490, 660, 460, 130, m, 26, HAND,
-               bg=[BG_BLUE, BG_RED, BG_GREEN][i]))
+    x = 90 + (i % 2) * 740
+    y = 240 + (i // 2) * 168
+    s.add(box(x, y, 700, 148, q, 26, HAND, bg=PANEL, stroke=CYAN, sw=2,
+              label_color=TXT))
+s.add(text(90, 596, "every one asks the same three questions:", 26, HAND, DIM))
+for i, m in enumerate(["what problem are we solving?",
+                       "why does the simplest version fail?",
+                       "what does each extra piece buy us?"]):
+    s.add(box(90 + i * 478, 648, 448, 130, m, 23, HAND, bg=PANEL,
+              stroke=[CYAN, CORAL, MINT][i], sw=2, label_color=TXT))
 
-# =============================================================== 10 the name
-sc = bg(cv.scene("10 · The name"))
-sc.heading("Why \"The Unplanned Stack\"?")
-sc.add(text(82, 210, "a stack, in software:", 30, HAND, GRAY))
-for i, name in enumerate(["framework", "database", "infrastructure", "deploy"]):
-    sc.add(box(82, 260 + i * 104, 420, 90, name, 28, HAND, bg=BG_BLUE, sw=2))
-sc.add(text(82, 700, "chosen on purpose. in order.", 28, HAND, BLUE))
+# ============================================================== 09 · the name
+s = w.shot("09 · The name", AX[1], ROW_B, station=8)
+s.add(text(80, 106, "Why \"The Unplanned Stack\"?", 52, HAND, TXT))
+s.add(text(110, 208, "a stack, in software", 22, CODE, CYAN_D))
+for i, n in enumerate(["deploy", "infrastructure", "database", "framework"]):
+    s.add(box(110, 252 + i * 92, 420, 78, n, 24, HAND, bg=PANEL, stroke=CYAN,
+              sw=2, label_color=TXT))
+s.dim(110, 664, 530, 664, "chosen. ordered. planned.")
+s.add(text(880, 208, "a stack, in practice", 22, CODE, AMBER))
+mine = [("whatever I'm curious about", 866), ("a new country", 946),
+        ("a creative life", 886), ("a career", 926)]
+for i, (n, x) in enumerate(mine):
+    s.add(box(x, 252 + i * 92, 440, 78, n, 22, HAND, bg=PANEL, stroke=AMBER,
+              sw=2, label_color=TXT))
+s.note(866, 646, "none of it came pre-chosen.", 26, CORAL)
+s.add(arrow(520, 806, 596, 806, stroke=CYAN, sw=3))
+s.add(text(620, 782, "The Unplanned Stack", 40, HAND, CYAN))
 
-sc.add(text(900, 210, "a stack, in practice:", 30, HAND, GRAY))
-mine = [("a career", 900), ("a creative life", 946), ("a new country", 876),
-        ("whatever I'm curious about", 928)]
-for i, (name, x) in enumerate(mine):
-    sc.add(box(x, 260 + i * 104, 460, 90, name, 26, HAND, bg=BG_YELLOW, sw=2))
-sc.add(text(876, 700, "none of it came pre-chosen.", 28, HAND, RED))
-sc.add(box(560, 760, 480, 100, "The Unplanned Stack", 38, HAND, bg=BG_VIOLET))
+# ========================================================= 10 · where it goes
+s = w.shot("10 · Where it goes", AX[1], ROW_C, station=9)
+s.add(text(80, 116, "The topics will move around.", 54, HAND, TXT))
+for i, n in enumerate(["technology", "career", "creativity",
+                       "a life in Canada"]):
+    s.add(box(90 + i * 366, 240, 336, 150, n, 27, HAND, bg=PANEL,
+              stroke=[CYAN, MINT, AMBER, CORAL][i], sw=2, label_color=TXT))
+s.add(text(80, 448, "the approach won't:", 32, HAND, TXT))
+for i, k in enumerate(["stay curious", "understand it deeply",
+                       "show the real process —\nincluding what didn't work"]):
+    s.add(box(90 + i * 478, 516, 448, 170, k, 24, HAND, bg=NAVY, stroke=CYAN_D,
+              sw=2, label_color=TXT))
+s.note(80, 744, "that last one is the one I actually care about.", 26, AMBER)
 
-# ============================================================== 11 where it goes
-sc = bg(cv.scene("11 · Where it goes"))
-sc.heading("The topics will move around.",
-           "Technology mostly, but not only.")
-areas = [("technology", BG_BLUE), ("career", BG_GREEN),
-         ("creativity", BG_VIOLET), ("building a life\nin Canada", BG_YELLOW)]
-for i, (name, colour) in enumerate(areas):
-    sc.add(box(82 + i * 370, 230, 340, 170, name, 30, HAND, bg=colour, sw=3))
-sc.add(text(82, 450, "the approach won't:", 36, HAND))
-keeps = ["stay curious", "understand it deeply",
-         "show the real process —\nincluding what didn't work"]
-for i, k in enumerate(keeps):
-    sc.add(box(82 + i * 490, 520, 460, 170, k, 28, HAND, bg=WHITE, sw=3))
-sc.add(text(82, 750, "that last one is the one I care about most.", 32, HAND, RED))
+# ============================================================== 11 · welcome
+s = w.shot("11 · Welcome", AX[2], ROW_C, station=10)
+s.add(text(80, 180, "If you're figuring it out", 72, HAND, TXT))
+s.add(text(80, 270, "as you go too —", 72, HAND, TXT))
+s.add(text(80, 420, "welcome to The Unplanned Stack.", 52, HAND, CYAN))
+s.add(line([(84, 506), (1120, 510)], stroke=AMBER, sw=6))
+s.note(80, 566, "next up: building a language model from scratch,", 28, TXT)
+s.note(80, 610, "starting with one small enough to check with a pencil.", 28)
+s.add(text(80, 716, "let's get into it.", 34, HAND, AMBER))
+s.card(1100, 786, 460, 84, None, None, CYAN_D)
+s.add(text(1122, 800, "THE UNPLANNED STACK", 20, CODE, TXT))
+s.add(text(1122, 832, "channel intro · rev 01 · sheet 12 of 12", 16, CODE, CYAN_D))
 
-# ================================================================ 12 welcome
-sc = bg(cv.scene("12 · Welcome"), PEACH)
-sc.add(text(70, 200, "If you're figuring it out", 88, HAND))
-sc.add(text(70, 312, "as you go too —", 88, HAND))
-sc.add(text(70, 470, "welcome to The Unplanned Stack.", 62, HAND, BLUE))
-sc.add(line([(74, 566), (1180, 570)], stroke=ORANGE, sw=8))
-sc.add(text(70, 640, "next up: building a language model from scratch,", 34, HAND))
-sc.add(text(70, 692, "starting with one so small you can check it with a pencil.",
-            34, HAND, GRAY))
-sc.add(text(70, 812, "let's get into it.", 34, HAND, RED))
+
+# ================================================== the route between shots
+# Drawn OUTSIDE every frame, so it only appears when you pull back. This is what
+# makes the zoomed-out canvas read as one territory instead of twelve cards.
+def link(x1, y1, x2, y2, bow=90):
+    w.add(line([(x1, y1), ((x1 + x2) / 2, (y1 + y2) / 2 + bow), (x2, y2)],
+               stroke=CYAN_D, sw=3, dash="dotted"))
+
+
+for i in range(4):
+    link(AX[i] + 1600, ROW_A + 450, AX[i + 1], ROW_A + 450, 110)
+link(AX[4] + 800, ROW_A + 900, AX[4] + 800, ROW_B, 0)
+for i in range(4, 1, -1):
+    link(AX[i], ROW_B + 450, AX[i - 1] + 1600, ROW_B + 450, -110)
+link(AX[1] + 800, ROW_B + 900, AX[1] + 800, ROW_C, 0)
+link(AX[1] + 1600, ROW_C + 450, AX[2], ROW_C + 450, 110)
+link(1500, ROW_A - 60, 2300, -800, -300)
 
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "channel_intro.excalidraw")
-print(f"channel_intro.excalidraw: {cv.save(out)} elements, {cv._n} scenes")
+n = w.save(out)
+frames = len([e for e in w.els if e["type"] == "frame"])
+print(f"channel_intro.excalidraw: {n} elements, {frames} shots")

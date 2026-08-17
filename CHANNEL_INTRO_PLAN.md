@@ -2,7 +2,7 @@
 
 Status: Ready to record
 
-Canvas: `canvas/channel_intro.excalidraw` (12 scenes)
+Canvas: `canvas/channel_intro.excalidraw` (1 establishing shot + 11 detail shots)
 
 ## 1. What this video is for
 
@@ -23,20 +23,33 @@ nobody finishes.
 
 ## 3. Scene-by-scene
 
-| # | Scene | The one thing to land |
+| # | Shot | The one thing to land |
 |---|---|---|
-| 01 | Title | The name and the promise: no fixed blueprint, just curiosity |
-| 02 | Who | Software developer, CS background, and permanently nosey |
-| 03 | Why share | Explaining is how you find the hole in your own understanding |
-| 04 | The wall | ML/DL at uni: the missing *why*, not the notation |
-| 05 | What changed | You can ask, at your level, and keep asking |
-| 06 | Formats | The same idea five ways until one clicks |
-| 07 | Boring parts | The tedious 80% is handled, so the time goes to understanding |
-| 08 | The deal | I learn it properly, then I show you |
-| 09 | Already up | Systems from First Principles, and the three questions |
-| 10 | The name | A software stack is chosen; a life isn't |
-| 11 | Where it goes | Topics move; the approach doesn't |
-| 12 | Welcome | If you're figuring it out too, welcome |
+| 00 | THE MAP (2x wide) | The name, the promise, and the territory you're about to cross |
+| 01 | Who | Software developer, CS background, permanently nosey |
+| 02 | Why share | Explaining is how you find the hole in your own understanding |
+| 03 | The wall | ML/DL at uni: the missing *why*, not the notation |
+| 04 | What changed | You can ask, at your level, and keep asking |
+| 05 | Formats | The same idea five ways until one lands |
+| 06 | Boring parts | The tedious 80% is handled, so the time goes to understanding |
+| 07 | The deal | I learn it properly, then I show you |
+| 08 | Already up | Systems from First Principles, and the three questions |
+| 09 | The name | A software stack is chosen; a life isn't |
+| 10 | Where it goes | Topics move; the approach doesn't |
+| 11 | Welcome | If you're figuring it out too, welcome |
+
+### It is a map, not a deck
+
+Shots are laid out serpentine across one world with the route drawn in the gaps
+between them, so the canvas zoomed out is one territory. Three consequences for
+recording:
+
+- **Open on shot 00, then fly in.** It is 2x the size of the others, so zooming
+  to it genuinely reads as altitude rather than as another slide.
+- **Pulling back is a usable beat.** Zoom out between sections and the route
+  between shots is visible. Worth doing once, around shot 05.
+- **The route indicator top-right advances every shot.** Don't mention it; it
+  works on the viewer without being pointed at.
 
 ### Notes on the beats that need care
 
@@ -77,9 +90,13 @@ bottom-right bubble. Two differences worth making:
 
 - **More face than a theory video.** Scenes 01, 02, 03 and 12 are you talking;
   the canvas is support. Consider cutting to full-frame for the open and close.
-- **Scene 01 and 12 are peach**, the channel colour. Everything between is a
-  paler warm tone so the palette stays readable. That gives the video visual
-  bookends without a title card.
+- **The theme is a wandering blueprint** — navy ground, cyan construction lines,
+  dimension ticks, a title block. The joke is deliberate: a channel whose whole
+  premise is not having a fixed blueprint, drawn as one. Worth one line on camera
+  at shot 00, not more.
+- **Dark canvas, so light your face accordingly.** A bright webcam bubble on a
+  navy ground is high contrast; drop your key light slightly from what the peach
+  version wanted.
 
 ## 5. Where this file lives
 
