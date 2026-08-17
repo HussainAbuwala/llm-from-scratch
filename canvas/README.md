@@ -11,6 +11,7 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | `channel_intro.excalidraw` | Channel intro — The Unplanned Stack | 12 |
 | `thumbnail_channel.excalidraw` | Channel intro thumbnail — the plan vs what happened | 1 |
 | `thumbnail_channel_alt.excalidraw` | Channel intro thumbnail, alt — the stack trace | 1 |
+| `thumbnail_stack.excalidraw` | Channel intro thumbnail — a stack vs my stack | 1 |
 
 ## Open one
 
@@ -60,6 +61,7 @@ catching overlapping elements and overflowing text. Open it in any browser.
   macOS `qlmanage` does not honour SVG dimensions and silently scales and crops.
 - `build_thumbnail_channel.py` — channel intro thumbnail (route vs plan).
 - `build_thumbnail_channel_alt.py` — channel intro thumbnail (stack trace).
+- `build_thumbnail_stack.py` — channel intro thumbnail (a stack vs my stack).
 - `build_thumbnail_ep0.py` — the video 0 thumbnail as an Excalidraw scene.
   Export the final PNG from Excalidraw itself (select frame → Export image →
   PNG, "only selected") for authentic strokes and the real Excalifont.

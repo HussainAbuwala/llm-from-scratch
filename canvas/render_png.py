@@ -16,6 +16,7 @@ stand-in.
 
 import argparse
 import json
+import math
 import os
 import sys
 
@@ -57,8 +58,15 @@ def rgb(colour, default=None):
     return tuple(int(c[i:i + 2], 16) for i in (0, 2, 4))
 
 
+def rotate_about(px, py, cx, cy, ang):
+    if not ang:
+        return (px, py)
+    dx, dy = px - cx, py - cy
+    c, s = math.cos(ang), math.sin(ang)
+    return (cx + dx * c - dy * s, cy + dx * s + dy * c)
+
+
 def rough_fill_ellipse(d, box, colour, rng, jitter=3.0):
-    import math
     x0, y0, x1, y1 = box
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     rx, ry = (x1 - x0) / 2, (y1 - y0) / 2
@@ -106,16 +114,18 @@ def render(path, frame_index=0, out=None, scale=1.0):
         t = el["type"]
 
         if t == "rectangle":
+            # Honour rotation: Excalidraw spins a rect about its own centre.
+            ang = el.get("angle") or 0
+            cx, cy = x + w / 2, y + h / 2
+            jit = 2.0 * scale
+            corners = [rotate_about(px, py, cx, cy, ang) for px, py in
+                       ((x, y), (x + w, y), (x + w, y + h), (x, y + h))]
             if fill:
-                jitter = 2.0 * scale
-                d.polygon([(x + rng.uniform(-jitter, jitter), y + rng.uniform(-jitter, jitter)),
-                           (x + w + rng.uniform(-jitter, jitter), y + rng.uniform(-jitter, jitter)),
-                           (x + w + rng.uniform(-jitter, jitter), y + h + rng.uniform(-jitter, jitter)),
-                           (x + rng.uniform(-jitter, jitter), y + h + rng.uniform(-jitter, jitter))],
-                          fill=fill)
+                d.polygon([(px + rng.uniform(-jit, jit), py + rng.uniform(-jit, jit))
+                           for px, py in corners], fill=fill)
             if stroke and el.get("strokeColor") != "transparent":
-                sketch.rough_rect(d, (x, y, x + w, y + h), None, stroke, sw, rng,
-                                  jitter=2.2 * scale)
+                for a_, b_ in zip(corners, corners[1:] + corners[:1]):
+                    sketch.rough_line(d, a_, b_, stroke, sw, rng, jitter=2.2 * scale)
         elif t == "ellipse":
             if fill:
                 rough_fill_ellipse(d, (x, y, x + w, y + h), fill, rng, 2.5 * scale)
