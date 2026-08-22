@@ -85,8 +85,15 @@ adjacent pairs all check out.
 ## 04 · Vocabulary and integer IDs
 
 - **SAY:** "The model never sees a letter. Integers are row and column numbers, and that is the only reason they exist."
+- **THEN:** Point at `"anna" → [2, 3, 3, 2]`. "That is what actually gets handed to the model. Letters only exist when we read the file and when we print the result."
 - **DRAW:** Draw the arrow from each character to its id.
 - **BRIDGE:** "Two of these tokens aren't characters at all."
+
+Expand the abbreviations out loud the first time — `stoi` is **s**tring **to**
+**i**nt, `itos` is **i**nt **to** **s**tring. They are conventional names you will
+keep meeting, and they stop looking arbitrary the moment you hear what they stand
+for. One goes in, one comes out: `stoi` to build the table from text, `itos` to
+turn a generated number back into a printable name.
 
 Mention the training-split-only vocabulary rule, briefly. It matters in the build video.
 

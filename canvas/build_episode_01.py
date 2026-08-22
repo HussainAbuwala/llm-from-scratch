@@ -88,10 +88,10 @@ for i, (ch, i_) in enumerate(pairs):
     sc.add(box(120, y, 220, 74, ch, 26, CODE, bg=BG_BLUE))
     sc.add(arrow(350, y + 37, 430, y + 37, stroke=GRAY))
     sc.add(box(440, y, 100, 74, str(i_), 28, CODE, bg=BG_YELLOW))
-sc.add(text(620, 280, "Two mappings, both needed:", 26, HAND))
-sc.add(text(620, 340, "stoi:  character  →  id      (to build the table)\n"
-                      "itos:  id  →  character      (to print what we generate)",
-            24, CODE))
+sc.add(text(620, 274, "Two mappings, both needed:", 26, HAND))
+sc.add(text(620, 328, "stoi   \"string to int\"    character → id", 24, CODE))
+sc.add(text(620, 362, "itos   \"int to string\"    id → character", 24, CODE))
+sc.add(text(620, 404, "one for the way in, one for the way out.", 22, HAND, GRAY))
 sc.panel(620, 460, 880, 180, "Where does the vocabulary come from?", [
     "From the TRAINING split only — never the whole file.",
     "If held-out data contains a character we never trained on, we have no row",
@@ -101,6 +101,8 @@ sc.note(620, 690,
         "<START> and <END> are not characters in any name.\n"
         "They are tokens we invent, and the model has to learn them\n"
         "like everything else. Next scene explains why they exist.")
+sc.add(text(120, 742, "so what the model is actually handed:", 20, HAND, GRAY))
+sc.add(text(120, 780, "\"anna\"   →   [2, 3, 3, 2]", 30, CODE, RED))
 
 # =============================================================== 05 boundaries
 sc = cv.scene("05 · Boundaries")
