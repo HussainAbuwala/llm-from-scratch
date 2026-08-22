@@ -70,11 +70,26 @@ sc.add(text(840, 490, "— next scene: what that set of\n   tokens is called", 2
 # The "why characters" argument now lives in scene 04, next to the comparison
 # that makes it land. This scene keeps the other simplification, which scene 04
 # never touches.
-sc.panel(80, 620, 1430, 220, "Why one character of context?", [
-    "Because every number stays checkable by hand — which is how we catch the code lying.",
-    "This is the Markov assumption, first order: the next token depends only on the last one.",
-    "It is the strongest simplification in this episode, and the one episode 2 goes after.",
-], bg=BG_VIOLET, size=22)
+sc.panel(80, 612, 1000, 246, "Why one character of context?", [
+    "Because every number stays checkable by hand — which is",
+    "how we catch the code lying.",
+    "",
+    "This is the Markov assumption, first order: the next token",
+    "depends only on the last one. It is the strongest",
+    "simplification here, and the one episode 2 goes after.",
+], bg=BG_VIOLET, size=21)
+
+# Worth the twenty seconds: the first serious Markov chain was this exact model.
+sc.add(box(1120, 612, 400, 252, bg=BG_YELLOW, dash="dashed"))
+sc.add(text(1146, 630, "Who was Markov?", 26, HAND))
+sc.add(text(1146, 672,
+            "Andrey Markov, 1856–1922.\n\n"
+            "In 1913 he counted vowel and\n"
+            "consonant transitions across\n"
+            "20,000 letters of Eugene Onegin.\n"
+            "By hand.\n"
+            "The first one was a character\n"
+            "bigram model, same as ours.", 18, HAND))
 
 # ========================================================= 04 what vocabulary is
 sc = cv.scene("04 · What \"vocabulary\" means")

@@ -91,6 +91,21 @@ assumption in the episode and the one episode 2 exists to attack, so naming it a
 the Markov assumption here pays off twice: at scene 25 when histories collapse,
 and at scene 27 when the table explodes.
 
+**The Markov aside — 20 seconds, and worth every one.** Andrey Markov, 1856–1922.
+In 1913 he took the first 20,000 letters of Pushkin's *Eugene Onegin*, classified
+each as vowel or consonant, and counted the transitions between them **by hand**.
+That is exactly what you do in scene 07. His vocabulary was two symbols; yours is
+twenty-six.
+
+If you want the extra beat: he did it to win an argument. Pavel Nekrasov had
+claimed the law of large numbers required independent events, and had used that to
+argue for free will. Markov built dependent sequences that obeyed the limit
+theorems anyway, and Pushkin was his demonstration on real data.
+
+So the method in this episode is about 110 years old, its first serious
+application was character-level text modelling, and it exists because of a row
+about free will. Say that and move on — do not let it become a history segment.
+
 ## 04 · What "vocabulary" means
 
 - **SAY:** "The vocabulary is the set of token types. It is not the names — the names are the data. The vocabulary is what the model is allowed to emit."
