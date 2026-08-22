@@ -81,10 +81,11 @@ sc.panel(820, 620, 690, 220, "Why one character of context?", [
 sc = cv.scene("04 · Vocabulary and integer IDs")
 sc.heading("The model never sees a letter.",
            "Characters become integers, because integers are row and column numbers.")
-sc.add(text(120, 220, "vocabulary", 28, HAND, GRAY))
+sc.add(text(120, 210, "vocabulary", 28, HAND, GRAY))
+sc.add(text(120, 250, "every distinct CHARACTER — not the names", 19, HAND, RED))
 pairs = [("<START>", 0), ("<END>", 1), ("a", 2), ("n", 3), ("v", 4)]
 for i, (ch, i_) in enumerate(pairs):
-    y = 280 + i * 90
+    y = 292 + i * 90
     sc.add(box(120, y, 220, 74, ch, 26, CODE, bg=BG_BLUE))
     sc.add(arrow(350, y + 37, 430, y + 37, stroke=GRAY))
     sc.add(box(440, y, 100, 74, str(i_), 28, CODE, bg=BG_YELLOW))

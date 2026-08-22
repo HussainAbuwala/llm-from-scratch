@@ -87,6 +87,7 @@ adjacent pairs all check out.
 - **SAY:** "The model never sees a letter. Integers are row and column numbers, and that is the only reason they exist."
 - **THEN:** Point at `"anna" → [2, 3, 3, 2]`. "That is what actually gets handed to the model. Letters only exist when we read the file and when we print the result."
 - **DRAW:** Draw the arrow from each character to its id.
+- **WATCH FOR:** Say explicitly that the vocabulary is the *characters*, not the names. The names are the data; the vocabulary is the alphabet they are built from. Everyday English means the opposite by "vocabulary", so the word points the wrong way for a beginner — and it is a word-level model where the vocabulary really would be the words.
 - **BRIDGE:** "Two of these tokens aren't characters at all."
 
 Expand the abbreviations out loud the first time — `stoi` is **s**tring **to**
