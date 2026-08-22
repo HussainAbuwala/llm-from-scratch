@@ -39,11 +39,34 @@ delivery of the ideas, and hand-wavy delivery of the numbers.
 
 ## 01 · Cold open
 
+> **The four names on this scene are invented placeholders.** They came from the
+> example block in the video plan; the program does not exist yet. Replace them
+> with real output before recording this scene, or record it last. Opening a
+> series premised on "I checked this" with fabricated terminal output is the one
+> mistake that costs the most. See `RESEARCH_STANDARD.md`.
+
+What is on screen: `$ python bigram.py` — the program you build in the follow-up
+video — and four names it generated. Three look plausible; `annnava` is broken.
+
 - **SAY:** "These came out of a program with no neural network, no attention, and a memory of exactly one character."
-- **DRAW:** Circle `annnava` — the failure, not the good ones.
+- **DRAW:** Take the pen and circle the broken one — **not** the good ones.
 - **BRIDGE:** "That sounds almost useless. It is also the smallest thing that is honestly a language model."
 
-Do not oversell the samples. Pointing at the bad one first is what buys you the rest of the episode.
+**Why circle the failure.** Three reasons, and they compound:
+
+1. The viewer has already spotted it. Showcasing the successes while ignoring the
+   obvious dud makes you look like you are selling; pointing at it first makes you
+   the person who noticed.
+2. It states the honest claim in the first fifteen seconds — this works, and it
+   also produces garbage — which is the tone the whole series runs on.
+3. It is a seed you harvest in scene 25. Trained on `anna` and `ava`, every
+   adjacent pair in `annnava` was genuinely observed: `a→n`, `n→n`, `n→a`,
+   `a→v`, `v→a`. Every neighbouring step is legitimate and the whole word is
+   still nonsense. Circling it here and calling back to it later makes the
+   episode feel built rather than listed.
+
+Pick your real failure sample with that callback in mind — you want one whose
+adjacent pairs all check out.
 
 ## 02 · What a language model outputs
 
