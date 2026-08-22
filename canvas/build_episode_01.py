@@ -118,12 +118,14 @@ sc.add(box(940, 510, 440, 170, bg=BG_RED))
 sc.add(text(965, 535, "<END>", 26, CODE))
 sc.add(text(965, 580, "lets the model learn\nwhen a name is finished",
             22, HAND))
-sc.add(box(120, 720, 1380, 140, bg=BG_YELLOW))
-sc.add(text(150, 745, "<END> is not decoration.", 28, HAND))
-sc.add(text(150, 790,
-            "Without it, the model never predicts stopping — so it isn't describing names, "
-            "it's describing\nendless streams of letters. And nothing would ever penalise it "
-            "for thinking names don't end.", 21, HAND))
+sc.add(box(120, 716, 1380, 150, bg=BG_YELLOW))
+sc.add(text(150, 738, "<END> is not decoration.", 28, HAND))
+sc.add(text(150, 784,
+            "Without it the model can only answer \"what comes next?\" — never "
+            "\"that's the whole name.\"", 22, HAND))
+sc.add(text(150, 820,
+            "P(\"anna\") would then mean P(anything starting with \"anna\") — "
+            "annabelle included.", 22, HAND, RED))
 
 # ============================================================== 06 the window
 sc = cv.scene("06 · The sliding window")

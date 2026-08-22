@@ -92,7 +92,8 @@ Mention the training-split-only vocabulary rule, briefly. It matters in the buil
 
 ## 05 · Boundaries
 
-- **SAY:** "`<END>` is not decoration. Without it the model never predicts stopping, so it isn't describing names — it's describing endless streams of letters."
+- **SAY:** "Without `<END>`, the model can only ever answer *what comes next* — it can never say *that's the whole name*."
+- **THEN:** "P(anna) would really mean P(anything starting with anna). Annabelle included. There'd be no way to say the name ended there."
 - **ALSO SAY:** "`<START>` is where generation begins. Without it the model could only ever continue text — it could never start any."
 - **DRAW:** Underline `<START>` green, `<END>` red as you assign each its job.
 - **BRIDGE:** "Now we can turn this into the only thing the model actually learns from."
