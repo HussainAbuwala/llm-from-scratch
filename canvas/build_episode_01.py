@@ -194,10 +194,18 @@ for i in range(5):
 pairs_anna = ["<START> → a", "a → n", "n → n", "n → a", "a → <END>"]
 sc.add(box(1090, 300, 420, 350, bg=BG_NONE, stroke=GRAY, dash="dotted"))
 sc.add(text(1130, 320, "\n\n".join(pairs_anna), 28, CODE))
-sc.add(text(1090, 680, "5 transitions from a 4-letter name", 22, HAND, GRAY))
-sc.add(box(140, 700, 820, 160, bg=BG_RED))
+sc.add(text(1090, 662, "5 transitions from a 4-letter name", 22, HAND, GRAY))
+# The word "bigram" is used from the file name onward but was never defined.
+# This is where the pairs first exist, so this is where it belongs.
+sc.add(box(1000, 700, 520, 164, bg=BG_YELLOW))
+sc.add(text(1024, 718, "bigram = a pair of adjacent tokens", 24, HAND))
+sc.add(text(1024, 758, "bi = two. Each window frames one.", 19, HAND, GRAY))
+sc.add(text(1024, 790, "unigram 1  ·  bigram 2  ·  trigram 3", 19, CODE, GRAY))
+sc.add(text(1024, 822, "So the context is one token, not two.", 19, HAND, RED))
+
+sc.add(box(140, 700, 820, 164, bg=BG_RED))
 sc.add(text(170, 726, "Direction is the whole point.", 28, HAND))
-sc.add(text(170, 776, "a → n  and  n → a  are different observations,\n"
+sc.add(text(170, 776, "a -> n  and  n -> a  are different observations,\n"
                       "stored in different cells. Never merge them.", 22, HAND))
 
 # ================================================================ 07 tallies
@@ -223,7 +231,7 @@ sc.add(box(90, 620, 620, 230, bg=BG_GREEN))
 sc.add(text(120, 648, "Look only at what leaves 'a':", 26, HAND))
 sc.add(text(120, 700, "a → n        once\na → v        once\na → <END>    twice",
             26, CODE))
-sc.add(text(120, 810, "four observations total → 1/4, 1/4, 2/4", 22, HAND, GREEN))
+sc.add(text(120, 810, "four observations total -> 1/4, 1/4, 2/4", 22, HAND, GREEN))
 
 # ============================================================== 08 the matrix
 sc = cv.scene("09 · The count matrix")
@@ -307,14 +315,14 @@ sc.add(text(240, 392, "a n a n a n a n a n ...", 38, CODE, RED))
 sc.add(box(100, 470, 640, 230, bg=BG_RED))
 sc.add(text(130, 496, "It gets stuck.", 30, HAND))
 sc.add(text(130, 546,
-            "If  a → n  is the biggest thing after a,\n"
-            "and n → a  is the biggest thing after n,\n"
+            "If  a -> n  is the biggest thing after a,\n"
+            "and n -> a  is the biggest thing after n,\n"
             "then there is no way out. Ever.", 22, HAND))
-sc.add(text(130, 660, "→ generation needs a maximum length", 22, HAND, RED))
+sc.add(text(130, 660, "-> generation needs a maximum length", 22, HAND, RED))
 sc.panel(800, 470, 700, 230, "Greedy is not wrong, it is short-sighted", [
     "It picks the best next token, which is not the",
     "same as the best sequence. It will never take a",
-    "lower-probability exit like  a → <END>,  even when",
+    "lower-probability exit like  a -> <END>,  even when",
     "that exit is the only sane move.",
     "",
     "It is deterministic and reproducible, which is",
@@ -467,8 +475,8 @@ sc.add(text(90, 370, "read it as surprise:", 28, HAND))
 sc.table(90, 420, ["− log penalty"], ["100%", "50%", "10%", "1%"],
          [["0.00"], ["0.69"], ["2.30"], ["4.61"]], cw=230, ch=76,
          corner="P on target")
-sc.add(text(90, 800, "confident and right → nearly free.   "
-                     "confident and wrong → expensive.", 24, HAND, GREEN))
+sc.add(text(90, 800, "confident and right -> nearly free.   "
+                     "confident and wrong -> expensive.", 24, HAND, GREEN))
 sc.panel(880, 210, 630, 250, "Why negate at all?", [
     "Because 'higher likelihood is better' and",
     "'lower loss is better' are the same statement,",
@@ -541,7 +549,7 @@ sc.heading("x is in the vocabulary. It just never followed a.")
 sc.table(90, 220, ["n", "v", "<END>", "x"], ["count", "P"],
          [[1, 1, 2, 0], ["0.25", "0.25", "0.50", "0.00"]], cw=150, ch=76,
          corner="", hi_cells={(0, 3), (1, 3)})
-sc.add(text(90, 468, "now suppose held-out data contains  a → x", 26, HAND))
+sc.add(text(90, 468, "now suppose held-out data contains  a -> x", 26, HAND))
 sc.add(box(90, 512, 700, 150, bg=BG_RED))
 sc.add(text(115, 534, "P(word) = 0.6 × 0.2 × 0.00 × 0.4  =  0", 26, CODE))
 sc.add(text(115, 590, "one zero anywhere destroys the entire sequence —\n"
@@ -553,7 +561,7 @@ sc.add(text(115, 772, "the loss is not large. it is undefined. the metric breaks
 sc.add(box(880, 220, 620, 300, bg=BG_YELLOW))
 sc.add(text(910, 250, "Zero is a very strong claim.", 30, HAND))
 sc.add(text(910, 305,
-            "The model is asserting that  a → x  is\nIMPOSSIBLE, on the evidence of "
+            "The model is asserting that  a -> x  is\nIMPOSSIBLE, on the evidence of "
             "a\nfew hundred names.\n\nNot observing something in a small\nsample is not "
             "proof it can't happen.", 22, HAND))
 sc.note(880, 570,
@@ -601,7 +609,7 @@ sc.add(text(115, 282, "pure counts · unbeatable on training data · zeros every
             20, HAND))
 sc.add(box(90, 360, 640, 120, bg=BG_RED))
 sc.add(text(115, 386, "k → very large", 28, CODE))
-sc.add(text(115, 432, "counts drowned by pseudo-counts · every row → uniform",
+sc.add(text(115, 432, "counts drowned by pseudo-counts · every row -> uniform",
             20, HAND))
 sc.add(text(90, 520, "k = 0 wins on training data BY CONSTRUCTION.", 26, HAND, RED))
 sc.add(text(90, 570, "So training loss cannot be the thing we tune k against.\n"
@@ -636,13 +644,13 @@ sc.add(text(120, 320, "a  is in the vocabulary\nx  is in the vocabulary\n"
                       "a → x  was never observed", 26, CODE))
 sc.add(text(120, 460, "The row exists. The column exists.\n"
                       "The cell is simply 0.", 22, HAND))
-sc.add(text(120, 540, "→ smoothing works", 26, HAND, GREEN))
+sc.add(text(120, 540, "-> smoothing works", 26, HAND, GREEN))
 sc.add(box(850, 230, 660, 360, bg=BG_RED))
 sc.add(text(880, 260, "UNSEEN TOKEN", 30, HAND))
 sc.add(text(880, 320, "ø  is not in the vocabulary\nat all", 26, CODE))
 sc.add(text(880, 460, "There is no row, no column,\nand no integer ID.\n"
                       "There is nothing to smooth.", 22, HAND))
-sc.add(text(880, 560, "→ that's a tokenizer problem", 26, HAND, RED))
+sc.add(text(880, 560, "-> that's a tokenizer problem", 26, HAND, RED))
 sc.add(box(90, 650, 1420, 190, bg=BG_YELLOW))
 sc.add(text(120, 678, "What smoothing actually changes is a belief:", 28, HAND))
 sc.add(text(120, 730, "from   \"unseen means impossible\"\n"
@@ -721,8 +729,8 @@ sc.add(text(140, 520, "Two things we need that a count table structurally cannot
             26, HAND, GRAY))
 sc.add(box(140, 580, 620, 200, bg=BG_BLUE))
 sc.add(text(170, 606, "① generalise", 28, HAND))
-sc.add(text(170, 656, "learning that  a → n  is common\nshould say something about  "
-                      "e → n.\nEvery row is currently learned alone.", 21, HAND))
+sc.add(text(170, 656, "learning that  a -> n  is common\nshould say something about  "
+                      "e -> n.\nEvery row is currently learned alone.", 21, HAND))
 sc.add(box(840, 580, 620, 200, bg=BG_VIOLET))
 sc.add(text(870, 606, "② compress", 28, HAND))
 sc.add(text(870, 656, "represent context with a handful of\nnumbers instead of one "

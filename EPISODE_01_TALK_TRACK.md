@@ -154,7 +154,8 @@ never somewhere you can arrive.
 
 ## 07 · The sliding window
 
-- **SAY:** "Training data isn't text. It's ordered pairs."
+- **SAY:** "Training data isn't text. It's ordered pairs. Each pair is a bigram — bi meaning two — which is where the model gets its name."
+- **WATCH FOR:** A bigram model does not look at two tokens of context. It counts *pairs*, and one half of each pair is the thing being predicted, so the context is one token. An n-gram model has context length n−1 — which is why the trigram in scene 28 gives you two characters of history, not three.
 - **DRAW:** Slide the window down, ticking off each pair on the right as you go. Five moves, five ticks.
 - **NUMBERS:** A four-letter name gives five transitions.
 - **BRIDGE:** "`a → n` and `n → a` are different observations. Never merge them."
