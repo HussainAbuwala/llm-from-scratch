@@ -39,11 +39,12 @@ delivery of the ideas, and hand-wavy delivery of the numbers.
 
 ## 01 · Cold open
 
-> **The four names on this scene are invented placeholders.** They came from the
-> example block in the video plan; the program does not exist yet. Replace them
-> with real output before recording this scene, or record it last. Opening a
-> series premised on "I checked this" with fabricated terminal output is the one
-> mistake that costs the most. See `RESEARCH_STANDARD.md`.
+> **The four names here are illustrative, not real output** — the program does not
+> exist yet. That is a deliberate choice and it is fine; illustrative examples are
+> normal throughout this episode. The only thing worth watching is framing: the
+> `$ python bigram.py` line makes it read as a run that happened rather than as an
+> example. Either say "roughly what it will produce" on camera, or drop that one
+> line from the scene. Swap in real samples later if you happen to have them.
 
 What is on screen: `$ python bigram.py` — the program you build in the follow-up
 video — and four names it generated. Three look plausible; `annnava` is broken.
