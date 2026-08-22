@@ -77,8 +77,45 @@ sc.panel(820, 620, 690, 220, "Why one character of context?", [
     "the next token depends only on the last one.",
 ], bg=BG_VIOLET, size=21)
 
+# ========================================================= 04 what vocabulary is
+sc = cv.scene("04 · What \"vocabulary\" means")
+sc.heading("Vocabulary: the set of token types.",
+           "Not the names — those are the data. The vocabulary is what the model is allowed to emit.")
+
+# The same word, tokenised three ways. Only the tokens change; the definition
+# does not. This is the scene that stops "vocabulary" meaning "the words I know".
+sc.add(box(80, 196, 440, 448, bg=BG_NONE, stroke=BLUE, sw=2))
+sc.add(text(106, 216, "CHARACTERS", 26, CODE, BLUE))
+sc.cards(106, 264, ["n", "o", "a", "h"], w=88, h=80, gap=10, size=30)
+sc.add(text(106, 374, "vocabulary =\nevery letter that appears,\nplus <START> and <END>",
+            21, HAND))
+sc.add(text(106, 486, "short vocabulary,\nlong sequences", 21, HAND, GRAY))
+sc.add(box(106, 566, 300, 56, "this episode", 22, HAND, bg=BG_BLUE))
+
+sc.add(box(580, 196, 440, 448, bg=BG_NONE, stroke=GREEN, sw=2))
+sc.add(text(606, 216, "WORDS", 26, CODE, GREEN))
+sc.cards(606, 264, ["noah"], w=200, h=80, size=30, bg=BG_GREEN)
+sc.add(text(606, 374, "vocabulary =\nevery distinct word\nyou have ever seen", 21, HAND))
+sc.add(text(606, 486, "one step per word — but\n\"noahs\" shares nothing with it", 21, HAND, GRAY))
+sc.add(box(606, 566, 300, 56, "a word-level model", 22, HAND, bg=BG_GREEN))
+
+sc.add(box(1080, 196, 440, 448, bg=BG_NONE, stroke=VIOLET, sw=2))
+sc.add(text(1106, 216, "SUBWORD PIECES", 26, CODE, VIOLET))
+sc.cards(1106, 264, ["no", "ah"], w=140, h=80, size=30, bg=BG_VIOLET)
+sc.add(text(1106, 374, "vocabulary =\n~50,000 learned pieces", 21, HAND))
+sc.add(text(1106, 486, "the compromise that\nevery real LLM uses", 21, HAND, GRAY))
+sc.add(box(1106, 566, 340, 56, "episode 13", 22, HAND, bg=BG_VIOLET))
+
+sc.add(box(80, 682, 1440, 150, bg=BG_YELLOW))
+sc.add(text(110, 706, "The definition never changes: the vocabulary is the set of "
+                      "distinct token types.", 28, HAND))
+sc.add(text(110, 754, "Only the tokens change.", 28, HAND))
+sc.add(text(110, 800, "Ours: the letters in the name list, plus two boundary tokens. "
+                      "26 letters + <END> = 27 things that can come next.",
+            21, HAND, RED))
+
 # ============================================================== 04 vocab / ids
-sc = cv.scene("04 · Vocabulary and integer IDs")
+sc = cv.scene("05 · Vocabulary and integer IDs")
 sc.heading("The model never sees a letter.",
            "Characters become integers, because integers are row and column numbers.")
 sc.add(text(120, 210, "vocabulary", 28, HAND, GRAY))
@@ -106,7 +143,7 @@ sc.add(text(120, 742, "so what the model is actually handed:", 20, HAND, GRAY))
 sc.add(text(120, 780, "\"anna\"   →   [2, 3, 3, 2]", 30, CODE, RED))
 
 # =============================================================== 05 boundaries
-sc = cv.scene("05 · Boundaries")
+sc = cv.scene("06 · Boundaries")
 sc.heading("Two invented tokens do two specific jobs.")
 sc.cards(180, 250, ["<START>", "a", "n", "n", "a", "<END>"], w=170, h=100,
          size=26,
@@ -131,7 +168,7 @@ sc.add(text(150, 820,
             "annabelle included.", 22, HAND, RED))
 
 # ============================================================== 06 the window
-sc = cv.scene("06 · The sliding window")
+sc = cv.scene("07 · The sliding window")
 sc.heading("Training data is not text. It is ordered pairs.",
            "Slide a two-token window across the sequence and write down what you see.")
 sc.cards(140, 200, ["<START>", "a", "n", "n", "a", "<END>"], w=140, h=88,
@@ -150,7 +187,7 @@ sc.add(text(170, 776, "a → n  and  n → a  are different observations,\n"
                       "stored in different cells. Never merge them.", 22, HAND))
 
 # ================================================================ 07 tallies
-sc = cv.scene("07 · Counting")
+sc = cv.scene("08 · Counting")
 sc.heading("Training, for this model, is counting.",
            "No optimiser. No gradients. No repeated passes. One walk through the data.")
 sc.add(text(90, 210, "anna", 30, CODE, GRAY))
@@ -175,7 +212,7 @@ sc.add(text(120, 700, "a → n        once\na → v        once\na → <END>    
 sc.add(text(120, 810, "four observations total → 1/4, 1/4, 2/4", 22, HAND, GREEN))
 
 # ============================================================== 08 the matrix
-sc = cv.scene("08 · The count matrix")
+sc = cv.scene("09 · The count matrix")
 sc.heading("Same counts, arranged as a table.",
            "Row = the token we are standing on. Column = the token that came next.")
 sc.add(text(430, 195, "next token", 24, HAND, GRAY))
@@ -198,7 +235,7 @@ sc.panel(830, 640, 680, 210, "So the shape is (V+1) × (V+1)", [
 sc.note(1130, 230, "highlighted row:\nwhat followed 'a'")
 
 # ============================================================ 09 normalisation
-sc = cv.scene("09 · Counts → probabilities")
+sc = cv.scene("10 · Counts → probabilities")
 sc.heading("Counts are not probabilities. Divide by the row total.")
 sc.add(text(100, 220, "row for 'a'", 26, HAND, GRAY))
 sc.table(100, 260, ["a", "n", "v", "<END>"], ["counts"],
@@ -223,7 +260,7 @@ sc.add(text(1175, 665, "This is the\nmaximum-likelihood\nestimate.", 26, HAND))
 sc.add(text(1175, 780, "Remember that phrase —\nwe come back to it.", 20, HAND, GRAY))
 
 # ============================================================ 10 the artefact
-sc = cv.scene("10 · What the model IS")
+sc = cv.scene("11 · What the model IS")
 sc.heading("Stop. This is the finished model.",
            "There is nothing else. No network is hiding behind it.")
 things = [
@@ -244,7 +281,7 @@ sc.add(text(90, 780, "Every model in this series is a better answer to the same 
                      "question this table already answers.", 24, HAND, ORANGE))
 
 # ================================================================= 11 greedy
-sc = cv.scene("11 · Greedy decoding")
+sc = cv.scene("12 · Greedy decoding")
 sc.heading("Generation, attempt one: always take the biggest number.")
 sc.cards(100, 220, ["<START>", "a", "n", "a", "n"], w=150, h=90, size=24,
          bg=BG_GRAY)
@@ -272,7 +309,7 @@ sc.panel(800, 470, 700, 230, "Greedy is not wrong, it is short-sighted", [
 sc.note(980, 232, "(illustration — a constructed\nloop, so the trap is visible)")
 
 # =============================================================== 12 sampling
-sc = cv.scene("12 · Sampling")
+sc = cv.scene("13 · Sampling")
 sc.heading("Generation, attempt two: let the probabilities be odds.")
 sc.add(text(100, 210, "if the row says", 24, HAND, GRAY))
 sc.bars(100, 250, [("a", 0.60), ("b", 0.30), ("c", 0.10)], maxw=300,
@@ -302,7 +339,7 @@ sc.add(text(830, 560,
             21, HAND))
 
 # ========================================================== 13 lucky or good?
-sc = cv.scene("13 · Lucky, or good?")
+sc = cv.scene("14 · Lucky, or good?")
 sc.heading("Eyeballing samples is not evaluation.")
 sc.add(box(120, 230, 460, 200, bg=BG_GREEN))
 sc.add(text(150, 258, "the one I'd tweet", 24, HAND, GRAY))
@@ -319,7 +356,7 @@ sc.add(text(150, 762,
             "consider every\nprediction — not the four I happened to like.", 22, HAND, GRAY))
 
 # ============================================================ 14 answer key
-sc = cv.scene("14 · The answer key")
+sc = cv.scene("15 · The answer key")
 sc.heading("Held-out text tells us what SHOULD have come next.",
            "Generation has no correct answer. Evaluation does — the data supplies it.")
 sc.add(text(100, 200, "held-out word:  \"anna\"", 28, CODE))
@@ -346,7 +383,7 @@ sc.add(text(825, 792, "no counts move, no probability updates. We are taking a "
                       "measurement.", 19, HAND))
 
 # ================================================================= 15 funnel
-sc = cv.scene("15 · Why the probabilities multiply")
+sc = cv.scene("16 · Why the probabilities multiply")
 sc.heading("The whole word happens only if every transition happens.")
 sc.add(text(100, 200, "P(\"ana\") = 0.80 × 0.50 × 0.25 × 0.40 = 0.04", 34, CODE))
 stages = [("100 attempts", 420, BG_GRAY, ""),
@@ -378,7 +415,7 @@ sc.note(900, 570,
         "Which is exactly why long\nsequences end up with\nabsurdly small numbers.")
 
 # =================================================================== 16 logs
-sc = cv.scene("16 · Logarithms, and why we need them")
+sc = cv.scene("17 · Logarithms, and why we need them")
 sc.heading("First the problem, then the tool.")
 sc.add(box(90, 210, 620, 180, bg=BG_RED))
 sc.add(text(115, 236, "0.1 × 0.1 × 0.1 × ... a thousand times", 26, CODE))
@@ -408,7 +445,7 @@ sc.add(text(805, 770, "so their logs are always ≤ 0. Hold that thought.",
             24, HAND))
 
 # ==================================================================== 17 NLL
-sc = cv.scene("17 · Negative log-likelihood")
+sc = cv.scene("18 · Negative log-likelihood")
 sc.heading("Flip the sign, and you have a loss where lower is better.")
 sc.add(box(90, 210, 700, 120, "NLL  =  − log P(correct token)", 36, CODE,
            bg=BG_YELLOW))
@@ -435,7 +472,7 @@ sc.add(text(880, 780, "\"on a typical prediction, how surprised was it?\"",
             22, HAND, GRAY))
 
 # ============================================================== 18 baselines
-sc = cv.scene("18 · Lower than what?")
+sc = cv.scene("19 · Lower than what?")
 sc.heading("An average NLL of 2.4 is meaningless on its own.",
            "A loss only means something next to a reference point. So build two bad models.")
 sc.add(box(90, 240, 440, 250, bg=BG_GRAY))
@@ -462,7 +499,7 @@ sc.add(text(90, 780, "cross-entropy = average NLL in nats        "
                      "perplexity = exp(average NLL)", 26, CODE))
 
 # ========================================================== 19 counting = MLE
-sc = cv.scene("19 · What counting already did")
+sc = cv.scene("20 · What counting already did")
 sc.heading("Now look at what counting already did.")
 sc.add(box(120, 250, 620, 240, bg=BG_GREEN))
 sc.add(text(150, 280, "counts ÷ row total", 32, CODE))
@@ -485,7 +522,7 @@ sc.add(text(150, 718,
             "is broken — and we'll know, because\ntoday gave us the answer key.", 21, HAND))
 
 # ============================================================== 20 zero probs
-sc = cv.scene("20 · The zero")
+sc = cv.scene("21 · The zero")
 sc.heading("x is in the vocabulary. It just never followed a.")
 sc.table(90, 220, ["n", "v", "<END>", "x"], ["count", "P"],
          [[1, 1, 2, 0], ["0.25", "0.25", "0.50", "0.00"]], cw=150, ch=76,
@@ -511,7 +548,7 @@ sc.note(880, 570,
         "estimate.")
 
 # =============================================================== 21 smoothing
-sc = cv.scene("21 · Add-k smoothing")
+sc = cv.scene("22 · Add-k smoothing")
 sc.heading("Give every possible transition a small head start.")
 sc.add(text(90, 200, "observed", 22, HAND, GRAY))
 sc.table(90, 240, ["n", "v", "<END>", "x"], ["count"], [[1, 1, 2, 0]],
@@ -542,7 +579,7 @@ sc.add(text(905, 720, "P(<END> | a) fell from 0.500 to 0.375.\n"
                       "taken from the seen. That is the trade.", 20, HAND))
 
 # ================================================================ 22 the dial
-sc = cv.scene("22 · k is a dial, and it costs you")
+sc = cv.scene("23 · k is a dial, and it costs you")
 sc.heading("Smoothing makes training loss WORSE. On purpose.")
 sc.add(box(90, 210, 640, 120, bg=BG_BLUE))
 sc.add(text(115, 236, "k = 0", 28, CODE))
@@ -577,7 +614,7 @@ sc.add(text(ox, oy + 470, "sweep k, plot both. best experiment in the episode.",
             20, HAND, GRAY))
 
 # ====================================================== 23 transition vs token
-sc = cv.scene("23 · Two different problems")
+sc = cv.scene("24 · Two different problems")
 sc.heading("Smoothing fixes one of these. It cannot touch the other.")
 sc.add(box(90, 230, 660, 360, bg=BG_GREEN))
 sc.add(text(120, 260, "UNSEEN TRANSITION", 30, HAND))
@@ -599,7 +636,7 @@ sc.add(text(120, 730, "from   \"unseen means impossible\"\n"
 sc.note(1150, 810, "(better methods exist: backoff,\ninterpolation, Kneser-Ney — later)")
 
 # ========================================================= 24 context collapse
-sc = cv.scene("24 · Limitation 1: it forgets")
+sc = cv.scene("25 · Limitation 1: it forgets")
 sc.heading("Every history ending in 'a' is the same history.",
            "The model has no way to tell them apart.")
 hist = ["ma", "pa", "za", "The cat sat on the ma"]
@@ -618,7 +655,7 @@ sc.note(1150, 196, "20 characters of context and\n2 characters of context are\n"
                    "indistinguishable to this model.")
 
 # =========================================================== 25 local vs global
-sc = cv.scene("25 · Limitation 2: locally fine, globally nonsense")
+sc = cv.scene("26 · Limitation 2: locally fine, globally nonsense")
 sc.heading("Every adjacent pair below was observed in training.")
 sc.add(text(90, 210, "trained on:", 24, HAND, GRAY))
 sc.add(text(90, 255, "anna     ava", 34, CODE))
@@ -639,7 +676,7 @@ sc.add(text(120, 790, "It also has no representation of meaning, and cannot tran
                       "anything it learns about 'a' to 'e'.", 22, HAND, GRAY))
 
 # ================================================================= 26 the wall
-sc = cv.scene("26 · The obvious fix, and why it fails")
+sc = cv.scene("27 · The obvious fix, and why it fails")
 sc.heading("\"Fine — remember two characters.\"",
            "A trigram model can tell 'ma' from 'pa'. Now count the rows you need.")
 rows = [("1 character of context", "30", BG_GREEN),
@@ -659,7 +696,7 @@ sc.add(text(115, 752, "Almost every one of those rows would be empty or near-emp
 sc.note(1250, 250, "(and this is characters.\nimagine words.)")
 
 # =================================================================== 27 bridge
-sc = cv.scene("27 · The question for episode 2")
+sc = cv.scene("28 · The question for episode 2")
 sc.heading("So we need something counting cannot give us.")
 sc.add(box(140, 260, 1320, 200, bg=BG_YELLOW))
 sc.add(text(175, 300,

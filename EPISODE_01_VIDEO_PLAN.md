@@ -194,7 +194,7 @@ the first makes every later loss number interpretable, and the second is the
 bridge the whole series hangs from.
 
 Scene-by-scene visuals for all of the above are built in
-`canvas/episode_01_bigram.excalidraw` (27 frames, numbered to match this order).
+`canvas/episode_01_bigram.excalidraw` (28 frames, numbered to match this order).
 
 ## 8. Detailed beat sheet
 
