@@ -93,8 +93,15 @@ Mention the training-split-only vocabulary rule, briefly. It matters in the buil
 ## 05 · Boundaries
 
 - **SAY:** "`<END>` is not decoration. Without it the model never predicts stopping, so it isn't describing names — it's describing endless streams of letters."
+- **ALSO SAY:** "`<START>` is where generation begins. Without it the model could only ever continue text — it could never start any."
 - **DRAW:** Underline `<START>` green, `<END>` red as you assign each its job.
 - **BRIDGE:** "Now we can turn this into the only thing the model actually learns from."
+
+The generation-side motivation for `<START>` is the concrete one and is easy to
+leave implicit. Say it here: the model always needs a current token, and on the
+first step there is nothing to condition on unless you invent one. That is also
+why the matrix is asymmetric in scene 08 — `<START>` is somewhere you can be,
+never somewhere you can arrive.
 
 ## 06 · The sliding window
 
@@ -135,7 +142,7 @@ Slow down here. This is the scene where a beginner either gets it or is lost for
 ## 11 · Greedy decoding
 
 - **SAY:** "Greedy picks the best next token, which is not the same as the best sequence."
-- **DRAW:** Trace the path and then circle the loop when it repeats.
+- **DRAW:** Start your pen on `<START>` and say "this is the seed" before tracing. Then circle the loop when it repeats.
 - **BRIDGE:** "It never takes a lower-probability exit, even when that exit is the only sane move."
 
 Say the illustration is constructed. Do not imply it came out of the run.
