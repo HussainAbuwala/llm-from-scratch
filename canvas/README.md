@@ -6,7 +6,7 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | File | Video | Scenes |
 |---|---|---|
 | `series_intro.excalidraw` | Video 0 — series introduction | 10 |
-| `episode_01_bigram.excalidraw` | Episode 1 theory — the smallest language model | 28 |
+| `episode_01_bigram.excalidraw` | Episode 1 theory — the smallest language model | 27 |
 | `thumbnail_ep0.excalidraw` | Video 0 thumbnail — a drawing of the machine | 1 |
 | `channel_intro.excalidraw` | Channel intro — The Unplanned Stack | 12 |
 | `thumbnail_channel.excalidraw` | Channel intro thumbnail — the plan vs what happened | 1 |

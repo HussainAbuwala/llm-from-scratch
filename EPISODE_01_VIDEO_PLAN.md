@@ -170,7 +170,7 @@ but each section should earn its place by advancing the model.
 | 0:00–0:40 | Cold open | Terminal generates several plausible and strange names; quick cuts between outputs and Hussain | A tiny program learned enough structure to create new text |
 | 0:40–1:40 | Personal premise | On-camera introduction to the series and why Hussain wants to understand LLMs from first principles | We are learning and building honestly, not pretending to begin as experts |
 | 1:40–3:20 | What are we building? | Simple animation: context enters, probability bars emerge, one token is chosen, loop repeats | A language model predicts a distribution over the next token |
-| 3:20–5:00 | Make the problem tiny | Name dataset, character cards, vocabulary and integer mappings | Our tokens are characters and our context is one character |
+| 3:20–5:00 | Tokens and vocabulary | One word tokenised three ways; the vocabulary defined; characters mapped to integer IDs | Our tokens are characters, and the vocabulary is the set of token types |
 | 5:00–7:40 | Transitions | Animate START–a–n–n–a–END, then slide a two-token window across it | Training examples become ordered current-token/next-token pairs |
 | 7:40–10:30 | Count matrix | Build a few cells by hand, then reveal the complete matrix or heatmap | Training for this model is counting |
 | 10:30–12:20 | Normalization | Row [0, 1, 1, 2] becomes [0, .25, .25, .50]; four-ticket analogy | A probability row is a normalized count row |
@@ -194,7 +194,7 @@ the first makes every later loss number interpretable, and the second is the
 bridge the whole series hangs from.
 
 Scene-by-scene visuals for all of the above are built in
-`canvas/episode_01_bigram.excalidraw` (28 frames, numbered to match this order).
+`canvas/episode_01_bigram.excalidraw` (27 frames, numbered to match this order).
 
 ## 8. Detailed beat sheet
 
