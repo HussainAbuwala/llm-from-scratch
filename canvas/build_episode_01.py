@@ -66,16 +66,15 @@ sc.add(text(590, 300, "\"anna\"", 44, CODE))
 sc.add(arrow(700, 380, 820, 380))
 sc.cards(840, 330, ["a", "n", "n", "a"])
 sc.add(text(840, 450, "4 tokens, not 1 word", 22, HAND, GRAY))
-sc.panel(80, 620, 700, 220, "Why characters first?", [
-    "The vocabulary is tiny, so the whole model fits on screen.",
-    "Nothing is ever unspellable.",
-    "It is also inefficient — one word costs many prediction steps.",
-], bg=BG_BLUE, size=21)
-sc.panel(820, 620, 690, 220, "Why one character of context?", [
-    "Because we can verify every number by hand.",
-    "This is the Markov assumption, first order:",
-    "the next token depends only on the last one.",
-], bg=BG_VIOLET, size=21)
+sc.add(text(840, 490, "— next scene: what that set of\n   tokens is called", 20, HAND, BLUE))
+# The "why characters" argument now lives in scene 04, next to the comparison
+# that makes it land. This scene keeps the other simplification, which scene 04
+# never touches.
+sc.panel(80, 620, 1430, 220, "Why one character of context?", [
+    "Because every number stays checkable by hand — which is how we catch the code lying.",
+    "This is the Markov assumption, first order: the next token depends only on the last one.",
+    "It is the strongest simplification in this episode, and the one episode 2 goes after.",
+], bg=BG_VIOLET, size=22)
 
 # ========================================================= 04 what vocabulary is
 sc = cv.scene("04 · What \"vocabulary\" means")

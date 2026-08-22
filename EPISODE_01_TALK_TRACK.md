@@ -78,9 +78,18 @@ adjacent pairs all check out.
 
 ## 03 · Make the problem tiny
 
-- **SAY:** "Tokens are characters and context is one character — both are deliberate simplifications, and both get replaced later in the series."
+- **SAY:** "Two decisions, both deliberate. Tokens are characters, and context is one character."
 - **DRAW:** Split `anna` into the four cards with your pen.
-- **BRIDGE:** "First it has to become numbers."
+- **BRIDGE:** "That set of tokens has a name, and it is worth getting right." → scene 04
+
+This scene now carries only the **context** decision in depth; the case for
+characters moved to scene 04, where the three-way comparison makes it land. Do not
+re-argue it here — you would be saying the same thing twice in forty seconds.
+
+Spend the time on "one character of context" instead. It is the strongest
+assumption in the episode and the one episode 2 exists to attack, so naming it as
+the Markov assumption here pays off twice: at scene 25 when histories collapse,
+and at scene 27 when the table explodes.
 
 ## 04 · What "vocabulary" means
 
