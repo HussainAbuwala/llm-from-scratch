@@ -58,7 +58,7 @@ Annotations are throwaway. Before recording a second take, undo them
 (`Cmd+Z`) — or better, work on a **copy** of the file so the source stays clean:
 
 ```bash
-cp canvas/episode_01_bigram.excalidraw canvas/episode_01_bigram.RECORDING.excalidraw
+cp canvas/episode_01_presenter.excalidraw canvas/episode_01_presenter.RECORDING.excalidraw
 ```
 
 ## 4. Installing OBS

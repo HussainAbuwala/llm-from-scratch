@@ -1,6 +1,10 @@
 # Episode 1 Talk Track
 
-Canvas: `canvas/episode_01_bigram.excalidraw` (27 scenes)
+Status: Detailed development reference. The recorded version uses
+[`canvas/episode_01_presenter.excalidraw`](canvas/episode_01_presenter.excalidraw)
+and [`canvas/EPISODE_01_PRESENTER_GUIDE.md`](canvas/EPISODE_01_PRESENTER_GUIDE.md).
+
+Canvas: `canvas/episode_01_bigram.excalidraw` (24 scenes)
 Theory: [EPISODE_01_THEORY.md](EPISODE_01_THEORY.md) · Plan: [EPISODE_01_VIDEO_PLAN.md](EPISODE_01_VIDEO_PLAN.md)
 
 ## How to use this
@@ -24,32 +28,25 @@ What you want is four things per scene, which is what this file gives you:
 
 **Episode 1 has two kinds of scene and they want opposite treatment:**
 
-- **Mechanical scenes** — 07 to 09, 15 to 18, 20 to 22. Arithmetic on screen.
+- **Mechanical scenes** — 07 to 09 and 11 to 20. Arithmetic on screen.
   Say the numbers precisely and slowly; work them on camera. Precision is the
   product here.
-- **Conceptual scenes** — 01 to 06, 10 to 14, 19, 23 to 27. Conviction, not
+- **Conceptual scenes** — 01 to 06, 10, 13, and 21 to 24. Conviction, not
   precision. Bullets only, improvise the wording, let yourself be informal.
 
 Getting these backwards is the main way this episode goes wrong: rehearsed
 delivery of the ideas, and hand-wavy delivery of the numbers.
 
-**One take per scene**, not one take per video. 27 short takes are recoverable.
+**One take per scene**, not one take per video. 24 short takes are recoverable.
 
 ---
 
 ## 01 · Cold open
 
-> **The four names here are illustrative, not real output** — the program does not
-> exist yet. That is a deliberate choice and it is fine; illustrative examples are
-> normal throughout this episode. The only thing worth watching is framing: the
-> `$ python bigram.py` line makes it read as a run that happened rather than as an
-> example. Either say "roughly what it will produce" on camera, or drop that one
-> line from the scene. Swap in real samples later if you happen to have them.
+What is on screen: the complete toy training corpus and four sequences that its
+probability table can produce. Nothing is presented as code output yet.
 
-What is on screen: `$ python bigram.py` — the program you build in the follow-up
-video — and four names it generated. Three look plausible; `annnava` is broken.
-
-- **SAY:** "These came out of a program with no neural network, no attention, and a memory of exactly one character."
+- **SAY:** "Today we will make every number in a real language model small enough to check by hand. In the next video, we will implement the same concepts on a larger dataset."
 - **DRAW:** Take the pen and circle the broken one — **not** the good ones.
 - **BRIDGE:** "That sounds almost useless. It is also the smallest thing that is honestly a language model."
 
@@ -60,7 +57,7 @@ video — and four names it generated. Three look plausible; `annnava` is broken
    the person who noticed.
 2. It states the honest claim in the first fifteen seconds — this works, and it
    also produces garbage — which is the tone the whole series runs on.
-3. It is a seed you harvest in scene 25. Trained on `anna` and `ava`, every
+3. It is a seed you harvest in scene 22. Trained on `anna` and `ava`, every
    adjacent pair in `annnava` was genuinely observed: `a→n`, `n→n`, `n→a`,
    `a→v`, `v→a`. Every neighbouring step is legitimate and the whole word is
    still nonsense. Circling it here and calling back to it later makes the
@@ -80,7 +77,7 @@ adjacent pairs all check out.
 
 - **SAY:** "The vocabulary is the set of token types. It is not the names — the names are the data. The vocabulary is what the model is allowed to emit."
 - **DRAW:** Sweep across the three panels left to right as you name them: characters, words, subword pieces.
-- **NUMBERS:** Ours is the letters in the name list plus two boundary tokens. 26 letters + `<END>` = 27 things that can come next. Flag that number; it returns in scene 18.
+- **NUMBERS:** The worked vocabulary has three ordinary characters: `a`, `n`, `v`. Including `<END>`, there are four allowed next-token outcomes. `<START>` is a context, not an outcome.
 - **BRIDGE:** "Ours is characters. So now every one of them needs a number."
 
 **Keep this to 30–45 seconds.** It is a definition scene, not a tokenization
@@ -125,7 +122,7 @@ never somewhere you can arrive.
 ## 06 · The sliding window
 
 - **SAY:** "Training data isn't text. It's ordered pairs. Each pair is a bigram — bi meaning two — which is where the model gets its name."
-- **WATCH FOR:** A bigram model does not look at two tokens of context. It counts *pairs*, and one half of each pair is the thing being predicted, so the context is one token. An n-gram model has context length n−1 — which is why the trigram in scene 27 gives you two characters of history, not three.
+- **WATCH FOR:** A bigram model does not look at two tokens of context. It counts *pairs*, and one half of each pair is the thing being predicted, so the context is one token. An n-gram model has context length n−1 — which is why the trigram in scene 23 gives you two characters of history, not three.
 - **DRAW:** Slide the window down, ticking off each pair on the right as you go. Five moves, five ticks.
 - **NUMBERS:** A four-letter name gives five transitions.
 - **BRIDGE:** "`a → n` and `n → a` are different observations. Never merge them."
@@ -159,25 +156,30 @@ Slow down here. This is the scene where a beginner either gets it or is lost for
 - **DRAW:** Box the three artefacts, then underline `P(next | current)`.
 - **BRIDGE:** "Saving this model means saving a table of numbers. So — can it write anything?"
 
-## 11 · Greedy decoding
+## 11 · Generate one example  ·  *mechanical*
 
-- **SAY:** "Greedy picks the best next token, which is not the same as the best sequence."
-- **DRAW:** Start your pen on `<START>` and say "this is the seed" before tracing. Then circle the loop when it repeats.
-- **BRIDGE:** "It never takes a lower-probability exit, even when that exit is the only sane move."
+- **SAY:** "Generation is not a new model. It is repeated lookup and sampling from the fixed table we just trained."
+- **DRAW:** Trace `<START> → a → n → a → <END>` one token at a time. At each arrow, point back to the exact probability row that supplied the number.
+- **NUMBERS:** 1.00, 0.25, 0.50, 0.50. Output: `ana`.
+- **BRIDGE:** "Those numbers describe the choices. They do not tell us how to choose."
 
-Say the illustration is constructed. Do not imply it came out of the run.
+This is the explicit post-training generation walkthrough. Pause at `a`: `<END>`
+is the largest value, but sampling can still select `n` with probability 0.25.
 
-## 12 · Sampling
+## 12 · Greedy versus sampling
 
-- **SAY:** "Treat the probabilities as odds, not as a ranking."
-- **DRAW:** Count out the 60/30/10 ticket strip.
-- **NUMBERS:** 60, 30, 10 out of 100.
-- **BRIDGE:** "Greedy shows you one path through the model. Sampling shows you the model."
+- **SAY:** "Greedy and sampling query the same table. Only the selection rule changes."
+- **DRAW:** Trace greedy on the left, then the sampled path on the right.
+- **NUMBERS:** Greedy produces `a` because `P(END|a)=0.50` is the row maximum. Sampling can produce `ana` by taking the 0.25 `a→n` branch.
+- **BRIDGE:** "A generated word can look convincing. That still does not tell us whether the model is good."
+
+Mention the maximum-length guard once. It is an implementation requirement for
+the next video, not another decoding lesson.
 
 ## 13 · Lucky, or good?
 
 - **SAY:** "Is the model good, or did I get lucky and pick the one I liked?"
-- **DRAW:** Circle `marin`, then cross out the failures one by one.
+- **DRAW:** Circle `ana`, then cross out the weaker toy-table samples one by one.
 - **BRIDGE:** "We need one number I cannot flatter myself with."
 
 This is the hinge of the episode. Let the pause sit before you answer it.
@@ -186,14 +188,14 @@ This is the hinge of the episode. Let the pause sit before you answer it.
 
 - **SAY:** "During generation there is no correct answer. During evaluation, the held-out text supplies one."
 - **DRAW:** Highlight the true-target column, then the bar for row 2.
-- **NUMBERS:** Illustrative — say so. Row 2: greedy would have said `<END>`; we record the 0.25 it gave to `n`.
+- **NUMBERS:** Exact toy-table values: `<START>→a` 1.00, `a→n` 0.25, `n→a` 0.50, `a→END` 0.50.
 - **BRIDGE:** "Evaluation never changes the model. We are taking a measurement."
 
 ## 15 · Why the probabilities multiply  ·  *mechanical*
 
 - **SAY:** "Each multiplication takes a fraction of whatever survived the step before."
 - **DRAW:** Walk down the funnel writing each survivor count.
-- **NUMBERS:** 100 → ×0.80 → 80 → ×0.50 → 40 → ×0.25 → 10 → ×0.40 → 4. So P = 0.04.
+- **NUMBERS:** 16 → ×1.00 → 16 → ×0.25 → 4 → ×0.50 → 2 → ×0.50 → 1. So P(`ana`) = 1/16 = 0.0625.
 - **BRIDGE:** "Now do that for a thousand tokens instead of four."
 
 Name the chain rule once. Don't dwell.
@@ -202,62 +204,50 @@ Name the chain rule once. Don't dwell.
 
 - **SAY:** "The problem comes first: multiply a thousand small numbers and your computer rounds it to zero."
 - **DRAW:** Write `10³ = 1000` then the log underneath it.
-- **NUMBERS:** ln 0.80 ≈ −0.22, ln 0.50 ≈ −0.69, ln 0.25 ≈ −1.39, ln 0.40 ≈ −0.92. Sum ≈ −3.22. And ln(0.04) ≈ −3.22 — the same number.
+- **NUMBERS:** ln 1.00 = 0, ln 0.25 ≈ −1.39, ln 0.50 ≈ −0.69 twice. Sum ≈ −2.77. And ln(0.0625) ≈ −2.77 — the same number.
 - **BRIDGE:** "Probabilities are at most 1, so their logs are never positive. Which is awkward for a score."
 
-Do the addition on camera. The two −3.22s matching is the moment logs stop being scary.
+Do the addition on camera. The two −2.77s matching is the moment logs stop being scary.
 
 ## 17 · Negative log-likelihood  ·  *mechanical*
 
-- **SAY:** "Flip the sign and you have a loss where lower is better — and every optimiser we meet from episode 3 pushes numbers down."
-- **DRAW:** Read the surprise table row by row.
-- **NUMBERS:** 100% → 0.00; 50% → 0.69; 10% → 2.30; 1% → 4.61.
-- **BRIDGE:** "Total penalty grows with the amount of text, so divide by the number of transitions."
+- **SAY:** "Negate each log probability, add the penalties, then divide by four. That gives the model's average surprise per transition."
+- **DRAW:** Work down the four exact transitions, then perform the final division.
+- **NUMBERS:** 0.000 + 1.386 + 0.693 + 0.693 = 2.772. Divide by 4: average NLL = 0.693 nats per transition.
+- **BRIDGE:** "Now we have a number. But a number is meaningless until we compare it with something."
 
 ## 18 · Lower than what?  ·  *mechanical*
 
-- **SAY:** "An average NLL of 2.4 means nothing on its own."
+- **SAY:** "An average NLL of 0.693 means nothing on its own."
 - **DRAW:** Draw the two arrows left to right as you build up the comparison.
-- **NUMBERS:** Uniform = ln(V+1); for V=26 that is ln(27) ≈ 3.30. Bigram must beat unigram or one character of context bought nothing.
-- **BRIDGE:** "Same number, two names you'll see everywhere: cross-entropy and perplexity."
+- **NUMBERS:** Uniform NLL 1.386; unigram NLL 1.158; bigram NLL 0.693, all evaluated on `ana` with the toy training corpus.
+- **BRIDGE:** "For this example, one character of context helped. Now we have to confront the zeros that counting creates."
 
-This scene did not exist in your first draft and it is the most useful one in the episode. Don't rush it.
+The coding episode will recompute these baselines on the larger dataset. The
+concept and comparison remain; the values should change.
 
-## 19 · What counting already did
+## 19 · The zero  ·  *mechanical*
 
-- **SAY:** "Dividing counts by row totals isn't just reasonable — it's the exact minimiser of the loss we just defined."
-- **DRAW:** Arrow from the left box to the right box as you say "episode 3 will crawl there with gradients."
-- **BRIDGE:** "Which gives us the answer key for the next model. If the network doesn't reach roughly this number, the training code is broken."
+- **SAY:** "Both characters are known. The model assigns zero only because this particular ordered pair never appeared."
+- **DRAW:** Circle `v→n`, then the zero probability, then the infinite penalty.
+- **NUMBERS:** `v` row = [1,0,0,0] over [a,n,v,END]. `P(n|v)=0`. `P(avna)=0`.
+- **BRIDGE:** "We need to reserve a little probability for transitions absent from a tiny sample."
 
-The single most important sentence in the whole series. Say it twice, differently.
+Use `v→n` because it comes directly from the same `{anna, ava}` table. No new
+character or second hidden corpus is introduced.
 
-## 20 · The zero
+## 20 · Add-k smoothing  ·  *mechanical*
 
-- **SAY:** "Zero is a very strong claim. It says `a → x` is impossible, on the evidence of a few hundred names."
-- **DRAW:** Circle the 0, then the 0.00 under it, then write `∞`.
-- **NUMBERS:** One zero anywhere makes the whole product zero. −log(0) is undefined, not large.
-- **BRIDGE:** "So the fix has to deliberately move away from the maximum-likelihood estimate."
+- **SAY:** "Add one to every allowed cell, not only to the cell that caused trouble."
+- **DRAW:** Add the four pseudo-counts, update the total, then normalize.
+- **NUMBERS:** [1,0,0,0] → [2,1,1,1], total 5 → [0.40,0.20,0.20,0.20]. `P(n|v)` rises from 0 to 0.20; `P(a|v)` falls from 1.00 to 0.40.
+- **BRIDGE:** "The model now handles unseen pairs, but it still remembers only one character."
 
-## 21 · Add-k smoothing  ·  *mechanical*
+State the practical coding rule without adding another frame: make `k`
+configurable and compare choices on validation data. Smoothing cannot create a
+token that is missing from the vocabulary.
 
-- **SAY:** "The `k × A` in the denominator is not optional — we added k to A cells, so the total grew by k times A."
-- **DRAW:** Write +1 into each cell, then the new total, then each new probability.
-- **NUMBERS:** [1,1,2,0] → [2,2,3,1], total 8 → 0.250, 0.250, 0.375, 0.125. `P(<END>|a)` fell from 0.500 to 0.375.
-- **BRIDGE:** "Nothing is free. Probability given to the unseen is taken from the seen."
-
-## 22 · k is a dial, and it costs you  ·  *mechanical*
-
-- **SAY:** "Smoothing makes the training loss worse, on purpose. k = 0 is unbeatable on training data by construction."
-- **DRAW:** Draw both curves yourself, training first, then validation. Mark where you'd pick k.
-- **BRIDGE:** "The setting that makes training loss lowest is not the setting that generalises best. That's the whole field in one line."
-
-## 23 · Two different problems
-
-- **SAY:** "Smoothing changes a belief: from 'unseen means impossible' to 'unseen means unlikely'."
-- **DRAW:** Tick the green panel, cross the red one.
-- **BRIDGE:** "An unknown character is a tokenizer problem, and we'll fix it much later."
-
-## 24 · Limitation 1: it forgets
+## 21 · Limitation 1: it forgets
 
 - **SAY:** "Twenty characters of context and two characters of context are the same thing to this model."
 - **DRAW:** Draw all four arrows into the single row, one at a time, deliberately.
@@ -265,24 +255,29 @@ The single most important sentence in the whole series. Say it twice, differentl
 
 The repetition of drawing four arrows into one box is the argument. Don't shortcut it.
 
-## 25 · Limitation 2: locally fine, globally nonsense
+## 22 · Limitation 2: locally fine, globally nonsense
 
 - **SAY:** "Every adjacent pair in that word was observed in training. The whole word is still garbage."
 - **DRAW:** Check off each pair in `annnnavannava` against the learned list.
 - **BRIDGE:** "Local correctness does not compose into global coherence."
 
-## 26 · The obvious fix, and why it fails
+## 23 · The obvious fix, and why it fails
 
 - **SAY:** "Fine — remember two characters. Now count the rows you need."
 - **DRAW:** Write each number as you say it. Let the last one land.
 - **NUMBERS:** 30 → 900 → 27,000 → and for ten characters, about 590 trillion.
 - **BRIDGE:** "Almost all of those rows would be empty. More context makes the table sparser and the zeros worse."
 
-## 27 · The question for episode 2
+## 24 · Next: implement the same concepts
 
 - **SAY:** "How can a model use more context, and share what it learns between similar contexts, without storing a number for every possible history?"
 - **DRAW:** Underline "generalise" and "compress".
-- **BRIDGE:** Stop. Do not answer it.
+- **BRIDGE:** "Before replacing counting, the next video implements this complete count-based model on a larger names dataset. The concepts stay the same; the numbers become real."
+
+Do not promise that the coding episode reproduces the toy values. Its checks
+are structural: pair extraction is correct, probability rows sum to one,
+generation follows the lookup loop, evaluation uses held-out targets, and
+smoothing removes zero-probability transitions.
 
 ---
 
@@ -292,6 +287,6 @@ Do one pass out loud with the canvas open and nothing else, timing yourself per
 scene. Anything under 30 seconds is probably being read. Anything over 2 minutes
 has two scenes' worth of content in it and should be split.
 
-Episode 0 ran 11:20 against a 7–9 minute plan. Expect the same stretch here —
-so budget for 40 minutes, and if it lands there, that is fine. This one is
-allowed to be long.
+The canvas is now four scenes shorter and keeps one numerical example throughout.
+Budget roughly 30–35 minutes. If rehearsal passes 35, shorten the vocabulary
+comparison and the context-growth bridge before cutting the mechanical trace.

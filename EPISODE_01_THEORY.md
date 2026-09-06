@@ -1,6 +1,11 @@
 # Episode 1 Theory: The Smallest Language Model
 
-Status: Learning draft
+Status: Detailed development reference
+
+The concise audience handout is
+[`docs/episode-01-theory.pdf`](docs/episode-01-theory.pdf), with its editable
+source in [`docs/episode-01-theory.md`](docs/episode-01-theory.md). The recorded
+presentation uses the 40-frame presenter canvas in `canvas/`.
 
 Research policy: [RESEARCH_STANDARD.md](RESEARCH_STANDARD.md)
 
@@ -10,6 +15,12 @@ In this episode we will build a character-level bigram language model. It will
 read a collection of text examples, count which characters follow which other
 characters, convert those counts into probabilities, and generate new text one
 character at a time.
+
+This is the theory episode. We use the deliberately tiny training corpus
+`{anna, ava}` so that every count, probability, generated path, and evaluation
+score can be checked by hand. In the following coding episode we will implement
+the same concepts on a larger names dataset. The numbers will change; the
+pipeline and its invariants will not.
 
 This is an established kind of language model, not a modern LLM and not yet a
 neural network. We are using it because every part of the language-modeling
@@ -607,10 +618,11 @@ Evaluation asks:
 
 ### Where does the correct token come from?
 
-The evaluation data supplies it. If an evaluation example is anna:
+The evaluation data supplies it. Our held-out example is ana, which was not
+used to create the counts:
 
 ~~~text
-<START> a n n a <END>
+<START> a n a <END>
 ~~~
 
 then the evaluation input-target pairs are:
@@ -619,7 +631,6 @@ then the evaluation input-target pairs are:
 input       correct target
 <START>  -> a
 a        -> n
-n        -> n
 n        -> a
 a        -> <END>
 ~~~
@@ -627,7 +638,7 @@ a        -> <END>
 For the pair a -> n, the input is a and the correct target is n because n
 actually appears next in the evaluation example.
 
-Suppose the model predicts:
+The probability table trained on `{anna, ava}` gives:
 
 ~~~text
 n       25%   <- correct target
@@ -643,40 +654,40 @@ provides one.
 
 ### Combining transition probabilities
 
-Suppose the evaluation example is ana and the model assigns:
+For the held-out example ana, the same table assigns:
 
 ~~~text
-P(a | <START>) = 0.80
-P(n | a)       = 0.50
-P(a | n)       = 0.25
-P(<END> | a)   = 0.40
+P(a | <START>) = 1.00
+P(n | a)       = 0.25
+P(a | n)       = 0.50
+P(<END> | a)   = 0.50
 ~~~
 
 For the complete sequence to occur, every transition must occur in order:
 
 ~~~text
 P(ana) =
-0.80 × 0.50 × 0.25 × 0.40
-= 0.04
+1.00 × 0.25 × 0.50 × 0.50
+= 0.0625
 ~~~
 
 This is the probability of one complete path through the model.
 
-An intuitive interpretation uses 100 generation attempts:
+An intuitive interpretation uses 16 generation attempts:
 
 ~~~text
-100 attempts
-  ↓ 80% choose a
-80 attempts
-  ↓ 50% choose n
-40 attempts
-  ↓ 25% choose a
-10 attempts
-  ↓ 40% choose END
+16 attempts
+  ↓ 100% choose a
+16 attempts
+  ↓ 25% choose n
 4 attempts
+  ↓ 50% choose a
+2 attempts
+  ↓ 50% choose END
+1 attempt
 ~~~
 
-Approximately 4 of 100 attempts follow exactly that path. Each multiplication
+Approximately 1 of 16 attempts follows exactly that path. Each multiplication
 takes a fraction of the possibilities that survived the previous step.
 
 The precise sequential probability rule is:
@@ -730,20 +741,20 @@ replace that unstable product with a manageable sum.
 For ana:
 
 ~~~text
-ln(0.80) ≈ -0.22
-ln(0.50) ≈ -0.69
+ln(1.00) =  0.00
 ln(0.25) ≈ -1.39
-ln(0.40) ≈ -0.92
+ln(0.50) ≈ -0.69
+ln(0.50) ≈ -0.69
 
-sum ≈ -3.22
+sum ≈ -2.77
 ~~~
 
 This equals:
 
 ~~~text
-ln(0.80 × 0.50 × 0.25 × 0.40)
-= ln(0.04)
-≈ -3.22
+ln(1.00 × 0.25 × 0.50 × 0.50)
+= ln(0.0625)
+≈ -2.77
 ~~~
 
 Probabilities are between 0 and 1, so their natural logarithms are zero or
@@ -785,6 +796,18 @@ total number of evaluated transitions
 This answers:
 
 > On a typical next-token prediction, how surprised was the model?
+
+For our held-out word ana, the four penalties are:
+
+~~~text
+<START> -> a       -ln(1.00) = 0.000
+a       -> n       -ln(0.25) = 1.386
+n       -> a       -ln(0.50) = 0.693
+a       -> <END>   -ln(0.50) = 0.693
+
+average NLL = (0.000 + 1.386 + 0.693 + 0.693) / 4
+            = 0.693 nats per transition
+~~~
 
 For a line-based word dataset, transitions are constructed separately inside
 each word. We do not create a transition from the end of one word into the
@@ -830,13 +853,22 @@ prediction is 1 / (V + 1) and the average NLL is exactly:
 ln(V + 1)
 ~~~
 
-For V = 26 that is ln(27) ≈ 3.30. Any model that has learned anything at all
-must beat this number.
+In our worked corpus V = 3 (`a`, `n`, and `v`), so there are four allowed next
+tokens. The uniform evaluation NLL is therefore ln(4) ≈ 1.386.
 
-**Unigram baseline.** Use each character's overall frequency and ignore the
-context entirely: P(next token), with no conditioning. This is a genuinely
-informative model — it knows that `a` is common and `q` is rare — and it is the
-number our bigram model must beat in order to claim that *context* helped.
+**Unigram baseline.** Use each next token's overall training frequency and
+ignore the context entirely: P(next token), with no conditioning. The nine
+training targets from `anna` and `ava` have counts:
+
+~~~text
+a       4
+n       2
+v       1
+<END>   2
+~~~
+
+Scoring the held-out word `ana` with those frequencies gives an average NLL of
+approximately 1.158.
 
 The comparison we actually care about is therefore three-way:
 
@@ -846,9 +878,17 @@ unigram     knows which characters are common
 bigram      knows which characters follow which
 ~~~
 
-If the bigram model does not beat the unigram model on held-out data, then one
-character of context bought us nothing, and we should understand why before
-building anything larger.
+For this worked example:
+
+~~~text
+uniform evaluation NLL   1.386
+unigram evaluation NLL   1.158
+bigram evaluation NLL    0.693
+~~~
+
+The bigram is better on this held-out example, so one character of context
+helped. On the larger coding dataset we will recompute all three numbers; we do
+not expect the toy values themselves to carry over.
 
 ### Two familiar names for this same number
 
@@ -867,26 +907,26 @@ measurement wearing different clothes, and it is worth being able to recognize.
 
 ## 11. Smoothing and unseen transitions
 
-Suppose x is already a known vocabulary character because it appears elsewhere
-in the training set, but x never followed a. The row counts might be:
+Our training corpus already supplies a clean unseen transition: both `v` and
+`n` are known, but `n` never followed `v`. Across the complete allowed next-token
+set `[a, n, v, <END>]`, the row for `v` is:
 
 ~~~text
-next token    n   v  <END>  x
-count         1   1    2    0
+next token    a   n   v  <END>
+count         1   0   0    0
+probability  1.0 0.0 0.0  0.0
 ~~~
 
-Without smoothing:
+If evaluation contains `v -> n`, that transition has zero probability. For
+example, `avna` contains only known characters but includes the unseen pair:
 
 ~~~text
-P(n | a)     = 25%
-P(v | a)     = 25%
-P(END | a)   = 50%
-P(x | a)     = 0%
+P("avna") = 1.00 × 0.25 × 0.00 × 0.50 × 0.50 = 0
 ~~~
 
-If evaluation contains a -> x, that transition has zero probability. The
-complete sequence probability becomes zero because the factors multiply. Its
-negative log penalty is unbounded because log(0) approaches negative infinity.
+The complete sequence probability becomes zero because the factors multiply.
+Its negative log penalty is unbounded because log(0) approaches negative
+infinity.
 
 Zero is usually too confident for limited data. Not observing a transition is
 not proof that it is impossible.
@@ -897,21 +937,22 @@ Add-one, or Laplace, smoothing adds one pseudo-count to every allowed outcome
 before normalization:
 
 ~~~text
-original counts    [1, 1, 2, 0]
-smoothed counts    [2, 2, 3, 1]
-new total           8
+outcomes            [a, n, v, END]
+original counts     [1, 0, 0, 0]
+smoothed counts     [2, 1, 1, 1]
+new total            5
 ~~~
 
 The probabilities become:
 
 ~~~text
-P(n | a)     = 2/8 = 25%
-P(v | a)     = 2/8 = 25%
-P(END | a)   = 3/8 = 37.5%
-P(x | a)     = 1/8 = 12.5%
+P(a | v)     = 2/5 = 40%
+P(n | v)     = 1/5 = 20%
+P(v | v)     = 1/5 = 20%
+P(END | v)   = 1/5 = 20%
 ~~~
 
-The pseudo-count does not claim that x appeared after a. It represents
+The pseudo-count does not claim that n appeared after v. It represents
 uncertainty: reserve some probability for possibilities absent from a limited
 sample.
 
@@ -930,9 +971,9 @@ smoothed count = observed count + k
 For k = 0.1:
 
 ~~~text
-original counts    [1,   1,   2,   0]
-smoothed counts    [1.1, 1.1, 2.1, 0.1]
-new total           4.4
+original counts    [1,   0,   0,   0]
+smoothed counts    [1.1, 0.1, 0.1, 0.1]
+new total           1.4
 ~~~
 
 This reserves a smaller amount of probability for unseen transitions.
@@ -994,8 +1035,8 @@ An unseen transition means both characters are in the vocabulary, but that pair
 was not observed:
 
 ~~~text
-a and x are known
-a -> x was unseen
+v and n are known
+v -> n was unseen
 ~~~
 
 Smoothing can help.
@@ -1108,9 +1149,12 @@ These limitations motivate the next question:
 That leads toward learned representations, neural networks, and eventually
 attention and Transformers.
 
-## 13. What we will implement
+## 13. What the following coding episode will implement
 
-The Episode 1 implementation will:
+The coding episode will use a larger line-based names dataset. It will implement
+the same concepts developed here, but its vocabulary, counts, probability rows,
+generated names, and loss values will naturally differ from the toy example.
+It will:
 
 1. Load a small line-based dataset.
 2. Split examples into training, validation, and test sets deterministically.

@@ -6,7 +6,8 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | File | Video | Scenes |
 |---|---|---|
 | `series_intro.excalidraw` | Video 0 — series introduction | 10 |
-| `episode_01_bigram.excalidraw` | Episode 1 theory — the smallest language model | 27 |
+| `episode_01_presenter.excalidraw` | Episode 1 theory — recorded presenter canvas | 40 |
+| `episode_01_bigram.excalidraw` | Episode 1 theory — detailed development reference | 24 |
 | `thumbnail_ep0.excalidraw` | Video 0 thumbnail — a drawing of the machine | 1 |
 | `channel_intro.excalidraw` | Channel intro — The Unplanned Stack | 12 |
 | `thumbnail_channel.excalidraw` | Channel intro thumbnail — the plan vs what happened | 1 |
@@ -26,7 +27,8 @@ See [../RECORDING_SETUP.md](../RECORDING_SETUP.md) for the recording layout.
 ## Regenerate after editing the scripts
 
 ```bash
-python3 build_series_intro.py && python3 build_episode_01.py
+python3 build_series_intro.py
+python3 build_episode_01_presenter.py
 ```
 
 Regenerating **overwrites** the `.excalidraw` files. If you hand-edit a canvas in
@@ -34,7 +36,7 @@ Excalidraw and want to keep those edits, either save under a new name or port th
 change back into the build script. For recording annotations, work on a copy:
 
 ```bash
-cp episode_01_bigram.excalidraw episode_01_bigram.RECORDING.excalidraw
+cp episode_01_presenter.excalidraw episode_01_presenter.RECORDING.excalidraw
 ```
 
 ## Proofread without opening Excalidraw
@@ -52,7 +54,9 @@ catching overlapping elements and overflowing text. Open it in any browser.
 - `excalidraw_kit.py` — scene builder: elements, frames, and composite helpers
   (`cards`, `bars`, `table`, `tickets`, `panel`).
 - `build_series_intro.py` — video 0 content.
-- `build_episode_01.py` — episode 1 content.
+- `build_episode_01_presenter.py` — the 40-frame Episode 1 recording canvas and
+  presenter guide.
+- `build_episode_01.py` — the longer Episode 1 development canvas.
 - `build_channel_intro.py` — channel intro content (channel-level, not part of
   the LLM series; here because the toolchain is here).
 - `render_preview.py` — proofreading renderer (HTML/SVG contact sheet).

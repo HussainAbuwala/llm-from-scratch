@@ -1,6 +1,10 @@
 # Episode 1 Video Plan: The Smallest Language Model
 
-Status: Working production plan
+Status: Detailed development reference
+
+The recorded cut follows
+[`canvas/episode_01_presenter.excalidraw`](canvas/episode_01_presenter.excalidraw)
+and its presenter guide. This file preserves the longer planning rationale.
 
 Series: Building an LLM From First Principles
 
@@ -8,8 +12,9 @@ Theory source: [EPISODE_01_THEORY.md](EPISODE_01_THEORY.md)
 
 ## 1. Episode purpose
 
-Episode 1 should give the viewer a complete, working language model before
-introducing neural networks.
+Episode 1 is the theory episode. It should give the viewer a complete mental
+model of a count-based language model before any implementation appears. The
+following episode will code the same concepts on a larger names dataset.
 
 The viewer should leave understanding this loop:
 
@@ -25,9 +30,9 @@ next-token probabilities
 generation and evaluation
 ~~~
 
-The model will be a character-level count-based bigram model trained on a
-line-based collection of names. It will generate new name-like sequences one
-character at a time.
+The worked model is a character-level count-based bigram trained on the tiny
+corpus `{anna, ava}`. The held-out word `ana` provides one coherent path through
+generation, likelihood, logarithms, NLL, and baselines.
 
 The episode is not trying to make a useful assistant. It is trying to expose
 the complete language-modeling framework in a form small enough to see.
@@ -36,7 +41,7 @@ the complete language-modeling framework in a form small enough to see.
 
 By the end of the episode, the viewer will:
 
-- Build a real, minimal language model without a neural network.
+- Understand a real, minimal language model without a neural network.
 - Understand next-token prediction as a probability distribution.
 - See how training text becomes transition counts.
 - Convert counts into probabilities.
@@ -44,7 +49,8 @@ By the end of the episode, the viewer will:
 - Evaluate the model on unseen examples using average NLL.
 - Understand why smoothing is needed.
 - See exactly why a one-character model is limited.
-- Know what problem the next episode must solve.
+- Be ready to implement the same concepts on a realistic dataset in the next
+  episode without expecting the toy values to remain the same.
 
 The emotional promise is:
 
@@ -55,7 +61,7 @@ The emotional promise is:
 
 ### Recommended working title
 
-**I Built the Smallest Language Model — No Neural Network**
+**The Smallest Language Model, Explained by Hand**
 
 ### Alternative titles
 
@@ -107,31 +113,22 @@ used.
 
 ## 5. Final artifact shown in the episode
 
-The finished program should:
+The final artifact is the complete hand-worked model:
 
-1. Load a line-based dataset.
-2. Split examples into training, validation, and test sets.
-3. Build a character vocabulary.
-4. Count bigram transitions from the training split.
-5. Apply configurable add-k smoothing.
-6. Normalize counts into probability rows.
-7. Print or visualize selected rows.
-8. Generate examples using greedy decoding.
-9. Generate examples using weighted sampling.
-10. Calculate average NLL for training and validation data.
-11. Report the uniform and unigram baselines beside the bigram score.
-12. Sweep k and print training and validation NLL side by side.
-13. Show at least one failure caused by one-character context.
+1. Training corpus `{anna, ava}`.
+2. Vocabulary and integer mappings.
+3. Every boundary-aware bigram transition.
+4. The complete count matrix and normalized rows.
+5. One sampled generation: `START → a → n → a → END`.
+6. Held-out evaluation of `ana`, ending at average NLL `0.693`.
+7. Uniform and unigram baselines computed on the same example.
+8. One coherent unseen transition, `v → n`, repaired with smoothing.
+9. The one-character-context failure that motivates later models.
 
-The final demo should expose controls for:
-
-- Random seed
-- Number of generated examples
-- Greedy versus sampling
-- Smoothing value
-
-The first implementation can be a notebook or terminal program. A web
-interface is unnecessary for Episode 1.
+The following coding episode scales this pipeline to a larger names dataset.
+Its checks are conceptual and structural: extract the right pairs, normalize
+rows, generate by repeated lookup, evaluate held-out targets, and smooth unseen
+transitions. It should not reproduce the toy counts or loss values.
 
 ## 6. Narrative spine
 
@@ -142,14 +139,14 @@ The episode follows one question:
 
 The story develops through successive discoveries:
 
-1. Show generated names before explaining the machine.
-2. Reveal that the model has no neural network.
+1. Show the tiny corpus and several sequences its table can produce.
+2. Set the boundary: theory now, realistic implementation in the next video.
 3. Define language modeling as next-token probabilities.
 4. Reduce tokens to characters and context to one character.
 5. Discover that learning can begin with counting.
 6. Turn counts into probabilities.
 7. Use the table to generate text.
-8. Watch greedy decoding fail and introduce sampling.
+8. Trace one complete generated example, then compare greedy decoding and sampling.
 9. Ask how we can objectively judge the model.
 10. Use held-out transitions, likelihood, logs, and average NLL.
 11. Encounter zero probability and introduce smoothing.
@@ -160,55 +157,42 @@ This creates a problem-solution chain rather than a list of definitions.
 
 ## 7. Proposed runtime and segment plan
 
-Target runtime: approximately 28–32 minutes.
+Target runtime: approximately 28–33 minutes.
 
 This is a guide rather than a hard timing constraint. Clarity takes priority,
 but each section should earn its place by advancing the model.
 
 | Time | Segment | What the viewer sees | Core takeaway |
 |---|---|---|---|
-| 0:00–0:40 | Cold open | Terminal generates several plausible and strange names; quick cuts between outputs and Hussain | A tiny program learned enough structure to create new text |
-| 0:40–1:40 | Personal premise | On-camera introduction to the series and why Hussain wants to understand LLMs from first principles | We are learning and building honestly, not pretending to begin as experts |
-| 1:40–3:20 | What are we building? | Simple animation: context enters, probability bars emerge, one token is chosen, loop repeats | A language model predicts a distribution over the next token |
-| 3:20–5:00 | Tokens and vocabulary | One word tokenised three ways; the vocabulary defined; characters mapped to integer IDs | Our tokens are characters, and the vocabulary is the set of token types |
-| 5:00–7:40 | Transitions | Animate START–a–n–n–a–END, then slide a two-token window across it | Training examples become ordered current-token/next-token pairs |
-| 7:40–10:30 | Count matrix | Build a few cells by hand, then reveal the complete matrix or heatmap | Training for this model is counting |
-| 10:30–12:20 | Normalization | Row [0, 1, 1, 2] becomes [0, .25, .25, .50]; four-ticket analogy | A probability row is a normalized count row |
-| 12:20–13:20 | What is the model? | Freeze the vocabulary mapping and probability table; label them as the artifact | The trained model is a lookup table of P(next token given current token) |
-| 13:20–15:10 | Greedy generation | Trace the highest-probability arrow repeatedly and show a loop or repetitive output | Highest probability at every step is deterministic but can be locally shortsighted |
-| 15:10–17:30 | Sampling | Probability tickets or weighted wheel, followed by multiple generated names | Sampling preserves likely choices while allowing variation |
-| 17:30–18:30 | The evaluation question | Put one attractive sample next to several failures; ask whether visual judgment is enough | Samples can be lucky or cherry-picked |
-| 18:30–20:20 | Correct targets | Hold out a word, convert it into evaluation pairs, and highlight the probability assigned to each real next token | Evaluation text supplies the answer key |
-| 20:20–22:20 | Sequence likelihood | Funnel of 100 attempts: 100 → 80 → 40 → 10 → 4 | Required conditional events along one path multiply |
-| 22:20–24:40 | Logs and NLL | Tiny product transforms into summed log penalties; probability-to-surprise chart | Logs make tiny products manageable; NLL measures surprise |
-| 24:40–25:50 | Average across data | Two datasets with 100 and 1,000 transitions but equal per-token quality | Average NLL enables fair per-transition comparison |
-| 25:50–27:10 | Baselines | Uniform ln(V+1) and unigram beside the bigram score | A loss number means nothing without a reference point |
-| 27:10–28:00 | Counting was already optimal | Counts ÷ totals labelled as the exact minimiser, next to "episode 3 will crawl there with gradients" | This model is the analytic answer to the loss a network approximates |
-| 28:00–29:40 | Smoothing | Unseen a→x has zero probability; add pseudo-counts and redistribute the row; sweep k and watch train and validation diverge | Unseen in limited data should not automatically mean impossible — and the fix costs training loss |
-| 29:40–31:30 | Limitations | Generated nonsense whose every adjacent pair was observed; histories collapse to the same final character | Local plausibility is not global coherence |
-| 31:30–33:00 | Recap and bridge | Context growth 30 → 900 → 27,000, then the two things counting structurally cannot do | The next problem is using more context and sharing patterns |
+| 0:00–1:00 | Cold open and boundary | `{anna, ava}`, possible toy samples, and “theory now; code next” | Every number will be inspectable before the implementation scales up |
+| 1:00–3:20 | Language-model output | Current token enters; one probability row emerges | A language model predicts a distribution; choosing is separate |
+| 3:20–6:00 | Tokens and boundaries | Character vocabulary, IDs, START and END | Text becomes finite symbols and examples gain learnable boundaries |
+| 6:00–9:30 | Bigrams and counts | Sliding window over `anna`, merge with `ava`, then the matrix | Training for this model is counting ordered transitions |
+| 9:30–11:30 | Normalize and freeze | `[0,1,1,2] / 4` and the finished model artifacts | Counts become `P(next | current)` |
+| 11:30–14:00 | One complete generation | `START → a → n → a → END` with `1,.25,.5,.5` | Generation repeatedly queries the same fixed table |
+| 14:00–15:30 | Greedy versus sampling | Greedy produces `a`; sampling can produce `ana` | The selection rule changes behavior, not the model |
+| 15:30–17:00 | Lucky or good? | Several possible toy-table outputs | Samples are not objective evaluation |
+| 17:00–20:00 | Evaluation and likelihood | Held-out `ana`, the same four probabilities, and the 16-attempt funnel | Held-out text supplies targets; path probabilities multiply |
+| 20:00–23:30 | Logs and average NLL | Product becomes a sum; exact average NLL `0.693` | Logs stabilize calculation; NLL measures average surprise |
+| 23:30–25:00 | Baselines | Uniform `1.386`, unigram `1.158`, bigram `0.693` | Context helped on the worked example |
+| 25:00–27:30 | Zero and smoothing | Unseen `v→n`; `[1,0,0,0] → [2,1,1,1] / 5` | Smoothing replaces impossible with unlikely and redistributes mass |
+| 27:30–30:30 | Limitations | Histories collapse; locally valid nonsense; context-table explosion | One-character memory cannot create global structure |
+| 30:30–32:00 | Handoff | Larger dataset next, learned weights after that | Coding preserves concepts and invariants, not the toy numbers |
 
-Runtime therefore lands closer to **33 minutes** than the original 28–32 estimate.
-The two added segments (baselines, and counting-as-optimum) are worth the minutes:
-the first makes every later loss number interpretable, and the second is the
-bridge the whole series hangs from.
-
-Scene-by-scene visuals for all of the above are built in
-`canvas/episode_01_bigram.excalidraw` (27 frames, numbered to match this order).
+Scene-by-scene visuals are built in
+`canvas/episode_01_bigram.excalidraw` (24 frames, numbered to match this order).
 
 ## 8. Detailed beat sheet
 
 ### Beat 1: Cold open
 
-Show the finished model running before explaining it.
-
-Possible screen output:
+Show the complete toy corpus and several sequences its probability table can
+produce. Do not use a terminal prompt or imply that the coding episode has
+already happened.
 
 ~~~text
-alyra
-marin
-annnava
-zalen
+training:  anna, ava
+samples:   a, ana, ava, annnava
 ~~~
 
 Do not claim that every sample is impressive. Include at least one strange
@@ -216,10 +200,9 @@ result because failure becomes part of the lesson.
 
 Suggested opening idea:
 
-> These names came from a language model I trained from scratch. It has no
-> neural network, no attention, and it remembers exactly one character. That
-> sounds almost useless—and that is precisely why it is the right place to
-> begin.
+> Today we are going to understand the smallest honest language model using
+> numbers we can verify by hand. In the next video, we will implement the same
+> concepts on a larger dataset.
 
 Use this as an intent, not final script wording.
 
@@ -270,10 +253,10 @@ Display a handful of dataset rows:
 ~~~text
 anna
 ava
-amelia
-noah
-liam
 ~~~
+
+Keep these as the only training examples in every hand calculation. `ana` is
+reserved as held-out text. The larger names list belongs to the coding episode.
 
 Zoom into one word and separate it into character cards. Show the vocabulary
 mapping only after the character idea is clear.
@@ -346,33 +329,30 @@ vocabulary + boundary convention + probability table
 
 This prevents the viewer from waiting for a hidden neural network to appear.
 
-### Beat 9: Generate greedily
+### Beat 9: Generate one complete example
 
-Trace:
+Immediately after declaring the table finished, trace:
 
 ~~~text
-START -> highest-probability token -> highest-probability token -> ...
+<START> -> a -> n -> a -> <END>
+            1.00  0.25  0.50  0.50
 ~~~
 
-Use a real output from the implementation. If it loops, that is ideal. If it
-does not naturally loop, construct a tiny transparent example that does and
-label it as an illustration.
+At every step, point back to the probability row already trained. The sampled
+output is `ana`. This is the explicit proof that generation is repeated lookup
+and selection rather than a separate mechanism.
 
-Clarify that greedy decoding chooses the best immediate token, not necessarily
-the best complete sequence.
+### Beat 10: Compare greedy and sampling
 
-### Beat 10: Generate by sampling
+From the same table:
 
-Show weighted randomness rather than an unexplained random-number API.
+~~~text
+greedy:    <START> -> a -> <END>              output: a
+sampling:  <START> -> a -> n -> a -> <END>    output: ana
+~~~
 
-Possible visual:
-
-- 60 red tickets for a
-- 30 blue tickets for b
-- 10 yellow tickets for c
-
-Then run multiple seeds and compare outputs. The most probable choices should
-appear frequently, but not exclusively.
+Greedy takes `END` because 0.50 is the maximum in the `a` row. Sampling can
+take the 0.25 branch. Neither method changes the trained model.
 
 ### Beat 11: Introduce evaluation as a problem
 
@@ -387,6 +367,9 @@ not an objective comparison.
 
 Hold out one word that did not create the counts.
 
+Use `ana`. Its characters and transitions are covered by the training
+vocabulary, but the complete word was not one of the two training examples.
+
 Convert it into pairs and display the model's probability for the actual target
 in each pair.
 
@@ -399,10 +382,11 @@ evaluation: the existing text supplies the target
 
 ### Beat 13: Explain multiplication with a funnel
 
-Use the 100-attempt funnel:
+Use the exact 16-attempt funnel:
 
 ~~~text
-100 × 0.80 × 0.50 × 0.25 × 0.40 = 4
+16 × 1.00 × 0.25 × 0.50 × 0.50 = 1
+P("ana") = 0.0625
 ~~~
 
 Describe each multiplication as taking a fraction of the attempts that survived
@@ -434,6 +418,13 @@ log(a × b) = log(a) + log(b)
 Finally, introduce negative log-likelihood as a surprise penalty. Avoid
 deriving calculus or information theory here.
 
+For the same path:
+
+~~~text
+ln(1.00) + ln(0.25) + ln(0.50) + ln(0.50) ≈ -2.77
+average NLL = 2.77 / 4 ≈ 0.693
+~~~
+
 ### Beat 15: Average fairly
 
 Compare two sets with equal per-transition quality but different lengths:
@@ -451,14 +442,22 @@ word. Longer words contribute more transitions.
 Use an unseen transition where both characters are known:
 
 ~~~text
-a -> x was never observed
-P(x | a) = 0
+v -> n was never observed
+P(n | v) = 0
 ~~~
 
 Show how one zero makes the sequence likelihood zero and log(0) unusable.
 
-Add a pseudo-count, normalize again, and show the tradeoff: unseen transitions
-gain probability by taking some probability from observed transitions.
+Add a pseudo-count to every allowed outcome and normalize again:
+
+~~~text
+[1,0,0,0] -> [2,1,1,1]
+total = 5
+P(next | v) = [0.40,0.20,0.20,0.20]
+~~~
+
+Show the tradeoff: unseen transitions gain probability by taking probability
+from the observed `v→a` transition.
 
 Mention that unseen characters are a different vocabulary problem.
 
@@ -496,6 +495,16 @@ Then show the combinatorial growth of count tables and ask:
 > every possible history?
 
 Do not fully answer it. That is the reason to continue.
+
+Be precise about the immediate sequence of videos:
+
+1. Next video: implement this count-based model on a larger names dataset and
+   verify the same concepts and invariants.
+2. After that: replace counting with learned weights to address the structural
+   limitations exposed here.
+
+The coding episode should not reproduce the toy values; it should reproduce the
+logic.
 
 ## 9. On-camera, screen, and visual balance
 

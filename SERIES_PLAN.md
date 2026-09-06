@@ -48,7 +48,7 @@ and a build video (editor, tests, real output).
 | 03 | From counts to weights | One-hot inputs, a weight matrix, logits, softmax; same bigram task, learned | Vectors, matrix multiply, softmax, cross-entropy |
 | 04 | Gradients, by hand | Derivatives from first principles; chain rule; gradient descent on a two-parameter toy | Derivatives, chain rule |
 | 05 | Autograd from scratch | A scalar `Value` class; forward graph; backward pass; verify against numeric gradients | Computational graphs |
-| 06 | Enter PyTorch | Tensors, `.backward()`, optimisers; rebuild episode 3 in ~20 lines; confirm it matches episode 1's loss | — |
+| 06 | Enter PyTorch | Tensors, `.backward()`, optimisers; rebuild episode 3 in ~20 lines; verify the same objective on the same data | — |
 | 07 | Embeddings and the MLP model | Bengio 2003; a context window of several characters; hidden layer; learned representations | Embedding as lookup, non-linearity |
 | 08 | Making training actually work | Initialisation, normalisation, learning-rate finding, train/val curves, overfitting | Variance intuition |
 
@@ -61,16 +61,18 @@ and a build video (editor, tests, real output).
 | 11 | Multi-head attention and the block | Several heads; residual connections; layer norm; feed-forward | — |
 | 12 | Build the GPT | Full decoder-only stack; positional embeddings; parameter count | — |
 | 13 | Tokenization for real | Bytes, BPE, merges; why "strawberry" is hard; retrain with a real tokenizer | — |
-| 14 | Train it. Make it talk. | Training at laptop scale; checkpoints; temperature, top-k, top-p; final evaluation against episode 1's baselines | — |
+| 14 | Train it. Make it talk. | Training at laptop scale; checkpoints; temperature, top-k, top-p; final held-out evaluation | — |
 
 ## Continuity devices
 
 Three things recur deliberately across episodes so the series feels like one
 build rather than fourteen tutorials:
 
-1. **The same metric.** Average NLL, in nats, from episode 1 to episode 14. Every
-   model is compared against the uniform and unigram baselines established in
-   episode 1. The number goes down over the series, on camera.
+1. **The same objective.** Average NLL remains the training and evaluation
+   objective. Compare raw nats per token only when the dataset, tokenizer,
+   boundary rules, and denominator are the same. When tokenization changes,
+   also report a tokenizer-independent unit such as bits per character or bits
+   per byte; raw per-token losses are no longer directly comparable.
 2. **The same canvas language.** Character cards, probability bars, count
    matrices, and the surprise chart are reused and evolved, not redrawn.
 3. **The same honesty rule.** The hand-worked number in the theory video and the
@@ -83,4 +85,6 @@ build rather than fourteen tutorials:
 - Code runs from a clean checkout, with tests that would fail if the concept
   were implemented wrongly.
 - At least one honest failure is shown.
-- The episode's loss is reported next to the previous episode's loss.
+- The episode's loss is reported with its dataset, split, tokenizer, boundary
+  rules, and denominator. Put it beside a previous loss only when those
+  conventions match.

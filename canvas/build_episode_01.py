@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-"""Canvas for Episode 1: the count-based character bigram model.
+"""Theory canvas for Episode 1: the count-based character bigram model.
 
-Scene order follows the beat sheet in EPISODE_01_VIDEO_PLAN.md.
-Worked example throughout: the two-word dataset {anna, ava}.
+This video explains the complete mechanism by hand. The following episode
+implements the same pipeline in code. Worked example throughout:
+
+    training corpus = {anna, ava}
+    held-out example = ana
 """
 
 import os
@@ -18,17 +21,17 @@ sc = cv.scene("01 · Cold open")
 sc.add(text(110, 200, "The Smallest", 92, HAND))
 sc.add(text(110, 310, "Language Model", 92, HAND, BLUE))
 sc.add(line([(114, 440), (860, 440)], stroke=ORANGE, sw=4))
-sc.add(text(110, 480, "Episode 1  ·  Building an LLM From Scratch", 26, HAND, GRAY))
+sc.add(text(110, 480, "Episode 1  ·  Understand It Before We Code It", 26, HAND, GRAY))
 sc.add(box(110, 560, 700, 260, bg=BG_GRAY))
-sc.add(text(140, 585, "$ python bigram.py", 22, CODE, GRAY))
-sc.add(text(140, 640, "alyra    marin    zalen    annnava", 34, CODE, GREEN))
-sc.add(text(140, 700, "It has no neural network,", 24, HAND))
-sc.add(text(140, 740, "and it remembers exactly one character.", 24, HAND, RED))
+sc.add(text(140, 590, "training examples", 22, HAND, GRAY))
+sc.add(text(140, 635, "anna     ava", 34, CODE))
+sc.add(text(140, 700, "possible samples", 22, HAND, GRAY))
+sc.add(text(140, 744, "a     ana     ava     annnava", 32, CODE, GREEN))
 sc.add(box(900, 560, 590, 260, bg=BG_YELLOW, dash="dashed"))
 sc.add(text(930, 590,
-            "That sounds almost useless.\n\n"
-            "It is also the smallest thing\nthat is honestly a language model —\n"
-            "which makes it the only place\nto start.", 26, HAND))
+            "This video:\nunderstand every number by hand.\n\n"
+            "Next video:\nimplement the same concepts on\na larger, realistic dataset.",
+            26, HAND))
 
 # ======================================================== 02 what a LM outputs
 sc = cv.scene("02 · What a language model outputs")
@@ -85,8 +88,9 @@ sc.add(box(80, 682, 1440, 150, bg=BG_YELLOW))
 sc.add(text(110, 706, "The definition never changes: the vocabulary is the set of "
                       "distinct token types.", 28, HAND))
 sc.add(text(110, 754, "Only the tokens change.", 28, HAND))
-sc.add(text(110, 800, "Ours: the letters in the name list, plus two boundary tokens. "
-                      "26 letters + <END> = 27 things that can come next.",
+sc.add(text(110, 800,
+            "Worked example: {a, n, v} plus <START> and <END>. "
+            "Possible next tokens: a, n, v, <END>.",
             21, HAND, RED))
 
 # ============================================================== 04 vocab / ids
@@ -106,9 +110,9 @@ sc.add(text(620, 328, "stoi   \"string to int\"    character → id", 24, CODE))
 sc.add(text(620, 362, "itos   \"int to string\"    id → character", 24, CODE))
 sc.add(text(620, 404, "one for the way in, one for the way out.", 22, HAND, GRAY))
 sc.panel(620, 460, 880, 180, "Where does the vocabulary come from?", [
-    "From the TRAINING split only — never the whole file.",
-    "If held-out data contains a character we never trained on, we have no row",
-    "for it. We report that rather than hide it. (Real fix: <UNK>, or bytes.)",
+    "From the TRAINING examples only.",
+    "Our held-out word 'ana' contains only known characters,",
+    "so this episode can focus on the language model itself.",
 ], bg=BG_RED, size=20, title_color=RED)
 sc.note(620, 690,
         "<START> and <END> are not characters in any name.\n"
@@ -263,73 +267,69 @@ sc.add(text(90, 710, "Saving this model means saving a table of numbers. "
 sc.add(text(90, 780, "Every model in this series is a better answer to the same "
                      "question this table already answers.", 24, HAND, ORANGE))
 
-# ================================================================= 11 greedy
-sc = cv.scene("11 · Greedy decoding")
-sc.heading("Generation, attempt one: always take the biggest number.")
-sc.cards(100, 220, ["<START>", "a", "n", "a", "n"], w=150, h=90, size=24,
-         bg=BG_GRAY)
-for i in range(4):
-    x = 250 + i * 164
-    sc.add(text(x, 330, "↓ max", 18, CODE, GRAY))
-sc.add(text(100, 400, "output:", 24, HAND))
-sc.add(text(240, 392, "a n a n a n a n a n ...", 38, CODE, RED))
-sc.add(box(100, 470, 640, 230, bg=BG_RED))
-sc.add(text(130, 496, "It gets stuck.", 30, HAND))
-sc.add(text(130, 546,
-            "If  a -> n  is the biggest thing after a,\n"
-            "and n -> a  is the biggest thing after n,\n"
-            "then there is no way out. Ever.", 22, HAND))
-sc.add(text(130, 660, "-> generation needs a maximum length", 22, HAND, RED))
-sc.panel(800, 470, 700, 230, "Greedy is not wrong, it is short-sighted", [
-    "It picks the best next token, which is not the",
-    "same as the best sequence. It will never take a",
-    "lower-probability exit like  a -> <END>,  even when",
-    "that exit is the only sane move.",
-    "",
-    "It is deterministic and reproducible, which is",
-    "genuinely useful — just not here.",
-], bg=BG_BLUE, size=20)
-sc.note(980, 232, "(illustration — a constructed\nloop, so the trap is visible)")
+# ====================================================== 11 one generation trace
+sc = cv.scene("11 · Generate one example")
+sc.heading("Generation queries the same fixed table repeatedly.",
+           "No correct target is supplied. Each sampled token becomes the next context.")
 
-# =============================================================== 12 sampling
-sc = cv.scene("12 · Sampling")
-sc.heading("Generation, attempt two: let the probabilities be odds.")
-sc.add(text(100, 210, "if the row says", 24, HAND, GRAY))
-sc.bars(100, 250, [("a", 0.60), ("b", 0.30), ("c", 0.10)], maxw=300,
-        label_w=60)
-sc.add(text(100, 430, "then draw one ticket from a bag of 100:", 24, HAND))
-sc.add(box(100, 480, 360, 60, bg=BG_BLUE))
-sc.add(text(115, 495, "60 × a", 22, CODE))
-sc.add(box(470, 480, 180, 60, bg=BG_VIOLET))
-sc.add(text(485, 495, "30 × b", 22, CODE))
-sc.add(box(660, 480, 60, 60, bg=BG_YELLOW))
-sc.add(text(730, 495, "10 × c", 22, CODE))
-sc.add(text(100, 570, "weighted randomness — not equal randomness", 22, HAND, RED))
-sc.panel(800, 200, 700, 250, "Same table, four seeds", [
-    "seed 1:   alyra",
-    "seed 2:   marin",
-    "seed 3:   annnava",
-    "seed 4:   zalen",
-], bg=BG_GREEN, size=26)
-sc.add(box(800, 480, 700, 260, bg=BG_YELLOW, dash="dashed"))
-sc.add(text(830, 505, "Sampling shows you the model you actually built.",
-            26, HAND))
-sc.add(text(830, 560,
-            "Greedy shows you one path through it. Sampling exposes\n"
-            "the whole distribution — including the parts that are wrong.\n\n"
-            "Fix the seed and any single run becomes reproducible.\n\n"
-            "(temperature, top-k, top-p: later. Same idea, more dials.)",
-            21, HAND))
+tokens = ["<START>", "a", "n", "a", "<END>"]
+xs = [90, 390, 690, 990, 1290]
+for x, token in zip(xs, tokens):
+    colour = BG_GREEN if token == "<START>" else BG_RED if token == "<END>" else BG_BLUE
+    sc.add(box(x, 235, 210, 90, token, 25, CODE, bg=colour))
+for i, p in enumerate(["1.00", "0.25", "0.50", "0.50"]):
+    sc.add(arrow(xs[i] + 215, 280, xs[i + 1] - 10, 280, stroke=GRAY))
+    sc.add(text(xs[i] + 218, 225, p, 20, CODE, GRAY))
+
+sc.add(text(90, 370, "What happened at each step", 26, HAND, GRAY))
+steps = [
+    ("current = <START>", "only a has probability 1.00", BG_GREEN),
+    ("current = a", "sample n from [a:0, n:.25, v:.25, END:.50]", BG_YELLOW),
+    ("current = n", "sample a from [a:.50, n:.50, v:0, END:0]", BG_VIOLET),
+    ("current = a", "sample END; generation stops", BG_RED),
+]
+for i, (current, decision, colour) in enumerate(steps):
+    y = 420 + i * 92
+    sc.add(box(90, y, 330, 70, current, 20, CODE, bg=BG_GRAY, sw=1))
+    sc.add(box(450, y, 900, 70, decision, 20, CODE, bg=colour, sw=1))
+
+sc.add(box(90, 810, 1260, 60, "sampled output:  ana", 28, CODE, bg=BG_GREEN))
+sc.note(1390, 500, "Every number on this frame\ncame from scenes 8 and 9.")
+
+# =============================================== 12 greedy versus sampling
+sc = cv.scene("12 · Greedy versus sampling")
+sc.heading("The probability table is fixed. Only the choosing rule changes.")
+
+sc.add(box(90, 220, 680, 500, bg=BG_BLUE))
+sc.add(text(120, 250, "GREEDY", 32, HAND))
+sc.add(text(120, 310, "always choose the largest probability", 22, HAND, GRAY))
+sc.add(text(120, 390, "<START> → a", 30, CODE))
+sc.add(text(120, 450, "a → <END>     0.50 is the largest", 26, CODE))
+sc.add(text(120, 540, "output:  a", 40, CODE, RED))
+sc.add(text(120, 620, "deterministic · reproducible · no variety", 21, HAND))
+
+sc.add(box(830, 220, 680, 500, bg=BG_GREEN))
+sc.add(text(860, 250, "SAMPLING", 32, HAND))
+sc.add(text(860, 310, "treat the probabilities as odds", 22, HAND, GRAY))
+sc.add(text(860, 390, "<START> → a → n → a → <END>", 27, CODE))
+sc.add(text(860, 450, "the 0.25 branch can still be selected", 24, HAND))
+sc.add(text(860, 540, "output:  ana", 40, CODE, GREEN))
+sc.add(text(860, 620, "weighted randomness · seed makes a run repeatable", 20, HAND))
+
+sc.add(box(90, 765, 1420, 90, bg=BG_YELLOW))
+sc.add(text(120, 790,
+            "Both methods need a maximum length. If <END> never appears, stop and mark the sample truncated.",
+            23, HAND))
 
 # ========================================================== 13 lucky or good?
 sc = cv.scene("13 · Lucky, or good?")
 sc.heading("Eyeballing samples is not evaluation.")
 sc.add(box(120, 230, 460, 200, bg=BG_GREEN))
 sc.add(text(150, 258, "the one I'd tweet", 24, HAND, GRAY))
-sc.add(text(150, 310, "marin", 60, CODE))
+sc.add(text(150, 310, "ana", 60, CODE))
 sc.add(box(680, 230, 720, 380, bg=BG_RED))
-sc.add(text(710, 258, "the rest of that run", 24, HAND, GRAY))
-sc.add(text(710, 310, "annnnav\nvvva\nn\nzzzzzzzn\naaaaaaaaaaa", 34, CODE))
+sc.add(text(710, 258, "other samples from the same toy table", 24, HAND, GRAY))
+sc.add(text(710, 310, "a\nava\navava\nannnava\nannnnnnava", 34, CODE))
 sc.add(box(120, 480, 460, 130, "cherry-picking", 34, HAND, bg=BG_YELLOW))
 sc.add(box(120, 680, 1280, 160, bg=BG_NONE, dash="dashed"))
 sc.add(text(150, 706, "We need one number that we cannot flatter ourselves with.",
@@ -342,23 +342,23 @@ sc.add(text(150, 762,
 sc = cv.scene("14 · The answer key")
 sc.heading("Held-out text tells us what SHOULD have come next.",
            "Generation has no correct answer. Evaluation does — the data supplies it.")
-sc.add(text(100, 200, "held-out word:  \"anna\"", 28, CODE))
-rows = [("<START>", "a", 0.62), ("a", "n", 0.25), ("n", "n", 0.31),
-        ("n", "a", 0.44), ("a", "<END>", 0.50)]
+sc.add(text(100, 200, "held-out word:  \"ana\"", 28, CODE))
+rows = [("<START>", "a", 1.00), ("a", "n", 0.25),
+        ("n", "a", 0.50), ("a", "<END>", 0.50)]
 sc.add(text(100, 260, "input", 22, HAND, GRAY))
 sc.add(text(320, 260, "true target", 22, HAND, GRAY))
 sc.add(text(600, 260, "probability the model gave it", 22, HAND, GRAY))
 for i, (a, b, p) in enumerate(rows):
-    y = 300 + i * 82
+    y = 310 + i * 92
     sc.add(box(100, y, 180, 64, a, 24, CODE, bg=BG_GRAY, sw=1))
     sc.add(box(320, y, 180, 64, b, 24, CODE, bg=BG_GREEN, sw=1))
     sc.add(box(600, y, max(20, 460 * p), 64, bg=BG_YELLOW, sw=1))
     sc.add(text(600 + max(20, 460 * p) + 16, y + 18, f"{p:.2f}", 22, CODE, GRAY))
-sc.note(1180, 300, "(illustrative numbers)")
+sc.note(1180, 300, "exact values from the\n{anna, ava} table")
 sc.add(box(100, 730, 660, 120, bg=BG_BLUE))
-sc.add(text(125, 752, "note row 2:", 24, HAND))
-sc.add(text(125, 792, "greedy would have said <END> here. We do not care.\n"
-                      "We record what it gave to the token that actually occurred.",
+sc.add(text(125, 752, "same path, different activity", 24, HAND))
+sc.add(text(125, 792, "Scene 11 sampled this path with no answer key.\n"
+                      "Here, held-out text tells us which targets to score.",
             19, HAND))
 sc.add(box(800, 730, 700, 120, bg=BG_VIOLET))
 sc.add(text(825, 752, "evaluation never changes the model", 24, HAND))
@@ -368,19 +368,19 @@ sc.add(text(825, 792, "no counts move, no probability updates. We are taking a "
 # ================================================================= 15 funnel
 sc = cv.scene("15 · Why the probabilities multiply")
 sc.heading("The whole word happens only if every transition happens.")
-sc.add(text(100, 200, "P(\"ana\") = 0.80 × 0.50 × 0.25 × 0.40 = 0.04", 34, CODE))
-stages = [("100 attempts", 420, BG_GRAY, ""),
-          ("80", 340, BG_BLUE, "× 0.80   choose a"),
-          ("40", 260, BG_BLUE, "× 0.50   choose n"),
-          ("10", 180, BG_VIOLET, "× 0.25   choose a"),
-          ("4", 100, BG_GREEN, "× 0.40   choose <END>")]
+sc.add(text(100, 200, "P(\"ana\") = 1.00 × 0.25 × 0.50 × 0.50 = 0.0625", 34, CODE))
+stages = [("16 attempts", 420, BG_GRAY, ""),
+          ("16", 420, BG_BLUE, "× 1.00   choose a"),
+          ("4", 260, BG_BLUE, "× 0.25   choose n"),
+          ("2", 180, BG_VIOLET, "× 0.50   choose a"),
+          ("1", 100, BG_GREEN, "× 0.50   choose <END>")]
 y = 280
 for label, w, colour, op in stages:
     sc.add(box(100 + (420 - w) / 2, y, w, 72, label, 26, CODE, bg=colour))
     if op:
         sc.add(text(580, y + 20, op, 24, CODE, GRAY))
     y += 108
-sc.add(text(100, 820, "≈ 4 of every 100 attempts follow exactly that path",
+sc.add(text(100, 820, "1 of every 16 attempts follows exactly that path on average",
             24, HAND, GREEN))
 sc.panel(900, 230, 610, 300, "This is the chain rule of probability", [
     "P(A then B)  =  P(A) × P(B | A)",
@@ -417,11 +417,11 @@ sc.add(text(115, 742, "log(a × b × c) = log a + log b + log c", 25, CODE))
 sc.add(text(115, 795, "an unstable product becomes a manageable sum", 20, HAND))
 sc.add(text(790, 210, "\"ana\", the same number twice", 28, HAND, GRAY))
 sc.add(text(790, 270,
-            "ln(0.80)  ≈  -0.22\nln(0.50)  ≈  -0.69\n"
-            "ln(0.25)  ≈  -1.39\nln(0.40)  ≈  -0.92\n"
-            "----------------------\nsum       ≈  -3.22", 30, CODE))
+            "ln(1.00)  =   0.00\nln(0.25)  ≈  -1.39\n"
+            "ln(0.50)  ≈  -0.69\nln(0.50)  ≈  -0.69\n"
+            "----------------------\nsum       ≈  -2.77", 30, CODE))
 sc.add(text(790, 570, "and directly:", 22, HAND, GRAY))
-sc.add(text(790, 620, "ln(0.04) ≈ -3.22", 30, CODE, GREEN))
+sc.add(text(790, 620, "ln(0.0625) ≈ -2.77", 30, CODE, GREEN))
 sc.add(box(780, 700, 620, 140, bg=BG_GREEN))
 sc.add(text(805, 726, "Probabilities live in (0, 1],", 24, HAND))
 sc.add(text(805, 770, "so their logs are always ≤ 0. Hold that thought.",
@@ -429,197 +429,121 @@ sc.add(text(805, 770, "so their logs are always ≤ 0. Hold that thought.",
 
 # ==================================================================== 17 NLL
 sc = cv.scene("17 · Negative log-likelihood")
-sc.heading("Flip the sign, and you have a loss where lower is better.")
-sc.add(box(90, 210, 700, 120, "NLL  =  − log P(correct token)", 36, CODE,
-           bg=BG_YELLOW))
-sc.add(text(90, 370, "read it as surprise:", 28, HAND))
-sc.table(90, 420, ["− log penalty"], ["100%", "50%", "10%", "1%"],
-         [["0.00"], ["0.69"], ["2.30"], ["4.61"]], cw=230, ch=76,
-         corner="P on target")
-sc.add(text(90, 800, "confident and right -> nearly free.   "
-                     "confident and wrong -> expensive.", 24, HAND, GREEN))
-sc.panel(880, 210, 630, 250, "Why negate at all?", [
-    "Because 'higher likelihood is better' and",
-    "'lower loss is better' are the same statement,",
-    "and every optimiser we meet from episode 3",
-    "onwards is built to push a number DOWN.",
-], bg=BG_BLUE, size=21)
-sc.panel(880, 490, 630, 200, "Why average?", [
-    "Total NLL grows with the amount of text.",
-    "1000 predictions accrue ~10× the penalty of 100",
-    "at identical quality. Divide by the number of",
-    "transitions and lengths become comparable.",
+sc.heading("Negative log-likelihood turns the path into a loss.",
+           "Higher probability on the true target means a smaller penalty.")
+sc.table(90, 230, ["P(target)", "−ln P(target)"],
+         ["START → a", "a → n", "n → a", "a → END"],
+         [["1.00", "0.000"], ["0.25", "1.386"],
+          ["0.50", "0.693"], ["0.50", "0.693"]],
+         cw=260, ch=82, corner="transition")
+sc.add(box(90, 650, 700, 170, bg=BG_YELLOW))
+sc.add(text(120, 676, "average NLL for 'ana'", 28, HAND))
+sc.add(text(120, 730, "(0 + 1.386 + 0.693 + 0.693) ÷ 4", 27, CODE))
+sc.add(text(120, 778, "= 0.693 nats per transition", 27, CODE, GREEN))
+sc.panel(880, 230, 630, 240, "Read NLL as surprise", [
+    "100% on the target  →  penalty 0",
+    "50% on the target   →  penalty 0.693",
+    "25% on the target   →  penalty 1.386",
+    "lower is better",
+], bg=BG_BLUE, size=22)
+sc.panel(880, 510, 630, 210, "Why average?", [
+    "Total penalty grows with the amount of text.",
+    "Divide by the number of evaluated transitions",
+    "so datasets and words of different lengths can",
+    "be compared on a per-prediction basis.",
 ], bg=BG_GREEN, size=21)
-sc.add(text(880, 720, "avg NLL = total penalty ÷ transitions", 26, CODE))
-sc.add(text(880, 780, "\"on a typical prediction, how surprised was it?\"",
-            22, HAND, GRAY))
+sc.add(text(880, 770, "generation creates text · evaluation measures text",
+            21, HAND, GRAY))
 
 # ============================================================== 18 baselines
 sc = cv.scene("18 · Lower than what?")
-sc.heading("An average NLL of 2.4 is meaningless on its own.",
-           "A loss only means something next to a reference point. So build two bad models.")
-sc.add(box(90, 240, 440, 250, bg=BG_GRAY))
+sc.heading("Is 0.693 good? Compare it with simpler models.",
+           "Use the same training corpus, held-out word, vocabulary and metric.")
+sc.add(box(90, 240, 440, 280, bg=BG_GRAY))
 sc.add(text(115, 266, "UNIFORM", 30, HAND, GRAY))
-sc.add(text(115, 320, "every allowed token\ngets 1 / (V+1)", 22, CODE))
-sc.add(text(115, 400, "NLL = ln(V+1)\n    = ln(27) ≈ 3.30", 26, CODE, RED))
-sc.add(box(560, 240, 440, 250, bg=BG_BLUE))
+sc.add(text(115, 320, "4 allowed next tokens\neach gets 1 / 4", 22, CODE))
+sc.add(text(115, 420, "eval NLL = ln(4)\n         = 1.386", 26, CODE, RED))
+sc.add(box(560, 240, 440, 280, bg=BG_BLUE))
 sc.add(text(585, 266, "UNIGRAM", 30, HAND))
-sc.add(text(585, 320, "overall frequency only,\ncontext ignored", 22, CODE))
-sc.add(text(585, 400, "knows 'a' is common\nand 'q' is not", 22, HAND))
-sc.add(box(1030, 240, 470, 250, bg=BG_GREEN))
+sc.add(text(585, 320, "training target counts\n[a:4, n:2, v:1, END:2]", 21, CODE))
+sc.add(text(585, 420, "eval NLL for ana\n= 1.158", 26, CODE))
+sc.add(box(1030, 240, 470, 280, bg=BG_GREEN))
 sc.add(text(1055, 266, "BIGRAM", 30, HAND))
-sc.add(text(1055, 320, "ours: one character\nof context", 22, CODE))
-sc.add(text(1055, 400, "must beat unigram,\nor context bought\nus nothing", 22, HAND))
+sc.add(text(1055, 320, "one character\nof context", 22, CODE))
+sc.add(text(1055, 420, "eval NLL for ana\n= 0.693", 26, CODE, GREEN))
 sc.add(arrow(530, 365, 560, 365, stroke=GRAY))
 sc.add(arrow(1000, 365, 1030, 365, stroke=GRAY))
-sc.add(box(90, 550, 1410, 130, bg=BG_YELLOW))
-sc.add(text(120, 578, "The uniform baseline is also a test.", 28, HAND))
-sc.add(text(120, 622, "Build the model with an enormous smoothing value and it must "
-                      "land on ln(V+1). If it doesn't, the code is wrong.", 21, HAND))
-sc.add(text(90, 730, "Two names for this same number, which you'll meet everywhere:",
-            24, HAND, GRAY))
-sc.add(text(90, 780, "cross-entropy = average NLL in nats        "
-                     "perplexity = exp(average NLL)", 26, CODE))
+sc.add(box(90, 575, 1410, 230, bg=BG_YELLOW))
+sc.add(text(120, 602, "The comparison answers three different questions:", 28, HAND))
+sc.add(text(120, 654,
+            "uniform: did we beat guessing?\n"
+            "unigram: did knowing character frequency help?\n"
+            "bigram: did one character of context help?", 24, CODE))
+sc.add(text(120, 770,
+            "For this toy evaluation:  0.693 < 1.158 < 1.386.  Context helped.",
+            23, HAND, GREEN))
 
-# ========================================================== 19 counting = MLE
-sc = cv.scene("19 · What counting already did")
-sc.heading("Now look at what counting already did.")
-sc.add(box(120, 250, 620, 240, bg=BG_GREEN))
-sc.add(text(150, 280, "counts ÷ row total", 32, CODE))
-sc.add(text(150, 340, "is not just *a* reasonable\nway to get probabilities.\n\n"
-                      "It is the EXACT minimiser of\naverage NLL on the training set.",
-            24, HAND))
-sc.add(text(120, 520, "No bigram table scores better on this training data.\n"
-                      "We found it in one pass, with no optimiser.", 24, HAND, GREEN))
-sc.add(arrow(760, 370, 860, 370, sw=3))
-sc.add(box(880, 250, 620, 240, bg=BG_VIOLET))
-sc.add(text(910, 280, "episode 3 onwards", 32, HAND))
-sc.add(text(910, 340, "a neural network starts from\nrandom numbers and crawls\n"
-                      "toward that same loss,\none gradient step at a time.",
-            24, HAND))
-sc.add(box(120, 640, 1380, 190, bg=BG_YELLOW, dash="dashed"))
-sc.add(text(150, 668, "So here is the test that ties this series together:", 28, HAND))
-sc.add(text(150, 718,
-            "when we train the neural bigram model in episode 3, it should converge to "
-            "roughly the number\nwe just got for free. If it doesn't, the training code "
-            "is broken — and we'll know, because\ntoday gave us the answer key.", 21, HAND))
-
-# ============================================================== 20 zero probs
-sc = cv.scene("20 · The zero")
-sc.heading("x is in the vocabulary. It just never followed a.")
-sc.table(90, 220, ["n", "v", "<END>", "x"], ["count", "P"],
-         [[1, 1, 2, 0], ["0.25", "0.25", "0.50", "0.00"]], cw=150, ch=76,
-         corner="", hi_cells={(0, 3), (1, 3)})
-sc.add(text(90, 468, "now suppose held-out data contains  a -> x", 26, HAND))
-sc.add(box(90, 512, 700, 150, bg=BG_RED))
-sc.add(text(115, 534, "P(word) = 0.6 × 0.2 × 0.00 × 0.4  =  0", 26, CODE))
-sc.add(text(115, 590, "one zero anywhere destroys the entire sequence —\n"
-                      "that's what multiplying means", 21, HAND))
-sc.add(box(90, 686, 700, 145, bg=BG_RED))
-sc.add(text(115, 708, "− log(0)  =  ∞", 34, CODE))
-sc.add(text(115, 772, "the loss is not large. it is undefined. the metric breaks.",
+# ======================================================= 19 unseen transition
+sc = cv.scene("19 · The zero")
+sc.heading("Both v and n are known. The transition v → n was never observed.")
+sc.table(90, 220, ["a", "n", "v", "<END>"], ["count", "P"],
+         [[1, 0, 0, 0], ["1.00", "0.00", "0.00", "0.00"]], cw=150, ch=76,
+         corner="v → next", hi_cells={(0, 1), (1, 1)})
+sc.add(text(90, 468, "held-out example:  avna", 26, CODE))
+sc.add(box(90, 512, 760, 150, bg=BG_RED))
+sc.add(text(115, 534,
+            "P(\"avna\") = 1.00 × 0.25 × 0.00 × 0.50 × 0.50 = 0",
+            24, CODE))
+sc.add(text(115, 590, "one zero destroys the complete sequence probability",
             21, HAND))
-sc.add(box(880, 220, 620, 300, bg=BG_YELLOW))
-sc.add(text(910, 250, "Zero is a very strong claim.", 30, HAND))
-sc.add(text(910, 305,
-            "The model is asserting that  a -> x  is\nIMPOSSIBLE, on the evidence of "
-            "a\nfew hundred names.\n\nNot observing something in a small\nsample is not "
-            "proof it can't happen.", 22, HAND))
-sc.note(880, 570,
-        "This is the maximum-likelihood\nestimate being too confident.\n\n"
-        "Which means the fix has to\ndeliberately move AWAY from\nthe maximum-likelihood "
-        "estimate.")
+sc.add(box(90, 686, 760, 145, bg=BG_RED))
+sc.add(text(115, 708, "−log(0) = ∞", 34, CODE))
+sc.add(text(115, 772, "the evaluation loss becomes infinite", 21, HAND))
+sc.add(box(920, 220, 580, 300, bg=BG_YELLOW))
+sc.add(text(950, 250, "Zero is a very strong claim.", 30, HAND))
+sc.add(text(950, 305,
+            "It says v → n is impossible.\n\n"
+            "But our evidence was only two names.\n"
+            "Not observing a possible transition is\n"
+            "not proof that it can never happen.", 22, HAND))
+sc.note(920, 570,
+        "This is an unseen TRANSITION, not an\nunseen token: v and n already have IDs,\nrows and columns.")
 
-# =============================================================== 21 smoothing
-sc = cv.scene("21 · Add-k smoothing")
-sc.heading("Give every possible transition a small head start.")
-sc.add(text(90, 200, "observed", 22, HAND, GRAY))
-sc.table(90, 240, ["n", "v", "<END>", "x"], ["count"], [[1, 1, 2, 0]],
+# =============================================================== 20 smoothing
+sc = cv.scene("20 · Add-k smoothing")
+sc.heading("Give every allowed transition a small head start.",
+           "Use k = 1 here so the arithmetic stays visible.")
+sc.add(text(90, 200, "observed v row", 22, HAND, GRAY))
+sc.table(90, 240, ["a", "n", "v", "<END>"], ["count"], [[1, 0, 0, 0]],
          cw=130, ch=70, corner="")
 sc.add(arrow(300, 400, 300, 460, stroke=GREEN, sw=3))
-sc.add(text(320, 405, "+1 to every allowed cell", 22, HAND, GREEN))
-sc.add(text(90, 480, "smoothed", 22, HAND, GRAY))
-sc.table(90, 520, ["n", "v", "<END>", "x"], ["count", "P"],
-         [[2, 2, 3, 1], ["0.250", "0.250", "0.375", "0.125"]],
+sc.add(text(320, 405, "+1 to all 4 allowed cells", 22, HAND, GREEN))
+sc.add(text(90, 480, "smoothed v row", 22, HAND, GRAY))
+sc.table(90, 520, ["a", "n", "v", "<END>"], ["count", "P"],
+         [[2, 1, 1, 1], ["0.40", "0.20", "0.20", "0.20"]],
          cw=130, ch=70, corner="")
-sc.add(text(95, 744, "new total = 8", 24, CODE, RED))
-sc.add(text(95, 800, "x is now unlikely, instead of impossible — "
-                     "and the row still adds to 1.", 24, HAND, GREEN))
+sc.add(text(95, 744, "new total = 1 + (1 × 4) = 5", 24, CODE, RED))
+sc.add(text(95, 800, "P(n | v): 0.00 → 0.20", 24, CODE, GREEN))
 sc.add(box(880, 200, 630, 210, bg=BG_YELLOW))
-sc.add(text(905, 228, "count(a → next) + k", 30, CODE))
+sc.add(text(905, 228, "count(v → next) + k", 30, CODE))
 sc.add(line([(905, 285), (1330, 285)], stroke=BLACK, sw=3))
-sc.add(text(905, 300, "total(a) + k × A", 30, CODE))
-sc.add(text(905, 355, "A = number of ALLOWED next tokens (V + 1)", 20, HAND))
+sc.add(text(905, 300, "total(v) + k × 4", 30, CODE))
+sc.add(text(905, 355, "4 = {a, n, v, <END>}", 20, CODE))
 sc.add(box(880, 440, 630, 180, bg=BG_RED))
-sc.add(text(905, 466, "the k × A is not optional", 26, HAND))
-sc.add(text(905, 510, "We added k to A cells, so the total grew by k × A.\n"
-                      "Forget it and your rows won't sum to 1 — this is the\n"
-                      "first thing to check when a table misbehaves.", 20, HAND))
+sc.add(text(905, 466, "nothing is free", 26, HAND))
+sc.add(text(905, 510,
+            "P(a | v) fell from 1.00 to 0.40.\n"
+            "Probability reserved for unseen transitions\n"
+            "comes from transitions we did observe.", 20, HAND))
 sc.add(box(880, 650, 630, 190, bg=BG_VIOLET))
-sc.add(text(905, 676, "nothing is free", 26, HAND))
-sc.add(text(905, 720, "P(<END> | a) fell from 0.500 to 0.375.\n"
-                      "Probability given to the unseen has to be\n"
-                      "taken from the seen. That is the trade.", 20, HAND))
+sc.add(text(905, 676, "What carries into the coding episode", 24, HAND))
+sc.add(text(905, 720,
+            "Use a smaller configurable k. Choose it with validation data.\n"
+            "Smoothing fixes unseen pairs; it cannot invent a token\n"
+            "missing from the vocabulary.", 19, HAND))
 
-# ================================================================ 22 the dial
-sc = cv.scene("22 · k is a dial, and it costs you")
-sc.heading("Smoothing makes training loss WORSE. On purpose.")
-sc.add(box(90, 210, 640, 120, bg=BG_BLUE))
-sc.add(text(115, 236, "k = 0", 28, CODE))
-sc.add(text(115, 282, "pure counts · unbeatable on training data · zeros everywhere",
-            20, HAND))
-sc.add(box(90, 360, 640, 120, bg=BG_RED))
-sc.add(text(115, 386, "k → very large", 28, CODE))
-sc.add(text(115, 432, "counts drowned by pseudo-counts · every row -> uniform",
-            20, HAND))
-sc.add(text(90, 520, "k = 0 wins on training data BY CONSTRUCTION.", 26, HAND, RED))
-sc.add(text(90, 570, "So training loss cannot be the thing we tune k against.\n"
-                     "Only held-out data can see the trade-off.", 24, HAND))
-sc.panel(90, 660, 640, 180, "Which is the whole field, in one line", [
-    "The setting that makes training loss lowest",
-    "is not the setting that generalises best.",
-], bg=BG_YELLOW, size=24)
-# --- the curve
-ox, oy, w, h = 880, 250, 560, 420
-sc.add(line([(ox, oy), (ox, oy + h), (ox + w, oy + h)], stroke=BLACK, sw=3))
-sc.add(text(ox - 60, oy + h / 2 - 30, "NLL", 22, HAND, GRAY))
-sc.add(text(ox + w / 2 - 20, oy + h + 20, "k", 24, CODE, GRAY))
-sc.add(line([(ox + 20, oy + 340), (ox + 140, oy + 300), (ox + 300, oy + 210),
-             (ox + 480, oy + 90)], stroke=BLUE, sw=3))
-sc.add(text(ox + 380, oy + 110, "training", 22, HAND, BLUE))
-sc.add(line([(ox + 20, oy + 40), (ox + 100, oy + 200), (ox + 200, oy + 275),
-             (ox + 320, oy + 250), (ox + 480, oy + 170)], stroke=GREEN, sw=3))
-sc.add(text(ox + 190, oy + 310, "validation", 22, HAND, GREEN))
-sc.add(text(ox + 10, oy + 10, "∞ (a zero was hit)", 18, HAND, RED))
-sc.add(arrow(ox + 230, oy + 380, ox + 210, oy + 300, stroke=ORANGE))
-sc.add(text(ox + 180, oy + 390, "pick k here", 22, HAND, ORANGE))
-sc.add(text(ox, oy + 470, "sweep k, plot both. best experiment in the episode.",
-            20, HAND, GRAY))
-
-# ====================================================== 23 transition vs token
-sc = cv.scene("23 · Two different problems")
-sc.heading("Smoothing fixes one of these. It cannot touch the other.")
-sc.add(box(90, 230, 660, 360, bg=BG_GREEN))
-sc.add(text(120, 260, "UNSEEN TRANSITION", 30, HAND))
-sc.add(text(120, 320, "a  is in the vocabulary\nx  is in the vocabulary\n"
-                      "a → x  was never observed", 26, CODE))
-sc.add(text(120, 460, "The row exists. The column exists.\n"
-                      "The cell is simply 0.", 22, HAND))
-sc.add(text(120, 540, "-> smoothing works", 26, HAND, GREEN))
-sc.add(box(850, 230, 660, 360, bg=BG_RED))
-sc.add(text(880, 260, "UNSEEN TOKEN", 30, HAND))
-sc.add(text(880, 320, "ø  is not in the vocabulary\nat all", 26, CODE))
-sc.add(text(880, 460, "There is no row, no column,\nand no integer ID.\n"
-                      "There is nothing to smooth.", 22, HAND))
-sc.add(text(880, 560, "-> that's a tokenizer problem", 26, HAND, RED))
-sc.add(box(90, 650, 1420, 190, bg=BG_YELLOW))
-sc.add(text(120, 678, "What smoothing actually changes is a belief:", 28, HAND))
-sc.add(text(120, 730, "from   \"unseen means impossible\"\n"
-                      "to     \"unseen means unlikely, but possible\"", 28, CODE))
-sc.note(1150, 810, "(better methods exist: backoff,\ninterpolation, Kneser-Ney — later)")
-
-# ========================================================= 24 context collapse
-sc = cv.scene("24 · Limitation 1: it forgets")
+# ========================================================= 21 context collapse
+sc = cv.scene("21 · Limitation 1: it forgets")
 sc.heading("Every history ending in 'a' is the same history.",
            "The model has no way to tell them apart.")
 hist = ["ma", "pa", "za", "The cat sat on the ma"]
@@ -637,8 +561,8 @@ sc.add(text(120, 728, "how it arrived at 'a'   ·   where it is in the word   ·
 sc.note(1150, 196, "20 characters of context and\n2 characters of context are\n"
                    "indistinguishable to this model.")
 
-# =========================================================== 25 local vs global
-sc = cv.scene("25 · Limitation 2: locally fine, globally nonsense")
+# =========================================================== 22 local vs global
+sc = cv.scene("22 · Limitation 2: locally fine, globally nonsense")
 sc.heading("Every adjacent pair below was observed in training.")
 sc.add(text(90, 210, "trained on:", 24, HAND, GRAY))
 sc.add(text(90, 255, "anna     ava", 34, CODE))
@@ -658,8 +582,8 @@ sc.add(text(120, 655,
 sc.add(text(120, 790, "It also has no representation of meaning, and cannot transfer "
                       "anything it learns about 'a' to 'e'.", 22, HAND, GRAY))
 
-# ================================================================= 26 the wall
-sc = cv.scene("26 · The obvious fix, and why it fails")
+# ================================================================= 23 the wall
+sc = cv.scene("23 · The obvious fix, and why it fails")
 sc.heading("\"Fine — remember two characters.\"",
            "A trigram model can tell 'ma' from 'pa'. Now count the rows you need.")
 rows = [("1 character of context", "30", BG_GREEN),
@@ -678,8 +602,8 @@ sc.add(text(115, 752, "Almost every one of those rows would be empty or near-emp
                       "Counting cannot be the answer.", 22, HAND))
 sc.note(1250, 250, "(and this is characters.\nimagine words.)")
 
-# =================================================================== 27 bridge
-sc = cv.scene("27 · The question for episode 2")
+# =================================================================== 24 bridge
+sc = cv.scene("24 · Next: implement the same concepts")
 sc.heading("So we need something counting cannot give us.")
 sc.add(box(140, 260, 1320, 200, bg=BG_YELLOW))
 sc.add(text(175, 300,
@@ -696,8 +620,10 @@ sc.add(box(840, 580, 620, 200, bg=BG_VIOLET))
 sc.add(text(870, 606, "② compress", 28, HAND))
 sc.add(text(870, 656, "represent context with a handful of\nnumbers instead of one "
                       "row per\npossible history.", 21, HAND))
-sc.add(text(140, 820, "That is what learned parameters buy us. "
-                      "Next: replace counting with weights.", 26, HAND, ORANGE))
+sc.add(text(140, 812,
+            "Next video: build the count-based model on a larger names dataset. "
+            "Same concepts, new numbers.\nAfter that: replace counting with learned weights.",
+            24, HAND, ORANGE))
 
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "episode_01_bigram.excalidraw")
