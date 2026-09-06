@@ -11,8 +11,9 @@ I Built the Smallest Language Model (From Scratch) | LLM #1
 `thumbnails/episode-01-just-2-names.jpg`
 
 The title promises the build and the thumbnail supplies the surprising detail:
-the entire worked training corpus contains two names. Both are accurate, and
-the wording remains readable at feed size.
+the entire worked training corpus contains two names. Both are accurate, the
+wording remains readable at feed size, and the native Excalidraw treatment
+matches what viewers see in the video.
 
 ## Paste-ready description
 

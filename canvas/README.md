@@ -9,6 +9,7 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | `episode_01_presenter.excalidraw` | Episode 1 theory — recorded presenter canvas | 40 |
 | `episode_01_bigram.excalidraw` | Episode 1 theory — detailed development reference | 24 |
 | `thumbnail_ep0.excalidraw` | Video 0 thumbnail — a drawing of the machine | 1 |
+| `thumbnail_ep1.excalidraw` | Episode 1 thumbnail — just two names | 1 |
 | `channel_intro.excalidraw` | Channel intro — The Unplanned Stack | 12 |
 | `thumbnail_channel.excalidraw` | Channel intro thumbnail — the plan vs what happened | 1 |
 | `thumbnail_channel_alt.excalidraw` | Channel intro thumbnail, alt — the stack trace | 1 |
@@ -67,6 +68,8 @@ catching overlapping elements and overflowing text. Open it in any browser.
 - `build_thumbnail_channel_alt.py` — channel intro thumbnail (stack trace).
 - `build_thumbnail_stack.py` — channel intro thumbnail (a stack vs my stack).
 - `build_thumbnail_ep0.py` — the video 0 thumbnail as an Excalidraw scene.
+- `build_thumbnail_ep1.py` — the Episode 1 thumbnail as an editable Excalidraw
+  scene that matches the presenter canvas.
   Export the final PNG from Excalidraw itself (select frame → Export image →
   PNG, "only selected") for authentic strokes and the real Excalifont.
 
