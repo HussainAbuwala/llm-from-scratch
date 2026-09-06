@@ -9,7 +9,7 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | `episode_01_presenter.excalidraw` | Episode 1 theory — recorded presenter canvas | 40 |
 | `episode_01_bigram.excalidraw` | Episode 1 theory — detailed development reference | 24 |
 | `thumbnail_ep0.excalidraw` | Video 0 thumbnail — a drawing of the machine | 1 |
-| `thumbnail_ep1.excalidraw` | Episode 1 thumbnail — just two names | 1 |
+| `thumbnail_ep1.excalidraw` | Episode 1 thumbnail — the smallest language model | 1 |
 | `channel_intro.excalidraw` | Channel intro — The Unplanned Stack | 12 |
 | `thumbnail_channel.excalidraw` | Channel intro thumbnail — the plan vs what happened | 1 |
 | `thumbnail_channel_alt.excalidraw` | Channel intro thumbnail, alt — the stack trace | 1 |

@@ -8,12 +8,12 @@ I Built the Smallest Language Model (From Scratch) | LLM #1
 
 **Thumbnail**
 
-`thumbnails/episode-01-just-2-names.jpg`
+`thumbnails/episode-01-smallest-language-model.jpg`
 
-The title promises the build and the thumbnail supplies the surprising detail:
-the entire worked training corpus contains two names. Both are accurate, the
-wording remains readable at feed size, and the native Excalidraw treatment
-matches what viewers see in the video.
+The thumbnail repeats the video's central promise so the subject is unmistakable
+at feed size. Its small 4×4 probability table supplies the visual proof, while
+the flat navy background distinguishes Episode 1 from Episode 0. The native
+Excalidraw treatment matches what viewers see in the video.
 
 ## Paste-ready description
 
@@ -68,16 +68,20 @@ names dataset.
 
 ## Alternate title and thumbnail tests
 
-1. `thumbnails/episode-01-this-table-writes.jpg`
+1. `thumbnails/episode-01-just-2-names.jpg`
+
+   **I Built the Smallest Language Model (From Scratch) | LLM #1**
+
+2. `thumbnails/episode-01-this-table-writes.jpg`
    
    **How Next-Token Prediction Actually Works | LLM From Scratch #1**
 
-2. `thumbnails/episode-01-no-neural-network.jpg`
+3. `thumbnails/episode-01-no-neural-network.jpg`
    
    **Before Transformers: The Simplest Language Model**
 
 Use the recommended package first. If YouTube's Test & Compare is available,
-test all three thumbnails against the recommended title before changing both
+test the alternatives against the recommended title before changing both
 the title and thumbnail together. That makes the result easier to interpret.
 
 ## Tags

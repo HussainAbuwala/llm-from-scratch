@@ -16,40 +16,46 @@ from excalidraw_kit import *  # noqa: F401,F403
 cv = Canvas()
 sc = cv.scene("Episode 01 thumbnail")
 
-PEACH = "#f9d6a7"
-WHITE = "#fffdf8"
+NAVY = "#0b1733"
+OFF_WHITE = "#fff9e8"
+MINT = "#69db9c"
+CYAN = "#74c0fc"
 
-# Flat background. No paper texture, gradients, shadows, or 3D treatment.
-sc.add(box(0, 0, 1600, 900, bg=PEACH, stroke="transparent", sw=1,
+# Flat dark background distinguishes this episode from Episode 0's peach.
+sc.add(box(0, 0, 1600, 900, bg=NAVY, stroke="transparent", sw=1,
            roundness=None))
 
-# Hook: intentionally spare and slightly asymmetrical, like a real board.
-sc.add(text(70, 130, "JUST", 152, HAND))
-sc.add(box(60, 330, 155, 205, bg=WHITE, stroke="transparent", sw=1,
-           roundness=None))
-sc.add(text(72, 318, "2", 205, HAND, BLUE))
-sc.add(text(245, 356, "NAMES?", 126, HAND))
-sc.add(line([(72, 560), (690, 536)], stroke=VIOLET, sw=4))
+# The thumbnail repeats the video's central promise in plain language.
+sc.add(text(70, 105, "I BUILT THE", 78, HAND, OFF_WHITE))
+sc.add(text(70, 205, "SMALLEST", 128, HAND, MINT))
+sc.add(text(70, 365, "LANGUAGE", 102, HAND, OFF_WHITE))
+sc.add(text(70, 490, "MODEL", 118, HAND, OFF_WHITE))
+sc.add(line([(72, 636), (650, 612)], stroke=CYAN, sw=5))
 
-# The complete story on the right: two training names, one tiny model, one new
-# possible output. The boxes are flat Excalidraw elements, not paper cut-outs.
-sc.add(box(850, 105, 290, 112, "anna", 54, HAND, bg=BG_BLUE, sw=3))
-sc.add(box(1220, 105, 270, 112, "ava", 54, HAND, bg=BG_VIOLET, sw=3))
+# The complete story on the right: two inputs, the entire 4x4 model, one output.
+sc.add(box(880, 90, 270, 100, "anna", 48, HAND, bg=BG_BLUE, sw=3))
+sc.add(box(1230, 90, 250, 100, "ava", 48, HAND, bg=BG_VIOLET, sw=3))
 
-sc.add(arrow(995, 230, 1090, 345, stroke=VIOLET, sw=4))
-sc.add(arrow(1355, 230, 1270, 345, stroke=VIOLET, sw=4))
+sc.add(arrow(1015, 205, 1100, 300, stroke=CYAN, sw=4))
+sc.add(arrow(1355, 205, 1270, 300, stroke=CYAN, sw=4))
 
-sc.add(box(965, 350, 440, 160, "MODEL", 58, HAND, bg=BG_VIOLET, sw=3))
-sc.add(arrow(1185, 525, 1185, 635, stroke=VIOLET, sw=4))
-sc.add(box(1025, 650, 320, 135, "ana", 68, HAND, bg=BG_GREEN, sw=3))
+sc.add(box(900, 310, 570, 295, bg=OFF_WHITE, sw=3))
+sc.add(text(950, 338, "THE WHOLE MODEL", 36, HAND, VIOLET))
+sc.add(text(965, 405, "      a     n     v    END", 24, CODE, GRAY))
+sc.add(text(965, 450, "START  1.00  0     0     0", 24, CODE))
+sc.add(text(965, 490, "a      0     .25   .25   .50", 24, CODE))
+sc.add(text(965, 530, "n      .50   .50   0     0", 24, CODE))
+sc.add(text(965, 570, "v      1.00  0     0     0", 24, CODE))
+sc.add(arrow(1185, 620, 1185, 682, stroke=CYAN, sw=4))
+sc.add(box(1035, 700, 300, 112, "ana", 62, HAND, bg=BG_GREEN, sw=3))
 
 # Small hand-drawn emphasis marks around the generated result.
-sc.add(line([(985, 684), (948, 666)], stroke=BLACK, sw=4))
-sc.add(line([(980, 720), (936, 720)], stroke=BLACK, sw=4))
-sc.add(line([(1385, 684), (1422, 666)], stroke=BLACK, sw=4))
-sc.add(line([(1390, 720), (1434, 720)], stroke=BLACK, sw=4))
+sc.add(line([(995, 726), (958, 710)], stroke=OFF_WHITE, sw=4))
+sc.add(line([(992, 760), (950, 760)], stroke=OFF_WHITE, sw=4))
+sc.add(line([(1375, 726), (1412, 710)], stroke=OFF_WHITE, sw=4))
+sc.add(line([(1378, 760), (1420, 760)], stroke=OFF_WHITE, sw=4))
 
-sc.add(text(70, 822, "LLM FROM SCRATCH  ·  EP 01", 30, CODE, RED))
+sc.add(text(70, 825, "LLM FROM SCRATCH  ·  EP 01", 30, CODE, CYAN))
 
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "thumbnail_ep1.excalidraw")
