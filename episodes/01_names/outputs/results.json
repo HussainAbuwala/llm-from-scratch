@@ -1,0 +1,600 @@
+{
+  "dataset_sha256": "0a30b5557f192f32ab962680889aac5f6fda0f4cecf40a6d0b5694f58ea8cc4d",
+  "source_commit": "988aa59e4d8fefa526d06f3b453ad116258398d4",
+  "python_version": "3.14.2",
+  "split_seed": 42,
+  "sampling_seed": 2026,
+  "split_sizes": {
+    "train": 23595,
+    "validation": 2949,
+    "test": 2950
+  },
+  "ordinary_characters": 26,
+  "outcomes": 27,
+  "metric": "total negative natural log probability / all predictions, including END",
+  "toy": {
+    "ana_probability": 0.0625,
+    "ana_nll": 0.6931471805599453
+  },
+  "validation_baselines": {
+    "Uniform": 3.295836866003892,
+    "Unigram": 2.823959053078594,
+    "Bigram, k=0": "infinity"
+  },
+  "sweep": [
+    {
+      "k": 0.0,
+      "train_nll": 2.4529204357566163,
+      "validation_nll": "infinity"
+    },
+    {
+      "k": 0.001,
+      "train_nll": 2.4529210982014047,
+      "validation_nll": 2.458584482536821
+    },
+    {
+      "k": 0.01,
+      "train_nll": 2.4529270823700964,
+      "validation_nll": 2.457718356345195
+    },
+    {
+      "k": 0.03,
+      "train_nll": 2.452940521103028,
+      "validation_nll": 2.457314354297792
+    },
+    {
+      "k": 0.1,
+      "train_nll": 2.4529890068238145,
+      "validation_nll": 2.4569015811995336
+    },
+    {
+      "k": 0.3,
+      "train_nll": 2.453138355309117,
+      "validation_nll": 2.4566215540070693
+    },
+    {
+      "k": 1.0,
+      "train_nll": 2.4537481605259046,
+      "validation_nll": 2.4567487018544
+    },
+    {
+      "k": 3.0,
+      "train_nll": 2.455847812545628,
+      "validation_nll": 2.458436998057557
+    },
+    {
+      "k": 10.0,
+      "train_nll": 2.4642949629974664,
+      "validation_nll": 2.46662676257272
+    },
+    {
+      "k": 100.0,
+      "train_nll": 2.5605094511368303,
+      "validation_nll": 2.5629095247914497
+    }
+  ],
+  "selected_k": 0.3,
+  "test": {
+    "Uniform": {
+      "nll": 3.2958368660038926,
+      "predictions": 21053,
+      "zero_predictions": 0
+    },
+    "Unigram": {
+      "nll": 2.8185101332993376,
+      "predictions": 21053,
+      "zero_predictions": 0
+    },
+    "Smoothed bigram": {
+      "nll": 2.460499355213333,
+      "predictions": 21053,
+      "zero_predictions": 0
+    }
+  },
+  "samples": [
+    {
+      "name": "ann",
+      "ended": true,
+      "in_training": true
+    },
+    {
+      "name": "aiootlostomia",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "jorole",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "vi",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "kamifi",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "miavenionan",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "li",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "de",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "jeajadozarine",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "men",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "zin",
+      "ended": true,
+      "in_training": true
+    },
+    {
+      "name": "ezen",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "jalasonnn",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "den",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "ri",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "sh",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "avinn",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "y",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "jaliayliaar",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "azarr",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "micerr",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "kokar",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "siat",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "r",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "en",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "kaaguamayanigee",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "kranniorand",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "arylsetyapri",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "brileeleliulihiazouse",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "sph",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "ss",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "garinawindelial",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "brrollie",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "elede",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "riaeah",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "l",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "grjer",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "eli",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "ss",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "m",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "h",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "griave",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "rayi",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "karohtahessarghaneeor",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "mbehaliel",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "lyn",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "ynerresa",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "jwmux",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "i",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "xfrekerin",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "lasbr",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "ryrtoemiay",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "aiyns",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "h",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "kichaykacivalik",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "ckarily",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "z",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "bidicon",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "manieioi",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "kyshton",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "an",
+      "ended": true,
+      "in_training": true
+    },
+    {
+      "name": "merayanitelii",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "n",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "idrdon",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "jonayoie",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "e",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "jase",
+      "ended": true,
+      "in_training": true
+    },
+    {
+      "name": "kalilawles",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "ty",
+      "ended": true,
+      "in_training": true
+    },
+    {
+      "name": "miele",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "narelleyn",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "faia",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "daimasaviaelenvalisslali",
+      "ended": false,
+      "in_training": false
+    },
+    {
+      "name": "ck",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "zyonion",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "sana",
+      "ended": true,
+      "in_training": true
+    },
+    {
+      "name": "drce",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "iededoroshiannigei",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "sel",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "skeerdelinn",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "dynryi",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "ionar",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "na",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "mataz",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "beonndaicinobelin",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "beuaaerouitaiyliyajvah",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "ja",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "m",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "me",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "la",
+      "ended": true,
+      "in_training": true
+    },
+    {
+      "name": "naeurahue",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "za",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "myvelan",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "siazi",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "jer",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "mallikskhalara",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "kesmena",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "agare",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "odia",
+      "ended": true,
+      "in_training": false
+    },
+    {
+      "name": "treni",
+      "ended": true,
+      "in_training": false
+    }
+  ],
+  "greedy": {
+    "name": "a",
+    "ended": true
+  }
+}

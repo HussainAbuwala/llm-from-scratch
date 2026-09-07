@@ -5,6 +5,8 @@ __pycache__/
 
 # Working copies made for live annotation during recording
 *.RECORDING.excalidraw
+*.RECORDING.ipynb
+.ipynb_checkpoints/
 
 # Regenerable proofing output
 *_preview.html
