@@ -4,6 +4,21 @@
 
 EP 01B — Build a Language Model in Python (From Scratch)
 
+## Thumbnail choices
+
+Recommended first: `thumbnails/episode-01b-counts-new-names.jpg`
+
+1. **COUNTS → NEW NAMES** — the strongest match for this episode's mechanism;
+   complements the title instead of repeating it.
+2. **29,494 NAMES IN** — emphasizes the jump from the two-name theory example
+   to the larger coding dataset.
+3. **ONE LETTER AT A TIME** — emphasizes the bigram model's defining mechanism
+   and limitation.
+
+The earlier `LET'S CODE A LANGUAGE MODEL` concept remains in the repository as
+an unused draft. It is not recommended because the phrase could apply to every
+future coding video in the series.
+
 ## Description
 
 Build a character-level language model in pure Python, then use it to generate names and measure its predictions on unseen data.
@@ -66,7 +81,7 @@ LLM from scratch, language model in Python, bigram model, character language mod
 - Altered/synthetic realistic content: No; ordinary recorded instruction, with an illustrated thumbnail
 - Automatic chapters: Off; four supplied chapters follow the verified source-part boundaries
 - Captions: Review YouTube-generated captions after processing; no transcript was supplied
-- Thumbnail: `thumbnails/episode-01b-code-language-model.jpg` (1280 × 720)
+- Thumbnail: choose one of the three 1280 × 720 alternatives above
 
 ## Suggested pinned comment (prepared, not posted)
 
