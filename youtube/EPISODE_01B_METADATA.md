@@ -6,7 +6,16 @@ EP 01B — Build a Bigram Language Model in Python
 
 ## Thumbnail choices
 
-Recommended first: `thumbnails/episode-01b-counts-new-names.jpg`
+Recommended first: `thumbnails/episode-01b-lets-code-bigram.jpg`
+
+Updated choices explicitly communicate coding a bigram language model:
+
+- **LET’S CODE A BIGRAM LANGUAGE MODEL** — recommended; Python code and generated names reinforce the hands-on build.
+- **BIGRAM LANGUAGE MODEL IN PYTHON** — `thumbnails/episode-01b-bigram-in-python.jpg`; larger model-name headline with a LET’S CODE badge.
+
+Prompts: `EPISODE_01B_THUMBNAIL_CODING_PROMPTS.md`.
+
+Earlier concepts below are retained as drafts; the updated choices above are clearer about the topic and coding format.
 
 1. **COUNTS → NEW NAMES** — the strongest match for this episode's mechanism;
    complements the title instead of repeating it.
@@ -81,7 +90,7 @@ LLM from scratch, language model in Python, bigram model, character language mod
 - Altered/synthetic realistic content: No; ordinary recorded instruction, with an illustrated thumbnail
 - Automatic chapters: Off; four supplied chapters follow the verified source-part boundaries
 - Captions: Review YouTube-generated captions after processing; no transcript was supplied
-- Thumbnail: choose one of the three 1280 × 720 alternatives above
+- Thumbnail: choose one of the two updated 1280 × 720 alternatives above
 
 ## Suggested pinned comment (prepared, not posted)
 
