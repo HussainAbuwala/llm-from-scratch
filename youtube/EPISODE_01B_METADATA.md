@@ -2,7 +2,7 @@
 
 ## Title
 
-EP 01B — Build a Language Model in Python (From Scratch)
+EP 01B — Build a Bigram Language Model in Python
 
 ## Thumbnail choices
 
