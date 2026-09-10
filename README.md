@@ -25,6 +25,28 @@ The worked model uses rows `[START, a, n, v]` and next-token outcomes
 `[a, n, v, END]`. The complete held-out path `ana` has probability `1/16`, or
 `0.0625`, and average NLL `0.693147` nats per prediction.
 
+## Episode 02 — Trigrams and the sparsity wall
+
+Episode 02A theory materials and a separate coding companion:
+
+- [Theory companion guide (PDF)](docs/episode-02-theory.pdf)
+- [Canvas: one frame per page (PDF)](docs/episode-02-canvas.pdf)
+- [YouTube release metadata](youtube/EPISODE_02A_METADATA.md)
+
+- [Theory reference: worked arithmetic, sparsity, and practical responses](EPISODE_02_THEORY.md)
+- [Theory presentation: 29 frames](canvas/episode_02_theory.html)
+- [Presenter guide: narration, cues, and timing](canvas/EPISODE_02_CANVAS_GUIDE.md)
+- [Editable trigram canvas](canvas/episode_02_trigrams.excalidraw)
+- [Pure-Python lab and verified validation results](episodes/02_trigrams/README.md)
+- [Coding-video plan](episodes/02_trigrams/CODING_VIDEO_PLAN.md)
+- [Understanding checks](episodes/02_trigrams/EXERCISES.md)
+- [Separate answer key](episodes/02_trigrams/ANSWERS.md)
+
+The theory explains the mechanism with hand-counted examples, then introduces
+smoothing, backoff, interpolation, and representation sharing. The separate
+coding video measures the tradeoff on Episode 01's data. Its current lab reports
+validation results; the test set remains reserved for the coding release.
+
 ## Repository map
 
 - `docs/` — audience handouts and reproducible PDF sources

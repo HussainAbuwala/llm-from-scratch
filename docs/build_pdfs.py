@@ -118,11 +118,12 @@ def draw_text_line(c, x, y, value, font, size, centered=False):
         c.drawString(cursor,y,piece)
         cursor+=width
 
-def canvas_pdf():
-    doc=json.loads((ROOT/'canvas/episode_01_presenter.excalidraw').read_text());els=doc['elements']
+def canvas_pdf(source=None, destination=None, title='Episode 01 - Presentation Canvas'):
+    source=Path(source) if source else ROOT/'canvas/episode_01_presenter.excalidraw'
+    doc=json.loads(source.read_text());els=doc['elements']
     frames=sorted([e for e in els if e['type']=='frame'],key=lambda e:e['x'])
-    dest=HERE/'episode-01-canvas.pdf';c=canvas.Canvas(str(dest),pagesize=(1600,900),pageCompression=1)
-    c.setTitle('Episode 01 - Presentation Canvas');c.setAuthor('Hussain Abuwala')
+    dest=Path(destination) if destination else HERE/'episode-01-canvas.pdf';c=canvas.Canvas(str(dest),pagesize=(1600,900),pageCompression=1)
+    c.setTitle(title);c.setAuthor('Hussain Abuwala')
     for fi,f in enumerate(frames):
         kids=[e for e in els if e.get('frameId')==f['id'] and not e.get('isDeleted')];byid={e['id']:e for e in kids}
         c.bookmarkPage(str(fi));c.addOutlineEntry(f['name'],str(fi),0)

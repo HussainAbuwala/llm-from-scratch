@@ -8,6 +8,7 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | `series_intro.excalidraw` | Video 0 — series introduction | 10 |
 | `episode_01_presenter.excalidraw` | Episode 1 theory — recorded presenter canvas | 40 |
 | `episode_01_bigram.excalidraw` | Episode 1 theory — detailed development reference | 24 |
+| `episode_02_trigrams.excalidraw` | Episode 2 theory — recording canvas | 29 |
 | `thumbnail_ep0.excalidraw` | Video 0 thumbnail — a drawing of the machine | 1 |
 | `thumbnail_ep1.excalidraw` | Episode 1 thumbnail — the smallest language model | 1 |
 | `channel_intro.excalidraw` | Channel intro — The Unplanned Stack | 12 |
@@ -16,6 +17,10 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | `thumbnail_stack.excalidraw` | Channel intro thumbnail — a stack vs my stack | 1 |
 
 ## Open one
+
+For Episode 02, [the theory reader](episode_02_theory.html) shows one scene at
+a time with arrow-key navigation, an overview, hidden speaker notes, and a
+presentation mode. See [the presenter guide](EPISODE_02_CANVAS_GUIDE.md).
 
 Go to [excalidraw.com](https://excalidraw.com) → hamburger menu → **Open** →
 pick the `.excalidraw` file. Everything is local; nothing is uploaded.
@@ -30,6 +35,7 @@ See [../RECORDING_SETUP.md](../RECORDING_SETUP.md) for the recording layout.
 ```bash
 python3 build_series_intro.py
 python3 build_episode_01_presenter.py
+python3 build_episode_02.py
 ```
 
 Regenerating **overwrites** the `.excalidraw` files. If you hand-edit a canvas in
@@ -58,6 +64,7 @@ catching overlapping elements and overflowing text. Open it in any browser.
 - `build_episode_01_presenter.py` — the 40-frame Episode 1 recording canvas and
   presenter guide.
 - `build_episode_01.py` — the longer Episode 1 development canvas.
+- `build_episode_02.py` — the 29-frame theory canvas, offline reader, and presenter guide.
 - `build_channel_intro.py` — channel intro content (channel-level, not part of
   the LLM series; here because the toolchain is here).
 - `render_preview.py` — proofreading renderer (HTML/SVG contact sheet).
@@ -89,3 +96,10 @@ Kept consistent so visual language carries across episodes:
 Monospace (`CODE`) for anything the viewer will type or that is literally a
 number; handwritten (`HAND`) for prose. Never prose in monospace — it reads as
 output rather than explanation.
+
+## Episode 02A release copies
+
+The [29-page canvas PDF](../docs/episode-02-canvas.pdf) and
+[theory companion guide](../docs/episode-02-theory.pdf) are the audience downloads
+for the YouTube description. The PDF preserves the recorded frame sequence;
+the guide expands explanations without adding the coding experiment.

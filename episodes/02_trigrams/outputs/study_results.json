@@ -1,0 +1,837 @@
+{
+  "purpose": "Self-study validation experiment; test set not scored",
+  "dataset_sha256": "0a30b5557f192f32ab962680889aac5f6fda0f4cecf40a6d0b5694f58ea8cc4d",
+  "source_commit": "988aa59e4d8fefa526d06f3b453ad116258398d4",
+  "python_version": "3.14.2",
+  "split_seed": 42,
+  "sampling_seed": 2026,
+  "split_sizes": {
+    "train": 23595,
+    "validation": 2949,
+    "test": 2950
+  },
+  "metric": "total negative natural log probability / predictions, including one END per name; START padding not scored",
+  "k_candidates": [
+    0.001,
+    0.01,
+    0.03,
+    0.1,
+    0.3,
+    1.0,
+    3.0,
+    10.0,
+    100.0
+  ],
+  "models": [
+    {
+      "context_size": 1,
+      "ngram_order": 2,
+      "possible_rows": 27,
+      "possible_cells": 729,
+      "observed_rows": 27,
+      "observed_cells": 617,
+      "singleton_rows": 0,
+      "unsmoothed_validation": {
+        "nll": "infinity",
+        "predictions": 21141,
+        "zero_probability_predictions": 8,
+        "unseen_context_predictions": 0
+      },
+      "unsmoothed_train": {
+        "nll": 2.4529204357566163,
+        "predictions": 169134,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "validation_sweep": [
+        {
+          "k": 0.001,
+          "nll": 2.458584482536821,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 0
+        },
+        {
+          "k": 0.01,
+          "nll": 2.457718356345195,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 0
+        },
+        {
+          "k": 0.03,
+          "nll": 2.457314354297792,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 0
+        },
+        {
+          "k": 0.1,
+          "nll": 2.4569015811995336,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 0
+        },
+        {
+          "k": 0.3,
+          "nll": 2.4566215540070693,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 0
+        },
+        {
+          "k": 1.0,
+          "nll": 2.4567487018544,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 0
+        },
+        {
+          "k": 3.0,
+          "nll": 2.458436998057557,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 0
+        },
+        {
+          "k": 10.0,
+          "nll": 2.46662676257272,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 0
+        },
+        {
+          "k": 100.0,
+          "nll": 2.5629095247914497,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 0
+        }
+      ],
+      "selected_k": 0.3,
+      "train": {
+        "nll": 2.453138355309117,
+        "predictions": 169134,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "validation": {
+        "k": 0.3,
+        "nll": 2.4566215540070693,
+        "predictions": 21141,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "first_12_samples": [
+        {
+          "name": "ann",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "aiootlostomia",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "jorole",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "vi",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "kamifi",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "miavenionan",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "li",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "de",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "jeajadozarine",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "men",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "zin",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "ezen",
+          "ended": true,
+          "in_training": false
+        }
+      ]
+    },
+    {
+      "context_size": 2,
+      "ngram_order": 3,
+      "possible_rows": 703,
+      "possible_cells": 18981,
+      "observed_rows": 592,
+      "observed_cells": 5760,
+      "singleton_rows": 57,
+      "unsmoothed_validation": {
+        "nll": "infinity",
+        "predictions": 21141,
+        "zero_probability_predictions": 178,
+        "unseen_context_predictions": 8
+      },
+      "unsmoothed_train": {
+        "nll": 2.184465819290872,
+        "predictions": 169134,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "validation_sweep": [
+        {
+          "k": 0.001,
+          "nll": 2.2676809279839345,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 8
+        },
+        {
+          "k": 0.01,
+          "nll": 2.2488617449445645,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 8
+        },
+        {
+          "k": 0.03,
+          "nll": 2.2407807323663307,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 8
+        },
+        {
+          "k": 0.1,
+          "nll": 2.234193097212133,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 8
+        },
+        {
+          "k": 0.3,
+          "nll": 2.2332139984536314,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 8
+        },
+        {
+          "k": 1.0,
+          "nll": 2.245247408143741,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 8
+        },
+        {
+          "k": 3.0,
+          "nll": 2.2819676368625608,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 8
+        },
+        {
+          "k": 10.0,
+          "nll": 2.3753984771373435,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 8
+        },
+        {
+          "k": 100.0,
+          "nll": 2.762081603862048,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 8
+        }
+      ],
+      "selected_k": 0.3,
+      "train": {
+        "nll": 2.197541465799343,
+        "predictions": 169134,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "validation": {
+        "k": 0.3,
+        "nll": 2.2332139984536314,
+        "predictions": 21141,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 8
+      },
+      "first_12_samples": [
+        {
+          "name": "amiyah",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "kin",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "prickeson",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "mak",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "vi",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "kaliet",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "mccon",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "isolisse",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "dezinamado",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "annie",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "marz",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "keni",
+          "ended": true,
+          "in_training": true
+        }
+      ]
+    },
+    {
+      "context_size": 3,
+      "ngram_order": 4,
+      "possible_rows": 18279,
+      "possible_cells": 493533,
+      "observed_rows": 5402,
+      "observed_cells": 22516,
+      "singleton_rows": 1197,
+      "unsmoothed_validation": {
+        "nll": "infinity",
+        "predictions": 21141,
+        "zero_probability_predictions": 1086,
+        "unseen_context_predictions": 176
+      },
+      "unsmoothed_train": {
+        "nll": 1.8721210067028573,
+        "predictions": 169134,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "validation_sweep": [
+        {
+          "k": 0.001,
+          "nll": 2.309514869559169,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 176
+        },
+        {
+          "k": 0.01,
+          "nll": 2.197637941469767,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 176
+        },
+        {
+          "k": 0.03,
+          "nll": 2.153832541730048,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 176
+        },
+        {
+          "k": 0.1,
+          "nll": 2.1269030566173712,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 176
+        },
+        {
+          "k": 0.3,
+          "nll": 2.1389016271662924,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 176
+        },
+        {
+          "k": 1.0,
+          "nll": 2.2145012884163124,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 176
+        },
+        {
+          "k": 3.0,
+          "nll": 2.35209230457476,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 176
+        },
+        {
+          "k": 10.0,
+          "nll": 2.5660051132547266,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 176
+        },
+        {
+          "k": 100.0,
+          "nll": 2.988529894789811,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 176
+        }
+      ],
+      "selected_k": 0.1,
+      "train": {
+        "nll": 1.9248423862821191,
+        "predictions": 169134,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "validation": {
+        "k": 0.1,
+        "nll": 2.1269030566173712,
+        "predictions": 21141,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 176
+      },
+      "first_12_samples": [
+        {
+          "name": "amesen",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "kinzlindlcwmvssfg",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "vi",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "kalie",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "skyawrenton",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "onny",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "julianae",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "taos",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "don",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "juvgpsivdmxlhharlinn",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "demori",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "sevarunq",
+          "ended": true,
+          "in_training": false
+        }
+      ]
+    },
+    {
+      "context_size": 4,
+      "ngram_order": 5,
+      "possible_rows": 475255,
+      "possible_cells": 12831885,
+      "observed_rows": 20067,
+      "observed_cells": 44021,
+      "singleton_rows": 8581,
+      "unsmoothed_validation": {
+        "nll": "infinity",
+        "predictions": 21141,
+        "zero_probability_predictions": 2160,
+        "unseen_context_predictions": 1153
+      },
+      "unsmoothed_train": {
+        "nll": 1.580496848276933,
+        "predictions": 169134,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "validation_sweep": [
+        {
+          "k": 0.001,
+          "nll": 2.511856752551079,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 1153
+        },
+        {
+          "k": 0.01,
+          "nll": 2.2969879949008023,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 1153
+        },
+        {
+          "k": 0.03,
+          "nll": 2.223011672504934,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 1153
+        },
+        {
+          "k": 0.1,
+          "nll": 2.196154337821983,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 1153
+        },
+        {
+          "k": 0.3,
+          "nll": 2.246230432005064,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 1153
+        },
+        {
+          "k": 1.0,
+          "nll": 2.388255969491958,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 1153
+        },
+        {
+          "k": 3.0,
+          "nll": 2.569233730581644,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 1153
+        },
+        {
+          "k": 10.0,
+          "nll": 2.7738894175906244,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 1153
+        },
+        {
+          "k": 100.0,
+          "nll": 3.0729557896799915,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 1153
+        }
+      ],
+      "selected_k": 0.1,
+      "train": {
+        "nll": 1.7629224222978914,
+        "predictions": 169134,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "validation": {
+        "k": 0.1,
+        "nll": 2.196154337821983,
+        "predictions": 21141,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 1153
+      },
+      "first_12_samples": [
+        {
+          "name": "ameraiya",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "kirplgqcwmvssfg",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "vi",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "kalifkxtpatjlkpndnuqnygl",
+          "ended": false,
+          "in_training": false
+        },
+        {
+          "name": "umacgebtxcqmngxqmmz",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "kengznmxlhharqmonymnnwvp",
+          "ended": false,
+          "in_training": false
+        },
+        {
+          "name": "treya",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "riky",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "shaksculmaan",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "asgquzsreipuzntdgpzxncsz",
+          "ended": false,
+          "in_training": false
+        },
+        {
+          "name": "ruehvofacxbjjuanirfdzpve",
+          "ended": false,
+          "in_training": false
+        },
+        {
+          "name": "kelliana",
+          "ended": true,
+          "in_training": true
+        }
+      ]
+    },
+    {
+      "context_size": 5,
+      "ngram_order": 6,
+      "possible_rows": 12356631,
+      "possible_cells": 333629037,
+      "observed_rows": 36171,
+      "observed_cells": 60043,
+      "singleton_rows": 21379,
+      "unsmoothed_validation": {
+        "nll": "infinity",
+        "predictions": 21141,
+        "zero_probability_predictions": 2629,
+        "unseen_context_predictions": 2746
+      },
+      "unsmoothed_train": {
+        "nll": 1.4455939407183283,
+        "predictions": 169134,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "validation_sweep": [
+        {
+          "k": 0.001,
+          "nll": 2.755634408453692,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 2746
+        },
+        {
+          "k": 0.01,
+          "nll": 2.4977312040562145,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 2746
+        },
+        {
+          "k": 0.03,
+          "nll": 2.4129587900981835,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 2746
+        },
+        {
+          "k": 0.1,
+          "nll": 2.3863816613037634,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 2746
+        },
+        {
+          "k": 0.3,
+          "nll": 2.4408829197937902,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 2746
+        },
+        {
+          "k": 1.0,
+          "nll": 2.5731846799140534,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 2746
+        },
+        {
+          "k": 3.0,
+          "nll": 2.721351332185375,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 2746
+        },
+        {
+          "k": 10.0,
+          "nll": 2.8740933625667693,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 2746
+        },
+        {
+          "k": 100.0,
+          "nll": 3.0980958344566014,
+          "predictions": 21141,
+          "zero_probability_predictions": 0,
+          "unseen_context_predictions": 2746
+        }
+      ],
+      "selected_k": 0.1,
+      "train": {
+        "nll": 1.7500985753155862,
+        "predictions": 169134,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 0
+      },
+      "validation": {
+        "k": 0.1,
+        "nll": 2.3863816613037634,
+        "predictions": 21141,
+        "zero_probability_predictions": 0,
+        "unseen_context_predictions": 2746
+      },
+      "first_12_samples": [
+        {
+          "name": "amerah",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "kinslihgqcwmvssfg",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "vi",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "kaliflxtpatjlkpndnuqnygl",
+          "ended": false,
+          "in_training": false
+        },
+        {
+          "name": "umacgdbtxcqmngxqmmz",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "kengznmxlhharqmonyhnnwvp",
+          "ended": false,
+          "in_training": false
+        },
+        {
+          "name": "treycmvnm",
+          "ended": true,
+          "in_training": false
+        },
+        {
+          "name": "yunajnculmaapzcvgquzsrei",
+          "ended": false,
+          "in_training": false
+        },
+        {
+          "name": "loyd",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "ahmywncszvyilvofacxbjjua",
+          "ended": false,
+          "in_training": false
+        },
+        {
+          "name": "kaled",
+          "ended": true,
+          "in_training": true
+        },
+        {
+          "name": "klaripqsbkfybowmuftxdovn",
+          "ended": false,
+          "in_training": false
+        }
+      ]
+    }
+  ]
+}

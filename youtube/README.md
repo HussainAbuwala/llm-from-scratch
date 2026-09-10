@@ -95,3 +95,11 @@ That is the most coherent option, because it is drawn in the same tool and on th
 same peach ground (`#f9d6a7`, sampled from the channel banner) as everything else.
 For the actual upload, export it from Excalidraw rather than using the checked-in
 PNG — the real Excalifont and stroke engine look better than the Pillow stand-in.
+
+## Episode 02A
+
+- [Release metadata](EPISODE_02A_METADATA.md): title, description, verified part-boundary chapters, tags.
+- [Thumbnail options](EPISODE_02A_THUMBNAILS.md): three diagram alternatives.
+- `build_episode_02_thumbnails.py` regenerates the 1280 x 720 JPGs.
+- `merge_episode_02a.py` reproduces the five-part edit with the 09:14-09:18 cut in part 4.
+- [Release checks](EPISODE_02A_RELEASE.md) records media and companion verification.
