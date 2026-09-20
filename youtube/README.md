@@ -103,3 +103,11 @@ PNG — the real Excalifont and stroke engine look better than the Pillow stand-
 - `build_episode_02_thumbnails.py` regenerates the 1280 x 720 JPGs.
 - `merge_episode_02a.py` reproduces the five-part edit with the 09:14-09:18 cut in part 4.
 - [Release checks](EPISODE_02A_RELEASE.md) records media and companion verification.
+
+## Episode 02B
+
+- [Upload metadata](EPISODE_02B_METADATA.md): titles, description, GitHub resources, chapters, tags, and pinned-comment draft.
+- [Thumbnail alternatives](EPISODE_02B_THUMBNAILS.md): three navy-background coding options.
+- `build_episode_02b_thumbnails.py` rebuilds the images.
+- `merge_episode_02b.py` joins the two recordings with normalized frame timing and no cuts.
+- [Release checks](EPISODE_02B_RELEASE.md) records verification.

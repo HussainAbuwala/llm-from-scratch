@@ -1,0 +1,34 @@
+{
+  "dataset_sha256": "0a30b5557f192f32ab962680889aac5f6fda0f4cecf40a6d0b5694f58ea8cc4d",
+  "split_seed": 42,
+  "context_candidates": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "k_candidates": [
+    0,
+    0.001,
+    0.01,
+    0.03,
+    0.1,
+    0.3,
+    1.0,
+    3.0,
+    10.0,
+    100.0
+  ],
+  "selected_k_by_context": {
+    "1": 0.3,
+    "2": 0.3,
+    "3": 0.1,
+    "4": 0.1,
+    "5": 0.1
+  },
+  "chosen_context": 3,
+  "chosen_k": 0.1,
+  "selection_metric": "validation NLL; first candidate breaks ties",
+  "test_policy": "report all fixed candidates; no reselection from test"
+}

@@ -38,14 +38,19 @@ Episode 02A theory materials and a separate coding companion:
 - [Presenter guide: narration, cues, and timing](canvas/EPISODE_02_CANVAS_GUIDE.md)
 - [Editable trigram canvas](canvas/episode_02_trigrams.excalidraw)
 - [Pure-Python lab and verified validation results](episodes/02_trigrams/README.md)
+- [Coding notebook: trigrams and the sparsity experiment](episodes/02_trigrams/episode_02.ipynb)
+- [Coding setup and learning guide](episodes/02_trigrams/CODE_GUIDE.md)
+- [Coding presenter walkthrough](episodes/02_trigrams/PRESENTER_GUIDE.md)
+- [Episode 02B YouTube metadata](youtube/EPISODE_02B_METADATA.md)
 - [Coding-video plan](episodes/02_trigrams/CODING_VIDEO_PLAN.md)
 - [Understanding checks](episodes/02_trigrams/EXERCISES.md)
 - [Separate answer key](episodes/02_trigrams/ANSWERS.md)
 
 The theory explains the mechanism with hand-counted examples, then introduces
 smoothing, backoff, interpolation, and representation sharing. The separate
-coding video measures the tradeoff on Episode 01's data. Its current lab reports
-validation results; the test set remains reserved for the coding release.
+coding video measures the tradeoff on Episode 01's data. The executed coding notebook reports
+validation selection followed by a fixed test comparison. The original study
+report remains a validation-only record; Episode 02 reuses Episode 01's held-out split.
 
 ## Repository map
 

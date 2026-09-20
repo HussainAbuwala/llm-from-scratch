@@ -1,5 +1,9 @@
 # Episode 02 · Coding companion scope
 
+Implemented September 16, 2026 in [episode_02.ipynb](episode_02.ipynb).
+Use [CODE_GUIDE.md](CODE_GUIDE.md) to learn and [PRESENTER_GUIDE.md](PRESENTER_GUIDE.md) to record.
+This scope document records the experiment design; the notebook is the current runnable lesson.
+
 The [theory video](../../EPISODE_02_THEORY.md) establishes the mechanism with
 hand-worked examples: more specific rows divide evidence; unseen combinations
 need a probability policy; smoothing and shorter histories have limits.
@@ -28,9 +32,9 @@ or tune the demonstration until it matches a predetermined narrative.
    from selected-k training fit. Show unfiltered generated samples with labels.
 8. Explain the result within this dataset, split, and add-k family. More context
    may improve predictions before sparse estimates outweigh the benefit.
-9. After choices are frozen, add the series' final test evaluation for release.
-   The current lab report does not score test. Do not imply that step is already
-   implemented or completed.
+9. Freeze validation-selected choices, then report the final test comparison.
+   The notebook now implements this step; the older validation-only lab report
+   remains unchanged. The test split was previously reported in Episode 01.
 
 ## Existing experiment evidence
 
@@ -39,10 +43,11 @@ conventions. [study_results.json](outputs/study_results.json) preserves all
 candidate sweeps and the first 12 samples per model. These results were removed
 from the theory canvas; they remain available for this coding video.
 
-The existing `lab.py` is a working reference implementation and validation lab,
-not yet a completed recording notebook or full release build. The dataset has
+The existing `lab.py` is the tested core implementation and validation lab.
+The recording notebook is built from `lesson.py`; integration tests compare
+its core functions against `lab.py`. The dataset has
 29,494 deduplicated names, split 23,595 / 2,949 / 2,950. All validation candidates
-score 21,141 predictions. The held-out test split stays reserved.
+score 21,141 predictions. The notebook reports test after freezing validation choices; the older study report does not.
 
 ## Shorter histories
 

@@ -1,0 +1,2 @@
+# Same presentation environment as Episode 01; model code is standard-library Python.
+-r ../01_names/requirements.txt
