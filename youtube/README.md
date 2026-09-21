@@ -107,7 +107,7 @@ PNG — the real Excalifont and stroke engine look better than the Pillow stand-
 ## Episode 02B
 
 - [Upload metadata](EPISODE_02B_METADATA.md): titles, description, GitHub resources, chapters, tags, and pinned-comment draft.
-- [Selected thumbnail](EPISODE_02B_THUMBNAILS.md): LET'S CODE A TRIGRAM, without a supporting tagline.
+- [Selected thumbnail](EPISODE_02B_THUMBNAILS.md): LET'S CODE A TRIGRAM LANGUAGE MODEL, without a supporting tagline.
 - `build_episode_02b_thumbnails.py` rebuilds the images.
 - `merge_episode_02b.py` joins the two recordings with normalized frame timing and no cuts.
 - [Release checks](EPISODE_02B_RELEASE.md) records verification.

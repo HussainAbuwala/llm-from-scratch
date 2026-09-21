@@ -69,7 +69,7 @@ trigram language model, LLM from scratch, Python language model, n gram model, b
 
 ## Selected thumbnail
 
-`thumbnails/episode-02b-lets-code-trigram.jpg` - LET'S CODE A TRIGRAM
+`thumbnails/episode-02b-lets-code-trigram.jpg` - LET'S CODE A TRIGRAM LANGUAGE MODEL
 
 Selected by the user. Supporting tagline removed. 1280 x 720 JPG with the series' navy background. Not uploaded automatically.
 
@@ -84,7 +84,7 @@ Selected by the user. Supporting tagline removed. 1280 x 720 JPG with the series
 - License: Standard YouTube License
 - Chapters: Use the supplied recording-based markers
 - Captions: Review automatic captions for trigram, n-gram, NLL, pseudocount, START, and END
-- Thumbnail: use the selected LET'S CODE A TRIGRAM image
+- Thumbnail: use the selected LET'S CODE A TRIGRAM LANGUAGE MODEL image
 
 ## Suggested pinned comment (prepared, not posted)
 

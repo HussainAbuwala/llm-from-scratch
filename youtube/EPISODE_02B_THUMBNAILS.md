@@ -1,6 +1,6 @@
 # Episode 02B selected thumbnail
 
-**LET'S CODE A TRIGRAM** - the user selected option A, with its supporting tagline removed.
+**LET'S CODE A TRIGRAM LANGUAGE MODEL** - the user selected option A, with its supporting tagline removed.
 
 ![Final thumbnail](thumbnails/episode-02b-lets-code-trigram.jpg)
 

@@ -45,9 +45,12 @@ def save(im,name):
     return p
 
 im,d=base()
-text(d,(54,155),"LET'S CODE",91)
-text(d,(54,278),'A TRIGRAM',96,GREEN)
-line(d,[(60,411),(632,404)],BLUE,7)
+text(d,(54,133),"LET'S CODE",83)
+text(d,(54,237),'A',88)
+text(d,(140,237),'TRIGRAM',88,GREEN)
+text(d,(54,341),'LANGUAGE',88)
+text(d,(54,445),'MODEL',88)
+line(d,[(60,548),(632,541)],BLUE,7)
 d.rounded_rectangle((710,174,1212,490),radius=18,fill='#162841',outline='#42516a',width=3)
 text(d,(739,200),'PYTHON',27,BLUE,font=MONO)
 for y,s in [(272,'context = ("a", "n")'),(321,'target = "n"'),(370,'counts[context][target] += 1')]:
