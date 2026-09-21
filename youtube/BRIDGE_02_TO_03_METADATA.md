@@ -30,6 +30,18 @@ The learned bigram is a familiar task for understanding the training method. We 
 
 Backoff and interpolation already reuse evidence from shorter histories. Our coding experiment did not test those methods, so it does not show that they are insufficient. We're now taking the route toward learned representations and, eventually, a small Transformer. First, we'll learn the training mechanism on the familiar bigram task.
 
+Chapters:
+00:00 Our language model's next chapter
+01:03 What bigrams and trigrams taught us
+01:51 More context, sparser evidence
+02:33 Why exact matches keep related evidence separate
+04:45 How longer and shorter count rows coexist
+06:28 Backoff: choosing an existing row
+08:34 Interpolation: combining predictions
+10:30 What interpolation does not learn
+11:34 Can learning about cups help with mugs?
+12:52 Weights and the next steps in the series
+
 This episode's learning notes and recording materials:
 https://github.com/HussainAbuwala/llm-from-scratch/tree/main/episodes/02_bridge
 
@@ -84,19 +96,21 @@ Rebuild from repository root:
 
 ## Recording and publishing notes
 
-- Clarity takes priority over runtime. The 1,158-word draft allocates about 12 minutes
-  with pointing pauses. The earlier 3–5 minute cap has been removed.
-- Record/rehearse before deciding chapter timestamps. No final chapters are
-  supplied because a final recording has not been inspected for timestamps. Add chapters from the finished recording if useful.
+- Recording inspected: `~/Movies/llm-series/episode-bridge-02-03.mp4`.
+  Duration: 927.633333 seconds (15:27.633), 1920 × 1080, 30 fps.
+- Chapters above use observed canvas transitions in the recording, rounded down
+  to whole seconds. They are visual topic navigation points, not verified
+  word-level narration boundaries. Zooms within a frame are not new chapters.
+- Frames 8 and 9 are grouped under “What interpolation does not learn.”
+- Transition detection: `youtube/chapters.py`; each topic heading was inspected
+  on extracted frames, with spot checks one second after the chosen transitions.
+  No transcript or full spoken-content audit was performed.
 - Add the actual previous-video and next-video links when available. Do not
   invent video URLs. The description currently links to existing repository paths.
 - Category: Education. Language: English. Use the existing series playlist.
 - Audience: General software education; not made for kids.
 - Suggested initial visibility: Private for review. License: Standard YouTube License.
 - Optional end screen: link the previous trigram coding video and the series playlist.
-- Suggested chapter topics after recording: recap; sparse evidence; how rows coexist;
-  backoff; interpolation; what sharing is missing; why weights and the next episodes.
-  These are topic labels, not timestamped chapters.
 - Review captions for bigram, trigram, NLL, backoff, interpolation, weights,
   embeddings, autograd and PyTorch.
 - The bridge repository links above target the main branch; verify them after pushing.
