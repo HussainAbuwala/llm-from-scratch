@@ -51,10 +51,27 @@ text(d,(140,237),'TRIGRAM',88,GREEN)
 text(d,(54,341),'LANGUAGE',88)
 text(d,(54,445),'MODEL',88)
 line(d,[(60,548),(632,541)],BLUE,7)
-d.rounded_rectangle((710,174,1212,490),radius=18,fill=CREAM,outline=BLUE,width=5)
-d.rounded_rectangle((734,195,970,254),radius=10,fill='#1971c2')
-text(d,(752,204),'PYTHON',35,CREAM,font=MONO)
-for y,s in [(272,'context = ("a", "n")'),(321,'target = "n"'),(370,'counts[context][target] += 1')]:
- text(d,(739,y),s,23,'#16713c' if y==370 else INK,font=MONO)
+# Notebook-inspired chrome and a selected code cell.
+d.rounded_rectangle((686,154,1234,510),radius=18,fill='#ffffff',outline=BLUE,width=4)
+d.rounded_rectangle((708,175,748,215),radius=8,fill='#f37726')
+text(d,(719,179),'J',28,'#ffffff',font=MONO)
+text(d,(760,183),'episode_02.ipynb',23,INK,font=MONO)
+d.line((704,232,1215,232),fill='#d8dce3',width=2)
+text(d,(718,245),'Run  |  Code',20,'#596579',font=MONO)
+logo=Image.open(ROOT/'youtube/brand-assets/python-logo.png').convert('RGBA')
+# Extract the official two-snake symbol, without changing its colors or proportions.
+logo=logo.crop((25,9,69,53)).resize((66,66),Image.Resampling.LANCZOS)
+im.paste(logo,(1142,167),logo)
+d.rectangle((770,293,1214,457),fill='#f5f7fa',outline='#d6dce5',width=2)
+d.rectangle((762,293,768,457),fill='#1971c2')
+text(d,(700,309),'[1]:',20,'#1971c2',font=MONO)
+for y,pieces in [
+ (310,[('context',INK),(' = ', '#596579'),('("a", "n")','#a32638')]),
+ (355,[('target',INK),(' = ', '#596579'),('"n"','#a32638')]),
+ (400,[('counts[context][target]',INK),(' += ', '#7c3aed'),('1','#16713c')])]:
+ x=785
+ for value,color in pieces:
+  text(d,(x,y),value,20,color,font=MONO)
+  x+=d.textlength(value,font=ImageFont.truetype(MONO,20))
 card(d,(865,544,1150,616),'an -> n',BLUE,39)
 save(im,'lets-code-trigram')
