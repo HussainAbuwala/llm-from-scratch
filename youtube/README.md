@@ -111,3 +111,8 @@ PNG — the real Excalifont and stroke engine look better than the Pillow stand-
 - `build_episode_02b_thumbnails.py` rebuilds the images.
 - `merge_episode_02b.py` joins the two recordings with normalized frame timing and no cuts.
 - [Release checks](EPISODE_02B_RELEASE.md) records verification.
+
+## Bridge after Episode 02B
+
+[Bridge upload package](BRIDGE_02_TO_03_METADATA.md): title, description, thumbnail,
+and recording notes for the counting-to-learning bridge. Chapters await recording.

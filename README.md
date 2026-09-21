@@ -52,6 +52,18 @@ coding video measures the tradeoff on Episode 01's data. The executed coding not
 validation selection followed by a fixed test comparison. The original study
 report remains a validation-only record; Episode 02 reuses Episode 01's held-out split.
 
+## Bridge — Counting to learning
+
+A standalone orientation between Episode 02B and Episode 03A:
+
+- [Recording package and learning notes](episodes/02_bridge/README.md)
+- [Eleven-frame presentation](canvas/bridge_02_to_03.html)
+- [Presenter script](episodes/02_bridge/PRESENTER_GUIDE.md)
+
+Recaps the count models, acknowledges backoff/interpolation as useful ways to
+reuse evidence, and explains why we next learn adjustable weights before building
+shared representations. This bridge does not renumber the curriculum.
+
 ## Repository map
 
 - `docs/` — audience handouts and reproducible PDF sources

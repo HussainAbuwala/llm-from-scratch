@@ -41,6 +41,17 @@ and a build video (editor, tests, real output).
 | 01 | The smallest language model | Char bigram by counting; boundaries; NLL; baselines; sampling; add-k smoothing | Probability, conditional probability, logs |
 | 02 | Trigrams and the sparsity wall | Longer count-based context; combinatorial blow-up; why counting ends here | Counting/combinatorics |
 
+### Bridge video · Counting to learning
+
+A standalone orientation follows Episode 02B, before Episode 03A.
+Clarity takes priority over runtime; the original 3–5 minute target is no longer a cap.
+See [the recording package](episodes/02_bridge/README.md). This is an additional
+bridge, not a new numbered technical episode or a theory/build pair. It explains
+why we started with counts, what the add-k experiment established, and why we
+now learn adjustable parameters. Backoff/interpolation remain valid approaches;
+our experiment did not compare them. Learned bigram weights in Episode 03 are
+a training-mechanism lesson; richer shared representations arrive in Episode 07.
+
 ### Part 2 · Learn — NumPy, then PyTorch
 
 | # | Episode | Core content | New maths |

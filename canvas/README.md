@@ -9,6 +9,7 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | `episode_01_presenter.excalidraw` | Episode 1 theory — recorded presenter canvas | 40 |
 | `episode_01_bigram.excalidraw` | Episode 1 theory — detailed development reference | 24 |
 | `episode_02_trigrams.excalidraw` | Episode 2 theory — recording canvas | 29 |
+| `bridge_02_to_03.excalidraw` | Bridge — counting to learning | 11 |
 | `thumbnail_ep0.excalidraw` | Video 0 thumbnail — a drawing of the machine | 1 |
 | `thumbnail_ep1.excalidraw` | Episode 1 thumbnail — the smallest language model | 1 |
 | `channel_intro.excalidraw` | Channel intro — The Unplanned Stack | 12 |
@@ -103,3 +104,8 @@ The [29-page canvas PDF](../docs/episode-02-canvas.pdf) and
 [theory companion guide](../docs/episode-02-theory.pdf) are the audience downloads
 for the YouTube description. The PDF preserves the recorded frame sequence;
 the guide expands explanations without adding the coding experiment.
+
+## Bridge after Episode 02
+
+[Offline presentation](bridge_02_to_03.html) · [Script and cues](../episodes/02_bridge/PRESENTER_GUIDE.md).
+Rebuild only this bridge with `python3 canvas/build_bridge_02_to_03.py` from the repository root.

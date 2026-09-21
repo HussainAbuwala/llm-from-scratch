@@ -1,0 +1,107 @@
+# Bridge video · Upload preparation
+
+## Recommended title
+
+We Built a Language Model by Counting. What Comes Next?
+
+Alternative titles:
+
+- From Counts to Weights: What's Next in Our LLM From Scratch Series?
+- Bigrams, Trigrams… What Comes Next? | LLM From Scratch
+- How Can a Language Model Share What It Learns?
+
+Place between Episode 02B and Episode 03A in the series playlist. Label this
+as a bridge rather than Episode 03 or an extra theory/build pair.
+
+## Description — ready to copy
+
+We've built bigram and trigram language models, generated names, and measured what happens when we give a count-based model more context. Before the next lesson, let's connect what we've learned to where we're going.
+
+This bridge explains why we started with counting, what sparse evidence means, and why our next step is learning how adjustable weights produce probabilities. We use a small cup-and-mug example to separate three ideas: pooling evidence through shorter histories, combining predictions with interpolation, and learning useful relationships between different inputs.
+
+The cup/mug illustration uses word tokens. Our implemented models and the next bigram lesson still use character tokens.
+
+What comes next:
+• Episode 03: bigram weights and softmax
+• Episodes 04–06: gradients, autograd, then rebuilding the bigram in PyTorch
+• Episode 07: embeddings and a small neural network
+
+The learned bigram is a familiar task for understanding the training method. We are not claiming that weights alone solve sparse evidence or guarantee a better bigram.
+
+Backoff and interpolation already reuse evidence from shorter histories. Our coding experiment did not test those methods, so it does not show that they are insufficient. We're now taking the route toward learned representations and, eventually, a small Transformer. First, we'll learn the training mechanism on the familiar bigram task.
+
+This episode's learning notes and recording materials:
+https://github.com/HussainAbuwala/llm-from-scratch/tree/main/episodes/02_bridge
+
+Download the editable Excalidraw canvas:
+https://github.com/HussainAbuwala/llm-from-scratch/blob/main/canvas/bridge_02_to_03.excalidraw
+
+Series code and materials:
+https://github.com/HussainAbuwala/llm-from-scratch
+
+Previous coding lesson — notebook and results:
+https://github.com/HussainAbuwala/llm-from-scratch/blob/main/episodes/02_trigrams/README.md
+
+The roadmap:
+https://github.com/HussainAbuwala/llm-from-scratch/blob/main/SERIES_PLAN.md
+
+References:
+Jurafsky & Martin, Speech and Language Processing, Chapter 3:
+https://web.stanford.edu/~jurafsky/slp3/3.pdf
+
+Bengio et al., A Neural Probabilistic Language Model (2003):
+https://www.jmlr.org/papers/v3/bengio03a.html
+
+#LLMFromScratch #MachineLearning #LanguageModels
+
+## Tags
+
+LLM from scratch, language models, bigram model, trigram model, n gram language model, count based language model, backoff, interpolation, data sparsity, neural language model, neural network weights, machine learning, natural language processing, The Unplanned Stack
+
+## Thumbnail alternatives
+
+[Side-by-side comparison](thumbnails/bridge-02-to-03-options.jpg)
+
+| Option | Headline | Image | Angle |
+|---|---|---|---|
+| A — recommended | WHAT COMES AFTER COUNTS? | [Download JPG](thumbnails/bridge-02-to-03.jpg) | Direct bridge from count tables to adjustable weights |
+| B | CAN IT SHARE WHAT IT LEARNS? | [Download JPG](thumbnails/bridge-02-to-03-sharing.jpg) | Cup/mug question at the center of the episode |
+| C | WHERE WE GO NEXT | [Download JPG](thumbnails/bridge-02-to-03-roadmap.jpg) | Recap and orientation for returning viewers |
+
+All three are 1280 × 720 JPGs under 2 MB, using the series navy palette and
+local font. These are illustrative diagrams, not experimental outputs.
+The comparison sheet is for review, not upload. No selection is assumed.
+
+Suggested pair: recommended title + thumbnail A. B emphasizes the conceptual
+question; C emphasizes the series roadmap. These are editorial alternatives,
+not claims of measured click-through performance.
+
+Rebuild from repository root:
+
+```bash
+.venv/bin/python youtube/build_bridge_thumbnail.py
+```
+
+## Recording and publishing notes
+
+- Clarity takes priority over runtime. The 1,158-word draft allocates about 12 minutes
+  with pointing pauses. The earlier 3–5 minute cap has been removed.
+- Record/rehearse before deciding chapter timestamps. No final chapters are
+  supplied because a final recording has not been inspected for timestamps. Add chapters from the finished recording if useful.
+- Add the actual previous-video and next-video links when available. Do not
+  invent video URLs. The description currently links to existing repository paths.
+- Category: Education. Language: English. Use the existing series playlist.
+- Audience: General software education; not made for kids.
+- Suggested initial visibility: Private for review. License: Standard YouTube License.
+- Optional end screen: link the previous trigram coding video and the series playlist.
+- Suggested chapter topics after recording: recap; sparse evidence; how rows coexist;
+  backoff; interpolation; what sharing is missing; why weights and the next episodes.
+  These are topic labels, not timestamped chapters.
+- Review captions for bigram, trigram, NLL, backoff, interpolation, weights,
+  embeddings, autograd and PyTorch.
+- The bridge repository links above target the main branch; verify them after pushing.
+- This package does not upload, publish, schedule or post a comment.
+
+## Optional pinned comment — draft
+
+What feels clear now, and what still feels confusing about the move from counting to learning weights? The next lesson returns to bigrams so we can focus on the learning mechanism itself.
