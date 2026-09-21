@@ -1,17 +1,9 @@
-# Episode 02B thumbnail choices
+# Episode 02B selected thumbnail
 
-| Choice | Hook | Use when |
-|---|---|---|
-| A - recommended | LET'S CODE A TRIGRAM | You want the topic and coding format immediately clear |
-| B | MORE CONTEXT IN PYTHON | You want the connection to the bigram episode emphasized |
-| C | DOES CONTEXT HELP? | You want the experiment's question to lead |
+**LET'S CODE A TRIGRAM** - the user selected option A, with its supporting tagline removed.
 
-![Thumbnail options](thumbnails/episode-02b-options.jpg)
+![Final thumbnail](thumbnails/episode-02b-lets-code-trigram.jpg)
 
-- [A](thumbnails/episode-02b-lets-code-trigram.jpg)
-- [B](thumbnails/episode-02b-more-context-python.jpg)
-- [C](thumbnails/episode-02b-does-context-help.jpg)
-
-All are 1280 x 720 JPGs, under 2 MB, with navy #0B1831 and the existing series font/palette. No private presenter image is used. Option C's curve uses actual selected-k validation values from the coding report; it is a compact thumbnail illustration, not a replacement for the fully labeled notebook chart.
+1280 x 720 JPG, under 2 MB, with navy #0B1831 and the existing series font/palette. No private presenter image is used. Only this selected thumbnail is retained.
 
 Rebuild: `python3 youtube/build_episode_02b_thumbnails.py` (Pillow and macOS Menlo).

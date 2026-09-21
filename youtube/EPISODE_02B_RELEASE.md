@@ -39,7 +39,7 @@ The unrelated Episode 01 notebook kernel-label edit is excluded from the commit.
 
 ## Release assets
 
-- Three 1280 x 720 JPG thumbnails, each below 2 MB; navy series palette.
-- Options checked at full and feed size. A emphasizes coding a trigram; B emphasizes context; C uses the actual validation curve.
+- One selected 1280 x 720 JPG thumbnail, below 2 MB; navy series palette.
+- The user selected A: LET'S CODE A TRIGRAM. Supporting tagline removed; unused options and the comparison sheet removed.
 - Metadata includes paste-ready title, description, repository links, seven recording-based chapter navigation points, tags, and an unposted pinned comment.
-- No video upload, publication, scheduling, or thumbnail selection was performed.
+- No video upload, publication, or scheduling was performed.

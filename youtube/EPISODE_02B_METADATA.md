@@ -67,15 +67,11 @@ Next in the series: learn bigram probabilities using weights and softmax.
 
 trigram language model, LLM from scratch, Python language model, n gram model, bigram, context length, data sparsity, add k smoothing, Laplace smoothing, negative log likelihood, next token prediction, name generator, machine learning from scratch, Jupyter notebook, validation loss, overfitting
 
-## Thumbnail alternatives
+## Selected thumbnail
 
-A - recommended: `thumbnails/episode-02b-lets-code-trigram.jpg` - LET'S CODE A TRIGRAM
+`thumbnails/episode-02b-lets-code-trigram.jpg` - LET'S CODE A TRIGRAM
 
-B: `thumbnails/episode-02b-more-context-python.jpg` - MORE CONTEXT IN PYTHON
-
-C: `thumbnails/episode-02b-does-context-help.jpg` - DOES CONTEXT HELP?
-
-All three are 1280 x 720 JPGs with the series' navy background. No option has been selected or uploaded automatically.
+Selected by the user. Supporting tagline removed. 1280 x 720 JPG with the series' navy background. Not uploaded automatically.
 
 ## Prepared upload settings
 
@@ -88,7 +84,7 @@ All three are 1280 x 720 JPGs with the series' navy background. No option has be
 - License: Standard YouTube License
 - Chapters: Use the supplied recording-based markers
 - Captions: Review automatic captions for trigram, n-gram, NLL, pseudocount, START, and END
-- Thumbnail: choose A, B, or C
+- Thumbnail: use the selected LET'S CODE A TRIGRAM image
 
 ## Suggested pinned comment (prepared, not posted)
 
