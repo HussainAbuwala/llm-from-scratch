@@ -116,3 +116,5 @@ PNG — the real Excalifont and stroke engine look better than the Pillow stand-
 
 [Bridge upload package](BRIDGE_02_TO_03_METADATA.md): title, description, thumbnail,
 and recording notes for the counting-to-learning bridge. Chapters await recording.
+
+[Stage theme guide](SERIES_VISUAL_THEMES.md): distinct Count, Learn and Attend palettes, plus the split Count-to-Learn bridge treatment.

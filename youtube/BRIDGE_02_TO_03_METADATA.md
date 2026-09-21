@@ -2,13 +2,13 @@
 
 ## Recommended title
 
-We Built a Language Model by Counting. What Comes Next?
+Our Language Model’s Next Chapter: From Counts to Weights
 
 Alternative titles:
 
-- From Counts to Weights: What's Next in Our LLM From Scratch Series?
+- Connecting the Dots: From Counts to Weights | LLM From Scratch
 - Bigrams, Trigrams… What Comes Next? | LLM From Scratch
-- How Can a Language Model Share What It Learns?
+- Our Language Model Gets a New Learning Method | From Counts to Weights
 
 Place between Episode 02B and Episode 03A in the series playlist. Label this
 as a bridge rather than Episode 03 or an extra theory/build pair.
@@ -64,16 +64,16 @@ LLM from scratch, language models, bigram model, trigram model, n gram language 
 
 | Option | Headline | Image | Angle |
 |---|---|---|---|
-| A — recommended | WHAT COMES AFTER COUNTS? | [Download JPG](thumbnails/bridge-02-to-03.jpg) | Direct bridge from count tables to adjustable weights |
-| B | CAN IT SHARE WHAT IT LEARNS? | [Download JPG](thumbnails/bridge-02-to-03-sharing.jpg) | Cup/mug question at the center of the episode |
-| C | WHERE WE GO NEXT | [Download JPG](thumbnails/bridge-02-to-03-roadmap.jpg) | Recap and orientation for returning viewers |
+| A — recommended | NEXT CHAPTER | [Download JPG](thumbnails/bridge-02-to-03.jpg) | Direct bridge from count tables to adjustable weights |
+| B | GIVE IT A DIAL | [Download JPG](thumbnails/bridge-02-to-03-sharing.jpg) | Playful introduction to adjustable weights |
+| C | CONNECT THE DOTS | [Download JPG](thumbnails/bridge-02-to-03-roadmap.jpg) | Connect previous lessons with the next stage |
 
-All three are 1280 × 720 JPGs under 2 MB, using the series navy palette and
-local font. These are illustrative diagrams, not experimental outputs.
+All three are 1280 × 720 JPGs under 2 MB. A narrow navy Count strip transitions
+into the warm cream-and-plum Learn theme, with the existing local font.
+See [the stage theme guide](SERIES_VISUAL_THEMES.md) for Count, Learn and Attend palettes. These are illustrative diagrams, not experimental outputs.
 The comparison sheet is for review, not upload. No selection is assumed.
 
-Suggested pair: recommended title + thumbnail A. B emphasizes the conceptual
-question; C emphasizes the series roadmap. These are editorial alternatives,
+Suggested pair: recommended title + thumbnail A. B adds a playful adjustable-model metaphor; C emphasizes connecting the lessons. These are editorial alternatives,
 not claims of measured click-through performance.
 
 Rebuild from repository root:
