@@ -30,6 +30,7 @@ def save(im,name):
  print(p)
 # A: explicit transition, using a count table and a dial for adjustable weights.
 im,d=base()
+text(d,400,37,'LLM FROM SCRATCH',30,INK)
 text(d,400,133,'NEXT',115)
 text(d,400,251,'CHAPTER',115,PLUM)
 for r in range(3):

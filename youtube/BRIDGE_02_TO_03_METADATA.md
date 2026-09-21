@@ -83,7 +83,8 @@ LLM from scratch, language models, bigram model, trigram model, n gram language 
 All three are 1280 × 720 JPGs under 2 MB. A narrow navy Count strip transitions
 into the warm cream-and-plum Learn theme, with the existing local font.
 See [the stage theme guide](SERIES_VISUAL_THEMES.md) for Count, Learn and Attend palettes. These are illustrative diagrams, not experimental outputs.
-The comparison sheet is for review, not upload. No selection is assumed.
+Thumbnail A includes the series name LLM FROM SCRATCH above its headline.
+The comparison sheet is for review, not upload.
 
 Suggested pair: recommended title + thumbnail A. B adds a playful adjustable-model metaphor; C emphasizes connecting the lessons. These are editorial alternatives,
 not claims of measured click-through performance.
