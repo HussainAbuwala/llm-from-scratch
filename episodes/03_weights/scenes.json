@@ -1,0 +1,339 @@
+[
+  {
+    "title": "From counting to adjustable weights",
+    "subtitle": "Last time: sparse context motivated exploring models that can learn shared patterns.",
+    "takeaway": "Keep the bigram task familiar. Learn adjustable scores before richer models.",
+    "say": "Last time, we saw that longer count-based contexts can leave us with less evidence for each exact situation. Backoff and interpolation remain useful ways to reuse evidence; we did not rule them out. Our next route is toward models that learn shared patterns. To understand those models, we first need adjustable weights and a way to measure their predictions. Today we keep the familiar character bigram task and replace count rows with score rows. We will turn those scores into probabilities and see whether a chosen change improves the loss. This weight table does not yet share learned patterns across different inputs. That comes later. Today we are learning the pieces we will need.",
+    "cue": "Briefly reconnect to the bridge without reteaching sparsity. Point to the middle box as today’s scope and the right box as a later step.",
+    "seconds": 65,
+    "source": "Bridge learning notes and SERIES_PLAN.md; the add-k experiment does not rule out backoff or interpolation.",
+    "kind": "flow",
+    "items": [
+      "Count-based\nmodels",
+      "Adjustable\nweights",
+      "Shared patterns\nin later models"
+    ],
+    "caption": "Today: change a score, make probabilities, and measure the effect."
+  },
+  {
+    "title": "Keep the training examples",
+    "subtitle": "Character-level toy corpus: anna and ava. Reset at each name.",
+    "takeaway": "START supplies context. END contributes to the loss.",
+    "say": "Nothing about the data changes. Anna gives us five predictions: its four characters and END. Ava gives us four. Write the start transition for each name separately. There is no transition connecting the two names. Our current input can be START, a, n or v. Our next output can be a, n, v or END. These are two ordered lists. They have the same length here, but START and END have different jobs.",
+    "cue": "Count five targets, then four. Point to the input and output lists separately.",
+    "seconds": 80,
+    "source": "Project example; see EPISODE_03_THEORY.md.",
+    "items": [
+      "anna:  START → a → n → n → a → END",
+      "ava:   START → a → v → a → END",
+      "Input: START,a,n,v     Output: a,n,v,END"
+    ],
+    "mono": true
+  },
+  {
+    "title": "Two ways to fit the same bigram task",
+    "subtitle": "Same training transitions. Same held-out evaluation objective.",
+    "takeaway": "Counts fit rows directly. Weight training repeatedly adjusts scores.",
+    "say": "Both approaches begin with the same training transitions. On the left, count what followed each input, optionally smooth the counts, and normalize each row. That directly gives a fitted count model. On the right, initialize adjustable scores, look up the input row, apply softmax, and measure the observed targets using NLL. A training method then updates weights from training loss and repeats. Today we inspect the initial model and try two changes by hand; Episode Four supplies the gradient rule. Validation remains separate: it chooses k for our count experiment and can choose training settings or checkpoints for the weight model. Test data stays for final evaluation. We are not claiming the weight model is automatically better.",
+    "cue": "Trace each column top to bottom. The right-hand feedback loop updates weights, not the training data.",
+    "kind": "training_compare",
+    "seconds": 130,
+    "source": "Project worked example; authoritative references in EPISODE_03_THEORY.md."
+  },
+  {
+    "title": "Start with all weights at zero",
+    "subtitle": "W stores adjustable scores. Rows are inputs; columns are possible next tokens.",
+    "takeaway": "A weight is a stored parameter. These are chosen scores, not counts.",
+    "say": "This is our initial weight table. Every entry is zero. The rows identify the current input: START, a, n or v. The columns identify possible next tokens: a, n, v or END. A weight is a stored adjustable number. When we read a row for a prediction, those output scores are called logits. We only need the term once: logits means scores before softmax. Zero initialization is a transparent choice for this independent-row model, not a rule for all neural networks.",
+    "cue": "Read the input and output labels. Distinguish zero scores from zero probabilities.",
+    "seconds": 80,
+    "source": "Project example; see EPISODE_03_THEORY.md.",
+    "kind": "table",
+    "cells": [
+      [
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    ],
+    "caption": "Chosen starting point: all 16 weights are zero. Nothing has been updated yet."
+  },
+  {
+    "title": "Each input has its own score row",
+    "subtitle": "Input rows: START, a, n, v. Output columns: a, n, v, END.",
+    "takeaway": "Normalize each row independently; score the actual training transitions.",
+    "items": [
+      "Apply softmax to all four rows independently.",
+      "Each transition selects an input row and an actual target.",
+      "Use that target’s probability to calculate its loss."
+    ],
+    "say": "We do not need to pick a as the first training input. Each possible input already has its own score row. We can apply softmax to all four rows independently, producing four probability distributions. Then each training transition tells us which row to read and which actual target probability to score. Anna starts with START followed by a, so that observation uses the START row and the a column. Some rows are used more often than others: START twice, a four times, n twice and v once across our two names. That gives nine predictions, not four row losses. Computing softmax after looking up each input row would give the same predictions; for this walkthrough we normalize the whole table row by row first.",
+    "cue": "Point to the four input labels on the previous frame. Preview START followed by a as the first scored transition; every repeated transition counts.",
+    "seconds": 90,
+    "source": "Episode 03 theory reference and linked softmax-regression sources."
+  },
+  {
+    "title": "Softmax: scores into probabilities",
+    "subtitle": "A function that turns one row of real-valued scores into one probability distribution.",
+    "takeaway": "Each probability stays between 0 and 1; each row sums to 1. No token is sampled.",
+    "items": [
+      "WHY?\nScores can be negative or all zero.\nDividing raw scores can fail (0 ÷ 0).",
+      "HOW?\n1. Exponentiate each score: exp(score).\n2. Divide each amount by their total.",
+      "EFFECT\nHigher score gives higher probability.\nChanges are smooth; outputs compete."
+    ],
+    "say": "Our old counts were nonnegative and an observed row had a positive total, so dividing by that total worked. Scores have no such restriction. Our all-zero starting row would give zero divided by zero. Negative scores could also produce invalid negative probabilities. We need a rule that accepts any finite real scores, gives a normalized distribution, and favors larger scores. Softmax first applies the exponential, then divides by the total. The exponential is positive even for negative scores, and increases smoothly as the score grows. That smooth response will be useful when we learn gradients. This is a useful standard choice, not the only possible probability rule. Softmax names the whole two-step transformation; it does not change weights or sample a token. The graph shows one slice of softmax, not a single universal graph of this multi-input function. Keep the a, n and v scores at zero and vary only END’s score. END’s probability is exponential of its score divided by three plus that exponential. It forms an S-shaped curve: near zero probability for very low scores, a steeper middle, and flattening toward one for very high scores. At score zero all four outcomes have one quarter probability. At natural log three END has half the probability, because its exponential amount three matches the other three ones combined. For finite scores the probability never reaches exactly zero or one mathematically. The three other probabilities decrease as END increases so the row keeps summing to one. The smooth response makes gradients possible later; it does not guarantee useful predictions. Softmax does not train the weights or sample a token.",
+    "cue": "Read the motivation and two steps on the left, then trace the curve from low to high. Explicitly hold the other three scores at zero. At END score zero all four probabilities are 25%; 50% occurs at ln 3, not zero.",
+    "seconds": 160,
+    "source": "Episode 03 theory reference and linked softmax-regression sources.",
+    "kind": "softmax_explainer"
+  },
+  {
+    "title": "Apply softmax independently to every row",
+    "subtitle": "Each row starts at zero. Do not normalize all 16 scores together.",
+    "takeaway": "Four separate input questions. Four separate probability distributions.",
+    "say": "Exponential zero equals one. We must be able to predict from START, a, n and v. Every row currently contains four zeros. For each row independently, exponentiate to four ones, obtain a row total of four, then divide by four. We now have a complete probability table: every entry is one quarter. There are four distributions, each summing to one. The whole matrix is not one distribution. Code can compute these operations in a batch, but the normalization remains separate for each row.",
+    "cue": "Read all four rows across, including each row’s own denominator.",
+    "kind": "all_softmax",
+    "seconds": 110,
+    "source": "Project worked example; authoritative references in EPISODE_03_THEORY.md."
+  },
+  {
+    "title": "How do we score one prediction?",
+    "subtitle": "Use the probability assigned to the actual next token in the training data.",
+    "takeaway": "Same NLL rule as the count model. Only the source of probabilities changed.",
+    "say": "We need a number that rewards assigning higher probability to what actually happened. The negative natural log gives us the same loss as Episode One. For START followed by a, read the a probability in the START row: one quarter. Natural log one quarter is negative one point three eight six; the minus sign makes loss positive one point three eight six. Since every row is uniform, all nine targets will have this same loss. We will show each one. For a whole name, sequence probabilities multiply, so their negative logs add. To report a per-prediction average, divide by the number of targets, including END.",
+    "cue": "First select the target probability, then apply the loss rule. Distinguish one target from a whole name.",
+    "kind": "steps",
+    "seconds": 110,
+    "source": "Project worked example; authoritative references in EPISODE_03_THEORY.md.",
+    "items": [
+      "Loss = −ln(probability of the actual target)",
+      "START followed by a: probability = 1/4",
+      "−ln(1/4) = ln 4 ≈ 1.386294 nats"
+    ],
+    "mono": true
+  },
+  {
+    "title": "Score every transition in anna",
+    "subtitle": "Initial all-zero W. Read the probability of the actual target at each step.",
+    "takeaway": "Reset to START for each name. Score END once; never predict START.",
+    "say": "Now score anna using the actual preceding character at every position. Read each row and select the actual next token. All selected probabilities are one quarter in this initial model, so each contributes negative log one quarter, or log four. There are 5 targets including END. Add the losses to get 5 times log four for this name. We have evaluated the weights, not updated them. The model does not sample its own history while evaluating this supplied name.",
+    "cue": "Trace every line and count the END target. Do not skip repeated transitions: each is a separate observation.",
+    "kind": "score_name",
+    "seconds": 110,
+    "source": "Project worked example; authoritative references in EPISODE_03_THEORY.md.",
+    "name": "anna",
+    "transitions": [
+      [
+        "START",
+        "a"
+      ],
+      [
+        "a",
+        "n"
+      ],
+      [
+        "n",
+        "n"
+      ],
+      [
+        "n",
+        "a"
+      ],
+      [
+        "a",
+        "END"
+      ]
+    ]
+  },
+  {
+    "title": "Score every transition in ava",
+    "subtitle": "Initial all-zero W. Read the probability of the actual target at each step.",
+    "takeaway": "Reset to START for each name. Score END once; never predict START.",
+    "say": "Now score ava using the actual preceding character at every position. Read each row and select the actual next token. All selected probabilities are one quarter in this initial model, so each contributes negative log one quarter, or log four. There are 4 targets including END. Add the losses to get 4 times log four for this name. We have evaluated the weights, not updated them. The model does not sample its own history while evaluating this supplied name.",
+    "cue": "Trace every line and count the END target. Do not skip repeated transitions: each is a separate observation.",
+    "kind": "score_name",
+    "seconds": 110,
+    "source": "Project worked example; authoritative references in EPISODE_03_THEORY.md.",
+    "name": "ava",
+    "transitions": [
+      [
+        "START",
+        "a"
+      ],
+      [
+        "a",
+        "v"
+      ],
+      [
+        "v",
+        "a"
+      ],
+      [
+        "a",
+        "END"
+      ]
+    ]
+  },
+  {
+    "title": "Combine all nine prediction losses",
+    "subtitle": "Training corpus: anna and ava. Natural-log loss; characters plus END.",
+    "takeaway": "Total loss divided by total targets: 1.386294 nats per prediction.",
+    "say": "Anna contributes five losses and ava contributes four. Add all nine, then divide by nine. Anna has total five times log four; ava has total four times log four. Together the total is nine times log four, about twelve point four seven seven nats. Dividing by nine gives log four, about one point three eight six two nine four nats per prediction. It equals the individual loss only because every target had the same probability here. In general the losses differ. We do not average the two name totals, and we do not give equal weight to per-name averages of unequal-length names. This completes evaluation of the starting model.",
+    "cue": "Follow the five-plus-four count through numerator and denominator. No weight update has occurred.",
+    "kind": "baseline_average",
+    "seconds": 120,
+    "source": "Project worked example; authoritative references in EPISODE_03_THEORY.md."
+  },
+  {
+    "title": "Suppose we try one weight change",
+    "subtitle": "Change only the a-to-END weight from 0 to ln 2. Every other weight stays 0.",
+    "takeaway": "A chosen adjustment improves training NLL. No optimizer has chosen it yet.",
+    "say": "Suppose we try natural log two for the a-to-END weight. We picked it so exponential natural log two equals two. The a row is now zero, zero, zero, log two; softmax gives one fifth, one fifth, one fifth and two fifths. We do not need to repeat all nine predictions. The five predictions with other input rows are unchanged. The four targets after a are n, END, v, END. Scoring all nine with the same rule lowers average training NLL from one point three eight six two nine four to one point three three one four three seven. This is a measured result of a hand-set change, not a claim we already know how to train automatically.",
+    "cue": "Highlight only the a-to-END weight. Show the changed row and compare the two full-data losses.",
+    "kind": "chosen_change",
+    "seconds": 110,
+    "source": "Project worked example; authoritative references in EPISODE_03_THEORY.md."
+  },
+  {
+    "title": "Push too far: one success, overall failure",
+    "subtitle": "Set only the a-to-END weight to ln 100. Keep every other weight at zero.",
+    "takeaway": "Making END nearly certain hurts the n and v observations.",
+    "say": "Let us make END much more likely: use natural log one hundred. The row becomes one, one, one, one hundred divided by one hundred and three. END now has about ninety-seven percent probability and a tiny loss. That looks impressive if we show only END. But n and v each get less than one percent and a loss over four point six. Averaged over all nine training targets, the loss rises to one point eight zero seven. A change can help one observation while making the full model worse. We need a method that considers the objective we actually care about.",
+    "cue": "Start with the good END score, then reveal n/v cost and total failure. Pause on the red panel.",
+    "seconds": 110,
+    "source": "Project example; see EPISODE_03_THEORY.md.",
+    "kind": "compare",
+    "items": [
+      "END loss\n0.029559\n\nn or v loss\n4.634729",
+      "Full training NLL\n1.806672\n\nWorse than the\nuniform start"
+    ],
+    "mono": true,
+    "color": "#ffc9c9",
+    "caption": "a row: [1,1,1,100] / 103. Score all 9 training predictions."
+  },
+  {
+    "title": "What did we actually do?",
+    "subtitle": "The observations stayed fixed. We changed the prediction rule.",
+    "takeaway": "We can measure a change. Next we need a way to choose one.",
+    "say": "Separate these steps. First choose weights and compute predictions. Second, use observed targets to calculate the loss. Third, change a weight and repeat. We just performed that loop by choosing the changes ourselves. Neither softmax nor cross-entropy updates a parameter on its own. They give us a prediction and a number to evaluate. The missing piece is a systematic way to decide which change to try. That is the motivation for the gradient lesson, not a mysterious step we hide inside today’s model.",
+    "cue": "Ask which step softmax performs, and which step is still hand-directed.",
+    "seconds": 70,
+    "source": "Project example; see EPISODE_03_THEORY.md.",
+    "kind": "flow",
+    "items": [
+      "Weights\nto probabilities",
+      "Targets\nto loss",
+      "Choose a change\nand repeat"
+    ],
+    "caption": "The example contains no optimizer and no derivative rule."
+  },
+  {
+    "title": "Only score differences matter",
+    "subtitle": "Adding the same constant to every logit leaves probabilities unchanged.",
+    "takeaway": "A common shift cancels. Scaling scores is different.",
+    "say": "Compare our chosen row with the same row plus one thousand. Every exponential gets multiplied by exponential one thousand, and that common factor cancels in the ratio. The probabilities stay the same. This also means the absolute value of a logit is not its probability. But multiplying every score by two is different: the final exponential becomes four instead of two, so the distribution changes. Addition and multiplication do different things here.",
+    "cue": "Show the common factor cancellation on an annotation copy. Distinguish shift from scale.",
+    "seconds": 80,
+    "source": "Project example; see EPISODE_03_THEORY.md.",
+    "kind": "compare",
+    "items": [
+      "[0, 0, 0, ln 2]\n\n[1,1,1,2] / 5",
+      "[1000, 1000, 1000,\n1000 + ln 2]\n\nSame probabilities"
+    ],
+    "mono": true,
+    "caption": "Doubling instead gives [1,1,1,4] / 7."
+  },
+  {
+    "title": "Make the calculation stable",
+    "subtitle": "Numerical detail: large exponentials can overflow a computer’s number format.",
+    "takeaway": "Subtract the largest score: same probabilities, smaller intermediate numbers.",
+    "items": [
+      "Original a scores: [0, 0, 0, ln 2]",
+      "Subtract ln 2: [−ln 2, −ln 2, −ln 2, 0]",
+      "Exponentiate: [1/2, 1/2, 1/2, 1] → divide by 2.5"
+    ],
+    "say": "The previous frame shifted all scores by a thousand without changing their probabilities mathematically. But exponential one thousand is too big for ordinary computer arithmetic. We can prevent that overflow by subtracting the largest score before exponentiating. A common shift preserves the probabilities. For our original a row, subtract natural log two to get negative log two three times and zero. Their exponentials are one half, one half, one half and one. Divide by their total, two and a half, to recover one fifth, one fifth, one fifth and two fifths. The maximum shifted score is zero, so no exponential exceeds one. Very tiny amounts can still underflow; computing log probabilities directly is an implementation detail in the reference and coding companion.",
+    "cue": "Point back to common-shift invariance. Read the last row as positive amounts, not probabilities yet.",
+    "seconds": 100,
+    "source": "Episode 03 theory reference and linked softmax-regression sources.",
+    "mono": true
+  },
+  {
+    "title": "What has not changed yet?",
+    "subtitle": "A bigram weight table still keeps an independent row for each input.",
+    "takeaway": "This lesson changes the machinery; it does not solve sparse context.",
+    "say": "We changed how the model produces probabilities, but it still sees only one character. The first and last a in anna select the same row. Updating that row does not change predictions after n or v. There is no learned relationship between different input characters yet. The point of this lesson is to understand adjustable scores and measure their predictions, not to claim better generalization or solve sparse context. Later we will build richer models that share structure. The exact distinction between finite softmax probabilities and unsmoothed zeros is an optional reference detail, not needed for today’s main route.",
+    "cue": "Return to the two a occurrences in anna and point out that both use the same row.",
+    "seconds": 85,
+    "source": "Project example; see EPISODE_03_THEORY.md.",
+    "items": [
+      "One context character: each a uses the same row.",
+      "Changing the a row leaves the n and v rows unchanged.",
+      "Embeddings and a shared prediction function arrive in Episode 07."
+    ]
+  },
+  {
+    "title": "Generation uses the same loop",
+    "subtitle": "Prediction uses the current input. Sampling supplies the next input.",
+    "takeaway": "Softmax makes a distribution. Sampling draws a token.",
+    "say": "Generation starts at START. Select its row and compute probabilities, then sample a token. END means stop. Otherwise append the character and use it as the next input. Repeat. During loss evaluation, the data supplies the correct previous character at every step. During generation, our sample supplies it. Those are different ways of feeding the same prediction rule. A length cap is still just a safety cap, not a predicted END. With finite scores, START can also assign positive probability to END immediately, so an empty result is possible.",
+    "cue": "Trace the feedback arrow in words, and contrast it with the fixed training pairs.",
+    "seconds": 75,
+    "source": "Project example; see EPISODE_03_THEORY.md.",
+    "kind": "flow",
+    "items": [
+      "START or the\nlast sampled token",
+      "Select row\nand apply softmax",
+      "Sample\nEND means stop"
+    ],
+    "caption": "If the sample is a character: append it and use it as the next input."
+  },
+  {
+    "title": "Check your understanding",
+    "subtitle": "Pause before answering. Explain the mechanism, not the vocabulary.",
+    "takeaway": "Be able to trace one prediction before adding a training rule.",
+    "say": "Try three questions. If the input is n, which weight row gets used? If every selected score is zero, what distribution do we get? And if increasing the END score helps an END example, must it improve the whole training loss? Pause and explain your answers. For input n, we look up the n row. Four zero scores give four equal probabilities. And no: our overshoot example damaged the other observed targets enough to increase the total loss. If those answers make sense, we have the forward computation and the objective in place.",
+    "cue": "Pause after each question; answers are in these notes, not on the audience slide.",
+    "seconds": 90,
+    "source": "Project example; see EPISODE_03_THEORY.md.",
+    "items": [
+      "Input n: which weight row supplies the logits?",
+      "Four zero logits: what are the probabilities?",
+      "Better loss for one END target: better total loss?"
+    ]
+  },
+  {
+    "title": "Next: how should a weight change?",
+    "subtitle": "Episode 04: gradients, by hand. Episode 03B: inspect this model in NumPy.",
+    "takeaway": "We have a prediction function and a loss. Next, study their sensitivity.",
+    "say": "We can now start with a character, look up its scores, turn them into probabilities, and score the target using the same loss as before. We also saw that a larger weight is not automatically a better model. Next we will study how a small change in a number changes the loss, using derivatives and then gradients. We fully evaluated the initial weights and measured two chosen changes. The theory reference includes our arithmetic, limitations and authoritative sources. The coding companion will let us inspect the same operations with NumPy before the later lessons automate the training machinery.",
+    "cue": "Close with the question, not a claim of a newly trained superior model.",
+    "seconds": 65,
+    "source": "Reading links in EPISODE_03_THEORY.md; project curriculum in SERIES_PLAN.md.",
+    "items": [
+      "Look up scores, apply softmax, then score the target",
+      "Read: Dive into Deep Learning, section 4.1",
+      "Reference: Stanford CS231n notes on softmax"
+    ]
+  }
+]

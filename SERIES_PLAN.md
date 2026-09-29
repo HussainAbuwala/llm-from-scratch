@@ -21,7 +21,7 @@ series works, they become a second series rather than an ever-growing first one.
 | Episodes | Stack | Reason |
 |---|---|---|
 | 1–2 | Pure Python: dicts, lists, loops | Nothing between the viewer and the arithmetic |
-| 3–4 | NumPy | Matrices become necessary, not decorative |
+| 3–4 | NumPy | Score arrays, indexing, and numerical computation |
 | 5 | Pure Python again | An autograd engine has to be hand-built to be believed |
 | 6–14 | PyTorch | Introduced once the viewer already knows what it is doing for them |
 
@@ -56,12 +56,17 @@ a training-mechanism lesson; richer shared representations arrive in Episode 07.
 
 | # | Episode | Core content | New maths |
 |---|---|---|---|
-| 03 | From counts to weights | One-hot inputs, a weight matrix, logits, softmax; same bigram task, learned | Vectors, matrix multiply, softmax, cross-entropy |
+| 03 | From counts to weights | Direct score-row lookup, logits, motivated softmax, NLL; same bigram task | Exponentials, softmax, cross-entropy |
 | 04 | Gradients, by hand | Derivatives from first principles; chain rule; gradient descent on a two-parameter toy | Derivatives, chain rule |
 | 05 | Autograd from scratch | A scalar `Value` class; forward graph; backward pass; verify against numeric gradients | Computational graphs |
 | 06 | Enter PyTorch | Tensors, `.backward()`, optimisers; rebuild episode 3 in ~20 lines; verify the same objective on the same data | — |
-| 07 | Embeddings and the MLP model | Bengio 2003; a context window of several characters; hidden layer; learned representations | Embedding as lookup, non-linearity |
+| 07 | Embeddings and the MLP model | Bengio 2003; a context window of several characters; hidden layer; learned representations | Embedding as lookup, vectors, matrix multiplication, non-linearity |
 | 08 | Making training actually work | Initialisation, normalisation, learning-rate finding, train/val curves, overfitting | Variance intuition |
+
+Episode 03 uses direct row lookup; one-hot encoding and its equivalent matrix
+multiplication are optional reference material. Episode 07 motivates matrix
+multiplication through combining learned features. Target one-hot notation is
+also deferred; Episode 03 scores the actual target probability directly.
 
 ### Part 3 · Attend — PyTorch
 

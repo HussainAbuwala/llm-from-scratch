@@ -169,7 +169,7 @@ sc.heading("The maths arrives when it's needed. Not before.",
 maths = [
     ("Ep 1", "fractions, probability", BG_BLUE),
     ("Ep 1", "logarithms", BG_BLUE),
-    ("Ep 3", "vectors, matrix multiply", BG_GREEN),
+    ("Ep 3", "scores, softmax, loss", BG_GREEN),
     ("Ep 3", "softmax, cross-entropy", BG_GREEN),
     ("Ep 4", "derivatives, chain rule", BG_GREEN),
     ("Ep 5", "gradient descent", BG_GREEN),

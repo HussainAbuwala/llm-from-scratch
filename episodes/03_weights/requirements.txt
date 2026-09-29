@@ -1,0 +1,2 @@
+# Verified with NumPy 2.5.3; this arithmetic uses basic stable NumPy APIs.
+numpy>=2.0,<3

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Episode 03A · From counts to weights</title>
+<style>
+@font-face{font-family:Virgil;src:url(data:font/ttf;base64,FONT64) format('truetype')}
+*{box-sizing:border-box}body{margin:0;background:#eeece7;color:#20242a;font:16px system-ui,sans-serif}
+header{padding:12px 20px;background:#20242a;color:white;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+header strong{margin-right:auto}button,select{font:inherit;padding:8px 12px;border:1px solid #a6afbd;border-radius:7px;background:white;color:#20242a;cursor:pointer}select{max-width:420px}button:disabled{opacity:.4}
+main{max-width:1450px;margin:18px auto;padding:0 18px}.slide{display:none;background:white;border:1px solid #d5d1c8;border-radius:10px;overflow:hidden}.slide.active{display:block}.slide svg{max-height:calc(100vh - 150px)}
+aside{display:none;border-top:1px solid #dedbd5;padding:16px 24px;font-size:18px;line-height:1.6;background:#fff8df}.notes-visible aside{display:block}
+footer{text-align:center;padding:8px 20px 18px;color:#515963;font-size:14px}a{color:#375bb0}
+.overview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.overview .slide{display:block;cursor:pointer}.overview svg{max-height:none}
+.recording header,.recording footer,.recording aside{display:none}.recording{background:white}.recording main{margin:0;padding:0;max-width:none}.recording .slide{border:0;border-radius:0}.recording .slide svg{width:100vw;height:100vh;max-height:none}
+@media(max-width:750px){.overview{grid-template-columns:1fr}select{max-width:100%}header strong{width:100%}.slide svg{max-height:none}}
+@media print{header,footer,aside{display:none!important}main{margin:0;padding:0;max-width:none}.slide,.overview .slide{display:block;break-after:page;border:0}.slide svg{max-height:none}.overview{display:block}}
+</style></head><body>
+<header><strong>03A · From counts to weights</strong><button id="prev" aria-label="Previous scene">←</button><select id="jump" aria-label="Choose scene">OPTIONS</select><button id="next" aria-label="Next scene">→</button><button id="overview" aria-pressed="false">All scenes</button><button id="notes" aria-pressed="false">Speaker notes</button><button id="record">Present</button></header>
+<main>SECTIONS</main>
+<footer>← / → navigate · Home / End jump · Present hides controls; Escape restores them.<br>
+<a href="episode_03_weights.excalidraw" download>Editable canvas</a> · <a href="../episodes/03_weights/PRESENTER_GUIDE.md">Script</a> · <a href="../EPISODE_03_THEORY.md">Theory and sources</a> · Offline SVG approximation.</footer>
+<script>
+const slides=[...document.querySelectorAll('.slide')],main=document.querySelector('main'),jump=document.querySelector('#jump');let index=0,grid=false;
+function show(i){index=Math.max(0,Math.min(slides.length-1,Math.trunc(i)));slides.forEach((s,j)=>s.classList.toggle('active',j===index));jump.value=index;document.querySelector('#prev').disabled=index===0;document.querySelector('#next').disabled=index===slides.length-1;history.replaceState(null,'','#scene-'+(index+1));}
+function overview(value){grid=value;main.classList.toggle('overview',grid);document.querySelector('#overview').textContent=grid?'One scene':'All scenes';document.querySelector('#overview').setAttribute('aria-pressed',grid);}
+document.querySelector('#prev').onclick=()=>show(index-1);document.querySelector('#next').onclick=()=>show(index+1);jump.onchange=()=>show(Number(jump.value));document.querySelector('#overview').onclick=()=>overview(!grid);
+document.querySelector('#notes').onclick=()=>{const shown=document.body.classList.toggle('notes-visible');document.querySelector('#notes').setAttribute('aria-pressed',shown);};
+document.querySelector('#record').onclick=()=>{overview(false);document.body.classList.add('recording');document.activeElement.blur();};
+slides.forEach((s,i)=>s.onclick=()=>{if(grid){overview(false);show(i);window.scrollTo(0,0);}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.body.classList.remove('recording');return;}if(['SELECT','INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;if(['ArrowRight','ArrowLeft','Home','End'].includes(e.key)){e.preventDefault();show(e.key==='Home'?0:e.key==='End'?slides.length-1:index+(e.key==='ArrowRight'?1:-1));}});
+const initial=Number(location.hash.replace('#scene-',''));show(Number.isFinite(initial)&&initial>0?initial-1:0);
+</script></body></html>

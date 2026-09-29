@@ -118,3 +118,11 @@ PNG — the real Excalifont and stroke engine look better than the Pillow stand-
 and recording notes for the counting-to-learning bridge. Chapters are based on the 15:28 bridge recording.
 
 [Stage theme guide](SERIES_VISUAL_THEMES.md): distinct Count, Learn and Attend palettes, plus the split Count-to-Learn bridge treatment.
+
+## Episode 03A
+
+- [Upload metadata and three thumbnail options](EPISODE_03A_METADATA.md).
+- [Release checks](EPISODE_03A_RELEASE.md).
+- `merge_episode_03a.py` joins four recordings in numeric order with normalized frame timing and no cuts.
+- `build_episode_03a_thumbnails.py` generates the Learn-stage thumbnails.
+- [Final edited recording canvas](../canvas/episode_03_final.excalidraw), 19 frames.

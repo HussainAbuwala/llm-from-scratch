@@ -10,6 +10,8 @@ hand-drawn, so they can be corrected and regenerated when the theory changes.
 | `episode_01_bigram.excalidraw` | Episode 1 theory — detailed development reference | 24 |
 | `episode_02_trigrams.excalidraw` | Episode 2 theory — recording canvas | 29 |
 | `bridge_02_to_03.excalidraw` | Bridge — counting to learning | 11 |
+| `episode_03_weights.excalidraw` | Episode 03A — generated rehearsal canvas | 20 |
+| `episode_03_final.excalidraw` | Episode 03A — final user-edited recording canvas | 19 |
 | `thumbnail_ep0.excalidraw` | Video 0 thumbnail — a drawing of the machine | 1 |
 | `thumbnail_ep1.excalidraw` | Episode 1 thumbnail — the smallest language model | 1 |
 | `channel_intro.excalidraw` | Channel intro — The Unplanned Stack | 12 |
@@ -105,7 +107,22 @@ The [29-page canvas PDF](../docs/episode-02-canvas.pdf) and
 for the YouTube description. The PDF preserves the recorded frame sequence;
 the guide expands explanations without adding the coding experiment.
 
+## Episode 03A preparation
+
+[Offline presentation](episode_03_theory.html) ·
+[Presenter script](../episodes/03_weights/PRESENTER_GUIDE.md) ·
+[Theory reference](../EPISODE_03_THEORY.md).
+Rebuild with `python3 canvas/build_episode_03.py` from repository root.
+Edit `../episodes/03_weights/scenes.json` for the content and narration.
+
 ## Bridge after Episode 02
 
 [Offline presentation](bridge_02_to_03.html) · [Script and cues](../episodes/02_bridge/PRESENTER_GUIDE.md).
 Rebuild only this bridge with `python3 canvas/build_bridge_02_to_03.py` from the repository root.
+
+## Episode 03A final recording canvas
+
+[Final canvas](episode_03_final.excalidraw) is an exact copy of the user-edited
+`Untitled-2026-08-16-1755.excalidraw` supplied after recording. Treat it as the
+authoritative recording artifact. The builder regenerates only the separate
+20-frame rehearsal canvas and HTML; it does not overwrite this final 19-frame file.

@@ -64,6 +64,25 @@ Recaps the count models, acknowledges backoff/interpolation as useful ways to
 reuse evidence, and explains why we next learn adjustable weights before building
 shared representations. This bridge does not renumber the curriculum.
 
+## Episode 03 — From counts to weights
+
+Recorded Episode 03A follows the bridge, returning to the familiar bigram task:
+
+- [Final edited recording canvas — 19 frames](canvas/episode_03_final.excalidraw)
+- [YouTube release metadata and thumbnails](youtube/EPISODE_03A_METADATA.md)
+- [Start here: theory learning and rehearsal package](episodes/03_weights/README.md)
+- [Theory reference and worked arithmetic](EPISODE_03_THEORY.md)
+- [20-frame offline presentation](canvas/episode_03_theory.html)
+- [Editable weight-model canvas](canvas/episode_03_weights.excalidraw)
+- [Presenter script and recording blocks](episodes/03_weights/PRESENTER_GUIDE.md)
+- [Exercises](episodes/03_weights/EXERCISES.md) and [answer key](episodes/03_weights/ANSWERS.md)
+- [Correctness and preparation review](EPISODE_03_REVIEW.md)
+
+Characters directly select score rows; a motivated softmax turns scores into probabilities;
+cross-entropy recovers the same NLL objective. Hand-set changes show an
+improvement and an overshoot on `anna` / `ava`. Gradients remain Episode 04;
+the complete Episode 03B coding companion is a separate preparation step.
+
 ## Repository map
 
 - `docs/` — audience handouts and reproducible PDF sources
