@@ -1,4 +1,4 @@
-"""Three Episode 03A diagram thumbnails in the series Learn palette."""
+"""Selected Episode 03A thumbnail and three earlier alternatives in the series Learn palette."""
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parent.parent
@@ -72,3 +72,32 @@ for i,p in enumerate([a,b,c]):
     thumb=Image.open(p);thumb.thumbnail((480,270));sheet.paste(thumb,(450,i*290))
     ImageDraw.Draw(sheet).text((25,i*290+115),['A: Turn the weights','B: Scores to chances','C: Too confident?'][i],font=ImageFont.truetype(str(FONT),27),fill=INK)
 sheet.save(OUT/'episode-03a-options.jpg',quality=95)
+
+# Selected revision: state the actual model transition explicitly.
+im = Image.new('RGB', (1280, 720), BG)
+d = ImageDraw.Draw(im)
+text(d, 55, 28, 'LLM FROM SCRATCH', 28, PLUM)
+text(d, 1030, 28, 'EP 03A', 28, PLUM)
+text(d, 55, 90, 'FROM COUNTS', 100)
+text(d, 55, 195, 'TO WEIGHTS', 100, PLUM)
+d.rounded_rectangle((920, 170, 1215, 260), radius=16, fill=INK)
+text(d, 946, 193, 'BIGRAM MODEL', 30, BG)
+
+def table(x, label, values, color, highlight=False):
+    text(d, x, 330, label, 35, color)
+    cell_w, cell_h, top = 90, 53, 390
+    for r, row in enumerate(values):
+        for c, value in enumerate(row):
+            left, y = x+c*cell_w, top+r*cell_h
+            active = highlight and r == 1 and c == 3
+            d.rectangle((left,y,left+cell_w,y+cell_h),
+                        fill=ORANGE if active else '#FFFBEF', outline=color,width=3)
+            f=ImageFont.truetype(str(FONT), 31)
+            length=d.textlength(value,font=f)
+            d.text((left+(cell_w-length)/2,y+7),value,font=f,fill=BG if active else color)
+
+table(80, 'OBSERVED COUNTS', [['2','0','0','0'],['0','1','1','2'],['1','1','0','0'],['1','0','0','0']], INK)
+table(830, 'ADJUSTABLE SCORES', [['0','0','0','0'],['0','0','0','ln 2'],['0','0','0','0'],['0','0','0','0']], PLUM, True)
+arrow(d, 510, 495, 750)
+text(d, 80, 635, 'SAME NEXT-CHARACTER TASK', 32, PLUM)
+save(im, 'counts-to-weights')

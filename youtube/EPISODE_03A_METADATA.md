@@ -52,9 +52,15 @@ Next: the Episode 03 coding companion. Episode 04 introduces gradients—how to 
 
 LLM from scratch, softmax explained, weights and logits, bigram language model, negative log likelihood, cross entropy loss, training loss, next token prediction, language model from scratch, softmax numerical stability, machine learning fundamentals, neural network fundamentals
 
-## Thumbnail alternatives
+## Selected thumbnail
 
-A (recommended): `thumbnails/episode-03a-turn-the-weights.jpg` — TURN THE WEIGHTS. Shows the episode's central action and measured loss improvement.
+`thumbnails/episode-03a-counts-to-weights.jpg` — FROM COUNTS TO WEIGHTS.
+Selected direction: two tables make the transition explicit, with a BIGRAM MODEL label.
+1280 × 720 JPG; cream/plum Learn palette.
+
+## Earlier thumbnail alternatives
+
+A: `thumbnails/episode-03a-turn-the-weights.jpg` — TURN THE WEIGHTS. Shows the episode's central action and measured loss improvement.
 
 B: `thumbnails/episode-03a-scores-to-chances.jpg` — SCORES TO CHANCES. Leads with softmax and the concrete 20/20/20/40 distribution.
 
