@@ -2,7 +2,7 @@
 
 ## Recommended title
 
-EP 03B — Build Softmax and Loss from Scratch in NumPy
+EP 03B — Build Softmax and Loss in NumPy
 
 Alternative titles:
 
@@ -59,11 +59,19 @@ Chapters:
 
 LLM from scratch, NumPy tutorial, softmax from scratch, log softmax explained, numerical underflow, negative log likelihood, cross entropy loss, bigram language model, weights and probabilities, Python machine learning, NumPy indexing, neural network fundamentals, language model tutorial
 
-## Thumbnail alternatives
+## Recommended thumbnail
+
+`thumbnails/episode-03b-lets-code-softmax-loss.jpg` — LET'S CODE SOFTMAX AND LOSS.
+Follows 01B/02B's large left-hand coding headline, right-hand notebook panel,
+small output card, episode marker, and topic/tool footer. Uses 03B's cream/plum
+Learn palette. The topic names the actual build rather than suggesting gradient
+training has already been implemented.
+
+## Earlier thumbnail alternatives
 
 All three are 1280 × 720 JPG, under 2 MB, using the cream/plum Learn palette.
 
-- A — `thumbnails/episode-03b-build-it-in-numpy.jpg`: BUILD IT IN NUMPY. Recommended for continuity and a clear coding-episode promise.
+- A — `thumbnails/episode-03b-build-it-in-numpy.jpg`: BUILD IT IN NUMPY. Earlier draft; superseded by the series-format recommendation above.
 - B — `thumbnails/episode-03b-why-loss-explodes.jpg`: WHY LOSS EXPLODES. Focuses on the concrete infinity-versus-2000 demonstration.
 - C — `thumbnails/episode-03b-one-weight-three-losses.jpg`: ONE WEIGHT. THREE LOSSES. Focuses on the helpful change and overshoot.
 

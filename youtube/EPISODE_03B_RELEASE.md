@@ -56,9 +56,10 @@ handling, generation, and notebook/source agreement.
 
 - `EPISODE_03B_METADATA.md`: title options, paste-ready description, approximate
   chapters, tags, upload notes, and pinned-comment draft.
-- Three 1280 × 720 JPG thumbnail alternatives, each under 2 MB, visually checked
+- Four 1280 × 720 JPG thumbnail options, each under 2 MB, visually checked
   on `thumbnails/episode-03b-options.jpg`.
-- Recommended thumbnail A: `episode-03b-build-it-in-numpy.jpg`.
+- Recommended thumbnail: `episode-03b-lets-code-softmax-loss.jpg`, following
+  the 01B/02B coding layout and naming pattern. Earlier alternatives retained.
 - Alternatives B and C focus on underflow and overshoot respectively.
 - Reproducible code-drawn assets follow the established cream/plum Learn theme.
 - `git diff --check` passed before commit.
