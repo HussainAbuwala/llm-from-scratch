@@ -126,3 +126,10 @@ and recording notes for the counting-to-learning bridge. Chapters are based on t
 - `merge_episode_03a.py` joins four recordings in numeric order with normalized frame timing and no cuts.
 - `build_episode_03a_thumbnails.py` generates the Learn-stage thumbnails.
 - [Final edited recording canvas](../canvas/episode_03_final.excalidraw), 19 frames.
+
+## Episode 03B
+
+- [Upload metadata and three thumbnail alternatives](EPISODE_03B_METADATA.md).
+- [Release checks and preserved notebook hash](EPISODE_03B_RELEASE.md).
+- `merge_episode_03b.py` joins two recordings with normalized frame timing.
+- `build_episode_03b_thumbnails.py` regenerates the Learn-stage coding thumbnails.

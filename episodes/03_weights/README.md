@@ -44,9 +44,8 @@ canvas, HTML and script. Preserve hand annotations in a `.RECORDING.excalidraw`
 copy. The offline reader approximates Excalidraw with SVG; it does not use the
 full Excalidraw renderer.
 
-The NumPy file verifies the theory arithmetic. A complete Episode 03B notebook,
-release PDFs, YouTube assets, and the later gradient lessons are separate
-production steps. This package is ready for learning and rehearsal.
+The NumPy verifier checks the theory arithmetic. The complete Episode 03B coding
+companion is now available below. Later gradient lessons remain separate work.
 
 [Optional math](OPTIONAL_MATH.md) retains one-hot encoding, matrix multiplication
 and target-vector cross-entropy. These are not prerequisites for this episode.
@@ -64,3 +63,21 @@ limits, generation and gradients. The count-probability equivalence is optional.
 Use the [final edited 19-frame canvas](../../canvas/episode_03_final.excalidraw)
 for the recorded episode. The 20-frame HTML and presenter guide are rehearsal
 materials retained for reference. [Upload package](../../youtube/EPISODE_03A_METADATA.md).
+
+## Episode 03B · Coding companion
+
+Prepared September 30, 2026, following publication of 03A (presenter confirmed).
+
+- [Start here: setup and code guide](CODE_GUIDE.md)
+- [Executed notebook](episode_03.ipynb) and [HTML reading copy](episode_03.html)
+- [Editable cell source](lesson.py)
+- [Coding presenter walkthrough](CODING_PRESENTER_GUIDE.md)
+- [Coding exercises](CODING_EXERCISES.md) and [answers](CODING_ANSWERS.md)
+- [Verification and scope](CODING_REVIEW.md)
+
+Core route: reproduce the theory in NumPy, measure chosen changes, and generate.
+The presenter removed the optional real-data extension for recording.
+Generation remains a notebook exploration; the video closes after weight comparison.
+No gradient training is claimed.
+
+[Recorded 03B upload package](../../youtube/EPISODE_03B_METADATA.md) · [Release checks](../../youtube/EPISODE_03B_RELEASE.md).

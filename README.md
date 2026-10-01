@@ -66,7 +66,7 @@ shared representations. This bridge does not renumber the curriculum.
 
 ## Episode 03 — From counts to weights
 
-Recorded Episode 03A follows the bridge, returning to the familiar bigram task:
+Published Episode 03A follows the bridge, returning to the familiar bigram task:
 
 - [Final edited recording canvas — 19 frames](canvas/episode_03_final.excalidraw)
 - [YouTube release metadata and thumbnails](youtube/EPISODE_03A_METADATA.md)
@@ -81,7 +81,13 @@ Recorded Episode 03A follows the bridge, returning to the familiar bigram task:
 Characters directly select score rows; a motivated softmax turns scores into probabilities;
 cross-entropy recovers the same NLL objective. Hand-set changes show an
 improvement and an overshoot on `anna` / `ava`. Gradients remain Episode 04;
-the complete Episode 03B coding companion is a separate preparation step.
+Episode 03B is recorded, with a NumPy coding companion and upload package.
+
+- [03B coding notebook](episodes/03_weights/episode_03.ipynb)
+- [03B setup and learning guide](episodes/03_weights/CODE_GUIDE.md)
+- [03B recording walkthrough](episodes/03_weights/CODING_PRESENTER_GUIDE.md)
+- [03B YouTube upload package](youtube/EPISODE_03B_METADATA.md)
+- [03B verification record](episodes/03_weights/CODING_REVIEW.md)
 
 ## Repository map
 

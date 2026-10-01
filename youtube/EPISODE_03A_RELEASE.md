@@ -1,5 +1,8 @@
 # Episode 03A release checks
 
+**Publication status:** Published, confirmed by the presenter on September 30, 2026.
+The checks below describe the earlier preparation and export session.
+
 ## Recording and edit
 
 Source directory: `/Users/hussainabuwala/Movies/llm-series`.
